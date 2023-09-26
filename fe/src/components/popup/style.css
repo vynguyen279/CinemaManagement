@@ -1,0 +1,270 @@
+.modal {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  background: rgb(133, 131, 131, 0.25);
+}
+
+.modal-box {
+  height: 600px;
+  width: 400px;
+  background-color: #c5e2ec;
+  border-radius: 10px;
+}
+
+/* .header-modal {
+  justify-content: space-around;
+  display: flex;
+} */
+
+.icon {
+  font-size: 30px;
+  color: #555353;
+  margin-right: 30px;
+}
+
+.icon:hover {
+  color: #2e85ec;
+}
+
+.frame-detail {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.frame-each {
+  height: 50px;
+  background-color: #fff;
+  border-radius: 5px;
+  width: 300px;
+  flex-direction: row;
+  display: flex;
+}
+
+.frame-txt {
+  margin-left: 10px;
+  border-radius: 0px 5px 5px 0px;
+  font-size: 16px;
+  font-family: IBM Plex Serif;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
+
+.modal-his {
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  background: rgb(133, 131, 131, 0.25);
+}
+
+.modal-box-his {
+  height: 600px;
+  width: 1100px;
+  background-color: #fff;
+  border-radius: 10px;
+  flex-direction: column;
+  overflow-y: scroll !important;
+}
+
+.modal-title {
+  width: 100%;
+  height: 80px;
+  font-size: 40px;
+  font-family: IBM Plex Serif;
+  color: #000;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+.modal-box-update {
+  height: 600px;
+  width: 400px;
+  background-color: #c5e2ec;
+  border-radius: 10px;
+  flex-direction: column;
+}
+
+.status {
+  width: 100%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 70px;
+}
+
+.font-text {
+  font-size: 25px;
+  font-family: IBM Plex Serif;
+}
+
+.frame-chevron {
+  margin-top: 10px;
+  height: 25px;
+  width: 300px;
+  border-radius: 10px;
+  height: 50px;
+  background-color: #fff;
+}
+
+.frame-status {
+  margin-top: 30px;
+}
+
+/*Ticket*/
+.modal-box-update-ticket {
+  height: 600px;
+  width: 400px;
+  background-color: #c5e2ec;
+  border-radius: 10px;
+  flex-direction: column;
+}
+
+/*Movie*/
+.modal-box-large {
+  height: 700px;
+  width: 1200px;
+  background-color: #c5e2ec;
+  border-radius: 10px;
+  flex-direction: column;
+  /*overflow-y: scroll !important;*/
+}
+
+.modal-box-map {
+  height: 650px;
+  width: 650px;
+  background-color: #c5e2ec;
+  border-radius: 10px;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0 20px 0;
+}
+
+.btn-row {
+  background-color: #000;
+  color: #fff;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  margin-right: 20px;
+}
+
+.btn-id {
+  /* background-color: #fff; */
+  color: #000;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  margin: 0 10px 0 10px;
+}
+
+.btn-id-error {
+  background-color: #e71717;
+  color: #000;
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  margin: 0 10px 0 10px;
+}
+
+.time-picker {
+  margin-left: 5px;
+  width: 150px;
+  height: 30px;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+/* movie */
+.modal-box-film {
+  height: 650px;
+  width: 800px;
+  background-color: #c5e2ec;
+  border-radius: 10px;
+}
+
+.margin-content {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.btn-image {
+  height: 30px;
+  width: 150px;
+  font-size: 18px;
+  font-family: IBM Plex Serif;
+}
+
+.frame-gener {
+  width: 90%;
+  display: flex;
+  flex-direction: row;
+}
+
+.fill-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.frame-fill-row {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Room - Showtime*/
+.filter {
+  display: flex;
+  flex-direction: row;
+  /* width: 30%; */
+  font-size: 20px;
+  font-family: IBM Plex Serif;
+  margin-left: 20%;
+  align-items: center;
+  font-weight: bold;
+}
+
+.date-filter {
+  margin-left: 5px;
+  width: 150x;
+  height: 30px;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+.btn-filter {
+  height: 30px;
+  font-size: 20px;
+  font-family: IBM Plex Serif;
+  margin-left: 30px;
+}
+
+.month-filter {
+  margin-left: 5px;
+  width: 100px;
+  height: 30px;
+  border-radius: 5px;
+  font-size: 20px;
+}
