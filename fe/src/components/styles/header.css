@@ -1,0 +1,33 @@
+.header {
+  width: 100%;
+  height: 60px;
+  background-color: #000;
+  display: flex;
+}
+
+.position {
+  width: 200px;
+  height: 100%;
+  background-color: #000;
+  font-size: 32px;
+  font-family: IBM Plex Serif;
+  color: #fff;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  flex-shrink: 0;
+}
+
+.title-header {
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  font-size: 32px;
+  font-family: IBM Plex Serif;
+  color: #fff;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
