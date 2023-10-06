@@ -14,6 +14,7 @@ import Dashboard from "../manager/Dashboard";
 import Ticket from "../manager/Ticket";
 import Showtime from "../pages/Showtime";
 import Room from "../pages/Room";
+import Branch from "../manager/Branch";
 
 const Routers = () => {
   return (
@@ -23,6 +24,7 @@ const Routers = () => {
         <Route path="login" element={<Login />} />
         <Route path="profile" element={<Profile />} />
         <Route path="admin/staff" element={<Staff />} />
+        <Route path="manager/branch" element={<Branch />} />
         <Route path="manager/film" element={<Film />} />
         <Route path="manager/ticket" element={<Ticket />} />
         <Route path="manager/dashboard" element={<Dashboard />} />

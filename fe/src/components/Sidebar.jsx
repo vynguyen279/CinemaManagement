@@ -11,6 +11,7 @@ import {
   faLock,
   faRightFromBracket,
   faChartLine,
+  faCodeBranch,
 } from "@fortawesome/free-solid-svg-icons";
 
 import signOut from "../utils/signOut";
@@ -26,6 +27,11 @@ const manager = [
     path: "/manager/dashboard",
     display: "Thống kê",
     icon: faChartLine,
+  },
+  {
+    path: "/manager/branch",
+    display: "Chi nhánh",
+    icon: faCodeBranch,
   },
   {
     path: "/manager/film",

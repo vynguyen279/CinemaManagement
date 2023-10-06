@@ -4,6 +4,9 @@ export async function listBranch(data) {
   return axios.post("/branch/list", data);
 }
 
+export async function insertBranch(data) {
+  return axios.post("/branch/insert", data);
+}
 ///account
 export async function check(data) {
   return axios.post("/account/check", data);

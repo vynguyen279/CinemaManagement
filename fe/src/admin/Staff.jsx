@@ -7,14 +7,19 @@ import {
   faDiceOne,
 } from "@fortawesome/free-solid-svg-icons";
 
-import { list, getListHis } from "../utils/services";
 import checkRole from "../utils/checkRole";
 import Layout from "../components";
 import "../styles/share.css";
 import DetailStaff from "../components/popup/staff/DetailStaff";
 import HisPos from "../components/popup/staff/HisPos";
 import UpdateStaff from "../components/popup/staff/UpdateStaff";
-import { updateStaPos, sendEmail, listBranch } from "../utils/services";
+import {
+  updateStaPos,
+  sendEmail,
+  listBranch,
+  list,
+  getListHis,
+} from "../utils/services";
 
 const Staff = () => {
   const [listBra, setListBra] = useState([]);

@@ -3,6 +3,7 @@ const adminPath = ["/profile", "/admin/staff", "/changePass", "/login"];
 const managerPath = [
   "/profile",
   "/manager/dashboard",
+  "/manager/branch",
   "/manager/film",
   "/manager/ticket",
   "/manager/room",

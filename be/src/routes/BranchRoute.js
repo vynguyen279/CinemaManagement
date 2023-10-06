@@ -8,9 +8,11 @@ const {
 
 router.post(
   "/list",
-  //   authenticateToken,
-  //   managerAdminCheck,
+  authenticateToken,
+  managerAdminCheck,
   BranchController.getList
 );
+
+router.post("/insert", BranchController.insert);
 
 module.exports = router;
