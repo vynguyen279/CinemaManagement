@@ -39,9 +39,9 @@ class Room {
     );
   }
 
-  static insert(nameRoom, idStatus, img) {
+  static insert(nameRoom, idStatus, img, idBra, capacity, row, col) {
     return DB.query(
-      `INSERT INTO ROOM(nameRoom, idStatus, img) VALUES (N'${nameRoom}', '${idStatus}' , '${img}')
+      `INSERT INTO ROOM(nameRoom, idStatus, img, idBra, capacity, row, col) VALUES (N'${nameRoom}', '${idStatus}' , '${img}', '${idBra}', '${capacity}', '${row}', '${col}')
       SELECT * FROM ROOM ORDER BY idRoom DESC`
     );
   }

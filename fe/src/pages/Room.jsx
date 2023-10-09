@@ -16,6 +16,7 @@ import "../styles/share.css";
 import {
   listRoom,
   updateRoom,
+  listBranch,
   deleteRoom,
   listFac,
   listHis,
@@ -31,6 +32,7 @@ import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
 
 const Room = () => {
   const [value, setValue] = useState();
+  const [listBranchData, setListBranch] = useState();
   const [show, setShow] = useState(false);
   const [showUD, setShowUD] = useState(false);
   const [showFac, setShowFac] = useState(false);
@@ -41,6 +43,8 @@ const Room = () => {
   const [his, setHis] = useState([]);
   const [map, setMap] = useState([]);
   const [id, setID] = useState("");
+  const [branch, setBranch] = useState("");
+  const [search, setSearch] = useState("");
 
   const submit = (e, item) => {
     //delete
@@ -65,7 +69,7 @@ const Room = () => {
     const params = { idRoom: item.idRoom };
     const rs = await deleteRoom(params);
     if (rs.status) {
-      console.log(item.idTic);
+      // console.log(item.idTic);
       setTimeout(() => window.location.reload(), 1500);
     }
     return;
@@ -86,25 +90,36 @@ const Room = () => {
   //list
   const getList = async () => {
     checkRole();
-    const data = { keyword: "" };
+    const data = { keyword: search, idBranch: branch };
+    // console.log(data)
     const rs = await listRoom(data);
     if (!rs.status) {
       return;
     } else {
       setValue(rs.data);
+    }
+  };
+  const getListBranch = async () => {
+    checkRole();
+    const data = { keyword: "" };
+    const rs = await listBranch(data);
+    if (!rs.status) {
+      return;
+    } else {
+      setListBranch(rs.data);
     }
   };
 
   //list search
-  const getListSearch = async (e) => {
-    const data = { keyword: e.target.value };
-    const rs = await listRoom(data);
-    if (!rs.status) {
-      return;
-    } else {
-      setValue(rs.data);
-    }
-  };
+  // const getListSearch = async (e) => {
+  //   const data = { keyword: e.target.value };
+  //   const rs = await listRoom(data);
+  //   if (!rs.status) {
+  //     return;
+  //   } else {
+  //     setValue(rs.data);
+  //   }
+  // };
 
   //Map Seat
   const getListMap = async (id) => {
@@ -172,9 +187,11 @@ const Room = () => {
   };
 
   useEffect(() => {
-    getList();
-    console.log(localStorage.getItem("role"));
+    getListBranch();
   }, []);
+  useEffect(() => {
+    getList();
+  }, [branch, search]);
 
   return (
     <Layout
@@ -187,9 +204,15 @@ const Room = () => {
             <Input
               placeholder="Tìm kiếm..."
               className="search"
-              onChange={(e) => getListSearch(e)}
+              onChange={(e) => setSearch(e.target.value)}
             />
-            {localStorage.getItem("role") == "PS00000002" ? (
+            <select name="" id="" style={{ padding: "8px", width: "25%", marginLeft: "15px" }} onChange={(e)=>setBranch(e.target.value)}>
+            <option value="">Tất cả</option>
+            {listBranchData?.map((item, index) => (
+              <option value={item.idBra} key={index}>{item.nameBra}</option>
+            ))}
+            </select>
+            {localStorage.getItem("role") == "PS00000002"&&branch!='' ? (
               <button className="btn-plus">
                 <FontAwesomeIcon
                   icon={faSquarePlus}
@@ -272,7 +295,7 @@ const Room = () => {
           </div>
         </div>
       </div>
-      <InsertRoom show={show} sendData={handlClose} />
+      {show? (<InsertRoom show={show} sendData={handlClose} idBra={branch}/>):null}
       <UpdateRoom
         show={showUD}
         sendData={handlCloseUD}
