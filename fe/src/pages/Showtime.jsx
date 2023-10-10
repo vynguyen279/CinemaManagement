@@ -19,6 +19,7 @@ import {
   checkST,
   cancelST,
   listRoomEmpty,
+  listBranch,
 } from "../utils/services";
 import checkRole from "../utils/checkRole";
 import Layout from "../components/index";
@@ -30,8 +31,10 @@ import ChangeRM from "../components/popup/showtime/ChangeRM";
 
 const Showtime = () => {
   checkRole();
+
   const [show, setShow] = useState(false);
   const [list, setList] = useState([]);
+  const [listBra, setListBra] = useState([]);
   const [movie, setMovie] = useState([]);
   const [item, setItem] = useState("");
   const [room, setRoom] = useState([]);
@@ -43,6 +46,8 @@ const Showtime = () => {
     start: "",
     end: "",
     keyword: "",
+    idBra:
+      localStorage.role === "PS00000002" ? "" : localStorage.getItem("branch"),
   });
 
   const getList = async () => {
@@ -51,6 +56,18 @@ const Showtime = () => {
       return;
     } else {
       setList(rs.data);
+    }
+  };
+
+  const getListBranch = async () => {
+    const data = {
+      keyword: "",
+    };
+    const rs = await listBranch(data);
+    if (!rs.status) {
+      return;
+    } else {
+      setListBra(rs.data);
     }
   };
 
@@ -102,6 +119,7 @@ const Showtime = () => {
 
   const getListDate = async (e) => {
     e.preventDefault();
+
     data.key = 1;
     if (data.start == "") {
       toast.error("Chưa chọn <Từ ngày>!");
@@ -222,6 +240,7 @@ const Showtime = () => {
   };
   useEffect(() => {
     getList();
+    if (localStorage.role === "PS00000002") getListBranch();
   }, []);
 
   const handlClose = (bool) => {
@@ -239,7 +258,13 @@ const Showtime = () => {
   return (
     <Layout
       title="Danh sách lịch chiếu"
-      pos={localStorage.role === "PS00000002" ? "Quản lý" : "Nhân viên"}
+      pos={
+        localStorage.role === "PS00000002"
+          ? "Quản lý"
+          : localStorage.role === "PS00000004"
+          ? "Giám sát"
+          : "Nhân viên"
+      }
     >
       <div className="frame">
         <div className="frame-inside" style={{ display: "block" }}>
@@ -264,11 +289,36 @@ const Showtime = () => {
                 className="date-filter"
                 onChange={handleDataChange}
               />
-              <button className="btn-filter" onClick={(e) => getListDate(e)}>
+              {localStorage.role === "PS00000002" ? (
+                <>
+                  <span style={{ marginLeft: "20px" }}>Chi nhánh:</span>
+                  <select
+                    style={{ fontSize: "20px" }}
+                    className="font-text frame-chevron"
+                    value={data.idBra === "" ? "" : data.idBra}
+                    onChange={(e) => {
+                      setData({ ...data, idBra: e.target.value });
+                    }}
+                  >
+                    <option value="">Tất cả</option>
+                    {listBra.map((item, index) => (
+                      <option value={item.idBra}>{item.nameBra}</option>
+                    ))}
+                  </select>
+                </>
+              ) : (
+                ""
+              )}
+
+              <button
+                className="btn-filter"
+                onClick={(e) => getListDate(e)}
+                style={{ marginRight: "3%" }}
+              >
                 Lọc
               </button>
             </div>
-            {localStorage.getItem("role") == "PS00000002" ? (
+            {localStorage.getItem("role") == "PS00000004" ? (
               <button className="btn-plus" style={{ marginLeft: "200px" }}>
                 <FontAwesomeIcon
                   icon={faSquarePlus}
@@ -294,7 +344,7 @@ const Showtime = () => {
                 <th>Giờ chiếu</th>
                 <th>Phòng chiếu</th>
                 <th>Trạng thái</th>
-                {localStorage.getItem("role") == "PS00000002" ? (
+                {localStorage.getItem("role") == "PS00000004" ? (
                   <th>Hành động</th>
                 ) : (
                   ""
@@ -349,7 +399,7 @@ const Showtime = () => {
                       ? "Sắp chiếu"
                       : "Đã chiếu"}
                   </td>
-                  {localStorage.getItem("role") == "PS00000002" ? (
+                  {localStorage.getItem("role") == "PS00000004" ? (
                     <td>
                       <FontAwesomeIcon
                         icon={faSquarePen}

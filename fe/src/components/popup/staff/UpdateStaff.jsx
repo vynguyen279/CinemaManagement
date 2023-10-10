@@ -19,6 +19,14 @@ const UpdateStaff = (props) => {
     props.sendData(false);
   };
 
+  const checkNotBranch = (e) => {
+    e.preventDefault();
+    if (e.target.value === "PS00000002") {
+      setData({ ...data, idBra: "" });
+    }
+    setData({ ...data, idPos: e.target.value });
+  };
+
   return (
     <Modal
       isOpen={props.show}
@@ -68,25 +76,64 @@ const UpdateStaff = (props) => {
             <select
               className="font-text frame-chevron"
               value={data.idPos === "" ? props.item.idPos : data.idPos}
-              onChange={(e) => setData({ ...data, idPos: e.target.value })}
+              onChange={(e) => checkNotBranch(e)}
             >
-              <option value="PS00000002">Quản lý</option>
-              <option value="PS00000003">Nhân viên</option>
+              {props.pos.map((item, index) => (
+                <option value={item.idPos}>{item.namePos}</option>
+              ))}{" "}
             </select>
           </div>
-          <div className="frame-status">
-            <div className="font-text">Chi nhánh</div>
+          {props.item.idPos === "PS00000002" ? (
+            data.idPos === "" ? (
+              ""
+            ) : data.idPos === "PS00000002" ? (
+              ""
+            ) : (
+              <div className="frame-status">
+                <div className="font-text">Chi nhánh</div>
 
-            <select
-              className="font-text frame-chevron"
-              value={data.idBra === "" ? props.item.idBra : data.idBra}
-              onChange={(e) => setData({ ...data, idBra: e.target.value })}
-            >
-              {props.bra.map((item, index) => (
-                <option value={item.idBra}>{item.nameBra}</option>
-              ))}
-            </select>
-          </div>
+                <select
+                  className="font-text frame-chevron"
+                  value={data.idBra === "" ? props.item.idBra : data.idBra}
+                  onChange={(e) => setData({ ...data, idBra: e.target.value })}
+                >
+                  {props.bra.map((item, index) => (
+                    <option value={item.idBra}>{item.nameBra}</option>
+                  ))}
+                </select>
+              </div>
+            )
+          ) : data.idPos === "" ? (
+            <div className="frame-status">
+              <div className="font-text">Chi nhánh</div>
+
+              <select
+                className="font-text frame-chevron"
+                value={data.idBra === "" ? props.item.idBra : data.idBra}
+                onChange={(e) => setData({ ...data, idBra: e.target.value })}
+              >
+                {props.bra.map((item, index) => (
+                  <option value={item.idBra}>{item.nameBra}</option>
+                ))}
+              </select>
+            </div>
+          ) : data.idPos === "PS00000002" ? (
+            ""
+          ) : (
+            <div className="frame-status">
+              <div className="font-text">Chi nhánh</div>
+
+              <select
+                className="font-text frame-chevron"
+                value={data.idBra === "" ? props.item.idBra : data.idBra}
+                onChange={(e) => setData({ ...data, idBra: e.target.value })}
+              >
+                {props.bra.map((item, index) => (
+                  <option value={item.idBra}>{item.nameBra}</option>
+                ))}
+              </select>
+            </div>
+          )}
         </div>
         <div className="out-input">
           <button

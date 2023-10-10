@@ -59,10 +59,11 @@ class StaffController {
 
   list = async (req, res) => {
     try {
-      const { keyword, idBra } = req.body;
+      const { keyword, idBra, key } = req.body;
       let params = [
         { name: "keyword", type: "Nvarchar(100)", value: keyword },
         { name: "idBra", type: "Nchar(10)", value: idBra },
+        { name: "key", type: "Int", value: key },
       ];
 
       let rs = await Staff.list(params);
@@ -119,6 +120,7 @@ class StaffController {
         address,
         sex,
         idStatus,
+        idBra,
       } = rs[0];
       // get role
       let rows = await Staff_Pos.select(idStaff);
@@ -141,6 +143,7 @@ class StaffController {
             email,
             pass,
             idStatus,
+            idBra,
           },
           true,
           "Đăng nhập thành công"
@@ -193,24 +196,24 @@ class StaffController {
     }
   };
   updateStaPos = async (req, res) => {
-    try {
-      const { idStaff, idPos, idStatus, idBra } = req.body;
-      let params = [
-        { name: "idStaff", type: "Nchar(10)", value: idStaff },
-        { name: "idPos", type: "Nchar(10)", value: idPos },
-        { name: "idStatus", type: "Int", value: idStatus },
-        { name: "idBra", type: "Nchar(10)", value: idBra },
-      ];
+    //try {
+    const { idStaff, idPos, idStatus, idBra } = req.body;
+    let params = [
+      { name: "idStaff", type: "Nchar(10)", value: idStaff },
+      { name: "idPos", type: "Nchar(10)", value: idPos },
+      { name: "idStatus", type: "Int", value: idStatus },
+      { name: "idBra", type: "Nchar(10)", value: idBra },
+    ];
 
-      const rs = await Staff.updateStaPos(params);
-      if (rs.rowsAffected.length > 0) {
-        return res.send(json(rs, true, "Cập nhật thành công!"));
-      } else {
-        return res.send(json(rs, false, "Cập nhật thất bại!"));
-      }
-    } catch (error) {
-      return res.send(json("", false, "Cập nhật thất bại do có lỗi!"));
+    const rs = await Staff.updateStaPos(params);
+    if (rs.rowsAffected.length > 0) {
+      return res.send(json(rs, true, "Cập nhật thành công!"));
+    } else {
+      return res.send(json(rs, false, "Cập nhật thất bại!"));
     }
+    // } catch (error) {
+    //   return res.send(json("", false, "Cập nhật thất bại do có lỗi!"));
+    // }
   };
   // updateStatus = async (req, res) => {
   //   try {

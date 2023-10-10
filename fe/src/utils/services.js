@@ -1,4 +1,10 @@
 import { axios } from "./axiosConfig";
+
+//position
+export async function listPosition() {
+  return axios.get("/position/list");
+}
+
 //branch
 export async function listBranch(data) {
   return axios.post("/branch/list", data);

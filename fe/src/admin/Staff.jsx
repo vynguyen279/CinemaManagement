@@ -19,10 +19,12 @@ import {
   listBranch,
   list,
   getListHis,
+  listPosition,
 } from "../utils/services";
 
 const Staff = () => {
   const [listBra, setListBra] = useState([]);
+  const [pos, setPos] = useState([]);
   const [bra, setBra] = useState("");
   const [key, setKey] = useState("");
   const [value, setValue] = useState([]);
@@ -37,6 +39,7 @@ const Staff = () => {
     const data = {
       keyword: "",
       idBra: "",
+      key: 0,
     };
     const rs = await list(data);
     if (!rs.status) {
@@ -44,12 +47,19 @@ const Staff = () => {
     } else {
       setValue(rs.data);
     }
+    const row = await listPosition();
+    if (!row.status) {
+      return;
+    } else {
+      setPos(row.data);
+    }
   };
 
   const getListSearch = async (key, bra) => {
     const data = {
       keyword: key,
       idBra: bra,
+      key: bra == "1" ? 1 : 0,
     };
     const rs = await list(data);
     if (!rs.status) {
@@ -92,8 +102,12 @@ const Staff = () => {
     if (data.idPos === "") {
       data.idPos = item.idPos;
     }
-    if (data.idBra === "") {
-      data.idBra = item.idBra;
+    if (data.idBra == "" && data.idPos != "PS00000002") {
+      if (item.idBra == null) {
+        data.idBra = listBra[0].idBra;
+      } else {
+        data.idBra(item.idBra);
+      }
     }
     if ((data.idStatus == 1) & (data.idStatus != item.idStatus)) {
       const params = {
@@ -101,9 +115,7 @@ const Staff = () => {
         mess: "",
       };
       const rs = await sendEmail(params);
-      console.log("This is params: " + params);
     }
-
     if (
       data.idPos != item.idPos ||
       data.idStatus != item.idStatus ||
@@ -111,8 +123,12 @@ const Staff = () => {
     ) {
       const row = await updateStaPos(data);
       if (!row.status) {
+        return;
       }
     }
+    console.log(data);
+    //setTimeout(() => window.location.reload(), 1500);
+
     // if (data.idPos === item.idPos || data.idPos === "") {
     //   const rs = await updateStatus(data);
     //   if (!rs.status) {
@@ -122,7 +138,6 @@ const Staff = () => {
     //   if (!row.status) {
     //   }
     // }
-    setTimeout(() => window.location.reload(), 1500);
   };
 
   const handlClose = (bool) => {
@@ -156,7 +171,7 @@ const Staff = () => {
               }}
             />
             <div className="filter" style={{ marginLeft: "10%" }}>
-              <span style={{ width: "30%" }}>Chi nhánh:</span>
+              <span style={{ width: "30%" }}>Lọc:</span>
               {/* <input
                 type="date"
                 name="start"
@@ -172,7 +187,8 @@ const Staff = () => {
                   getListSearch(key, e.target.value);
                 }}
               >
-                <option value="">Tất cả</option>
+                <option value="1">Quản lý</option>
+                <option value="">Tất cả chi nhánh</option>
                 {listBra.map((item, index) => (
                   <option value={item.idBra}>{item.nameBra}</option>
                 ))}
@@ -187,7 +203,7 @@ const Staff = () => {
                 <th>Họ tên</th>
                 <th>Số điện thoại</th>
                 <th>Email</th>
-                <th>Chi nhánh</th>
+                {bra == "1" ? "" : <th>Chi nhánh</th>}
                 <th>Cấp bậc</th>
                 <th>Trạng thái</th>
                 <th>Hành động</th>
@@ -199,7 +215,7 @@ const Staff = () => {
                   <td>{item.name}</td>
                   <td>{item.phone}</td>
                   <td>{item.email}</td>
-                  <td>{item.nameBra}</td>
+                  {bra == "1" ? "" : <td>{item.nameBra}</td>}
                   <td>{item.namePos}</td>
                   <td>
                     {item.idStatus === 0
@@ -248,6 +264,7 @@ const Staff = () => {
         item={item}
         update={update}
         bra={listBra}
+        pos={pos}
       />
     </Layout>
   );

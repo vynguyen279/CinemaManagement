@@ -7,12 +7,13 @@ const History = require("../models/History");
 class ShowtimeController {
   getList = async (req, res) => {
     try {
-      const { key, start, end, keyword } = req.body;
+      const { key, start, end, keyword, idBra } = req.body;
       let params = [
         { name: "key", type: "Bit", value: key },
         { name: "start", type: "Datetime", value: start },
         { name: "end", type: "Datetime", value: end },
         { name: "keyword", type: "Nvarchar(100)", value: keyword },
+        { name: "idBra", type: "Nchar(10)", value: idBra },
       ];
       let rs = await Showtime.getList(params);
 

@@ -30,7 +30,7 @@ async function authenticateToken(req, res, next) {
 
 function staffCheck(req, res, next) {
   const role = req.body.role;
-  if (role != "PS00000003" && role != "PS00000002") {
+  if (role != "PS00000003" && role != "PS00000002" && role != "PS00000004") {
     return res.send(
       json(
         { client: role, require: "staff || manager" },

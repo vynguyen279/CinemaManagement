@@ -6,6 +6,7 @@ const RoomRoute = require("./RoomRoute");
 const FacRoute = require("./FacilitiesRoute");
 const STRoute = require("./ShowtimeRoute");
 const BranchRoute = require("./BranchRoute");
+const PositionRoute = require("./PositionRoute");
 
 function routes(app) {
   app.use("/branch", BranchRoute);
@@ -16,6 +17,7 @@ function routes(app) {
   app.use("/room", RoomRoute);
   app.use("/fac", FacRoute);
   app.use("/showtime", STRoute);
+  app.use("/position", PositionRoute);
 }
 
 module.exports = routes;
