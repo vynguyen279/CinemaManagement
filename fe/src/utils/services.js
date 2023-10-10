@@ -1,4 +1,10 @@
 import { axios } from "./axiosConfig";
+
+//position
+export async function listPosition() {
+  return axios.get("/position/list");
+}
+
 //branch
 export async function listBranch(data) {
   return axios.post("/branch/list", data);
@@ -99,9 +105,9 @@ export async function listRoom(data) {
 export async function listRoomEmpty(data) {
   return axios.post("/room/list-empty", data);
 }
-export async function listRoomActive() {
-  return axios.get("/room/list-active");
-}
+// export async function listRoomActive() {
+//   return axios.get("/room/list-active");
+// }
 
 export async function insertRoom(data) {
   return axios.post("/room/insert", data);

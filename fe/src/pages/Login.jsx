@@ -39,11 +39,17 @@ function useAuth() {
     console.log(rs.data[0].idPos);
     localStorage.setItem("id", rs.data[0].idStaff);
     console.log("set token:", localStorage.getItem("token"));
-    if (localStorage.role === "PS00000003")
-      setTimeout(() => (window.location.href = "/manager/room"), 1500);
+    if (localStorage.role === "PS00000001")
+      setTimeout(() => (window.location.href = "/admin/staff"), 1500);
     else if (localStorage.role === "PS00000002")
       setTimeout(() => (window.location.href = "/manager/showtime"), 1500);
-    else setTimeout(() => (window.location.href = "/admin/staff"), 1500);
+    else {
+      localStorage.setItem("branch", rs.data[0].idBra);
+      console.log(rs.data[0]);
+      if (localStorage.role === "PS00000003")
+        setTimeout(() => (window.location.href = "/manager/room"), 1500);
+      else setTimeout(() => (window.location.href = "/manager/showtime"), 1500);
+    }
   };
   return {
     handleLogin,

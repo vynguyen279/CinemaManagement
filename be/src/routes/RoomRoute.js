@@ -5,6 +5,7 @@ const SeatController = require("../controllers/SeatController");
 const {
   managerCheck,
   authenticateToken,
+  supervisorManaCheck,
   staffCheck,
 } = require("../utils/authentication");
 
@@ -12,15 +13,15 @@ router.post("/list", authenticateToken, staffCheck, RoomController.getList);
 router.post(
   "/list-empty",
   authenticateToken,
-  staffCheck,
+  supervisorManaCheck,
   RoomController.getListEmpty
 );
-router.get(
-  "/list-active",
-  authenticateToken,
-  staffCheck,
-  RoomController.listActive
-);
+// router.get(
+//   "/list-active",
+//   authenticateToken,
+//   staffCheck,
+//   RoomController.listActive
+// );
 router.post("/insert", authenticateToken, managerCheck, RoomController.insert);
 router.put("/update", authenticateToken, staffCheck, RoomController.update);
 router.post("/delete", authenticateToken, managerCheck, RoomController.delete);

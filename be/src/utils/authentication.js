@@ -30,7 +30,7 @@ async function authenticateToken(req, res, next) {
 
 function staffCheck(req, res, next) {
   const role = req.body.role;
-  if (role != "PS00000003" && role != "PS00000002") {
+  if (role != "PS00000003" && role != "PS00000002" && role != "PS00000004") {
     return res.send(
       json(
         { client: role, require: "staff || manager" },
@@ -48,6 +48,34 @@ function managerCheck(req, res, next) {
     return res.send(
       json(
         { client: role, require: "manager" },
+        false,
+        "Không có quyền truy cập"
+      )
+    );
+  }
+  next();
+}
+
+function supervisorCheck(req, res, next) {
+  const role = req.body.role;
+  if (role != "PS00000004") {
+    return res.send(
+      json(
+        { client: role, require: "supervisor" },
+        false,
+        "Không có quyền truy cập"
+      )
+    );
+  }
+  next();
+}
+
+function supervisorManaCheck(req, res, next) {
+  const role = req.body.role;
+  if (role != "PS00000004" && role != "PS00000002") {
+    return res.send(
+      json(
+        { client: role, require: "supervisor || manager" },
         false,
         "Không có quyền truy cập"
       )
@@ -109,6 +137,8 @@ module.exports = {
   adminCheck,
   managerCheck,
   managerAdminCheck,
+  supervisorManaCheck,
+  supervisorCheck,
   staffCheck,
   decodedToken,
 };

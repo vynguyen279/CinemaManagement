@@ -11,6 +11,14 @@ const managerPath = [
   "/changePass",
   "/login",
 ];
+const supervisorPath = [
+  "/profile",
+  "/manager/dashboard",
+  "/manager/room",
+  "/manager/showtime",
+  "/changePass",
+  "/login",
+];
 const staffPath = [
   "/profile",
   "/manager/room",
@@ -30,12 +38,18 @@ function checkRole() {
         signOut();
       }
     } else {
-      if (localStorage.role === "PS00000003") {
-        if (!staffPath.includes(window.location.pathname)) {
+      if (localStorage.role === "PS00000004") {
+        if (!supervisorPath.includes(window.location.pathname)) {
           signOut();
         }
       } else {
-        signOut();
+        if (localStorage.role === "PS00000003") {
+          if (!staffPath.includes(window.location.pathname)) {
+            signOut();
+          }
+        } else {
+          signOut();
+        }
       }
     }
   }

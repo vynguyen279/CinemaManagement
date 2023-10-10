@@ -11,7 +11,7 @@ class Staff_Pos {
 
   static select(idStaff) {
     return DB.query(
-      `select Top 1 idPos from STAFF_POS where idStaff = '${idStaff}' order by dayPro DESC`
+      `select Top 1 idPos, idBra from STAFF_POS where idStaff = '${idStaff}' order by dayPro DESC`
     );
   }
 

@@ -42,18 +42,14 @@ const UpdateST = (props) => {
 
   const getDateTime = async (e) => {
     setDateTime(e.target.value + ":00Z");
-    // setData({ ...data, showDateTime: e.target.value + ":00Z" });
-    // setEmpty({ ...empty, start: e.target.value + ":00Z" });
-    // setEmpty({ ...empty, idST: props.item.idST });
     if (dur == "") {
       setDur(props.item.duration);
-      // toast.error("Chưa chọn phim!");
-      // setEmpty({ ...empty, duration: props.item.duration });
     }
     const empty = {
       start: e.target.value + ":00Z",
       duration: dur,
       idST: props.item.idST,
+      idBra: localStorage.getItem("branch"),
     };
     console.log(empty);
     const rs = await listRoomEmpty(empty);
@@ -70,6 +66,10 @@ const UpdateST = (props) => {
     e.preventDefault();
     if (idNewRoom == "" && dateTime != "") {
       toast.error("Chưa chọn phòng!");
+      return;
+    }
+    if (new Date(String(dateTime).split(":00Z")[0]) < new Date()) {
+      toast.error("Quá thời gian để sửa!");
       return;
     }
     const data = {

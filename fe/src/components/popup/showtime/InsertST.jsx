@@ -3,8 +3,6 @@ import { Modal, ModalHeader, Input } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
-// import DateTimePicker from "react-datetime-picker";
-// import "react-datetime-picker/dist/DateTimePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "react-clock/dist/Clock.css";
 
@@ -51,6 +49,7 @@ const InsertST = (props) => {
     if (!rs.status) {
       return;
     } else {
+      console.log(rs);
       setRoom(rs.data);
     }
     console.log(room);
@@ -68,6 +67,7 @@ const InsertST = (props) => {
       start: e.target.value + ":00Z",
       duration: dur,
       idST: "",
+      idBra: localStorage.getItem("branch"),
     };
     getListRoom(empty);
   };

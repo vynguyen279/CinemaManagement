@@ -21,18 +21,19 @@ class RoomController {
         return res.send(json(rs.recordset, true, ""));
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       return res.send(json(error, false, "Có lỗi"));
     }
   };
 
   getListEmpty = async (req, res) => {
     try {
-      const { start, duration, idST } = req.body;
+      const { start, duration, idST, idBra } = req.body;
       let params = [
         { name: "start", type: "Datetime", value: start },
         { name: "duration", type: "Int", value: duration },
         { name: "idST", type: "Nchar(10)", value: idST },
+        { name: "idBra", type: "Nchar(10)", value: idBra },
       ];
       let rs = await Room.getListEmpty(params);
 
@@ -108,26 +109,55 @@ class RoomController {
       // const { nameRoom, idStatus, img, idBra, capacity, row, col } = req.body;
       let searchParams = [
         { name: "keyword", type: "Nvarchar(100)", value: nameRoom },
-        { name: "idBranch", type: "Nchar(10)", value: idBra }
+        { name: "idBranch", type: "Nchar(10)", value: idBra },
       ];
 
       let searchRoomByName = await Room.getList(searchParams);
-      
-      if(searchRoomByName.recordset.length > 0){
-        if(searchRoomByName.recordset[0].nameRoom.toLowerCase()==nameRoom.toLowerCase())
-        return res.send(json([], false, "Chi nhánh này đã có phòng tên ' "+ nameRoom +" '. Vui lòng chọn tên khác!"));
+
+      if (searchRoomByName.recordset.length > 0) {
+        if (
+          searchRoomByName.recordset[0].nameRoom.toLowerCase() ==
+          nameRoom.toLowerCase()
+        )
+          return res.send(
+            json(
+              [],
+              false,
+              "Chi nhánh này đã có phòng tên ' " +
+                nameRoom +
+                " '. Vui lòng chọn tên khác!"
+            )
+          );
       }
 
-      if(row>capacity)
-      return res.send(json([], false, "Số hàng phải nhỏ hơn hoặc bằng "+ capacity+" !"));
+      if (row > capacity)
+        return res.send(
+          json([], false, "Số hàng phải nhỏ hơn hoặc bằng " + capacity + " !")
+        );
 
-      if(col>(capacity/row)&&capacity/row==1)
-      return res.send(json([], false, "Số cột phải bằng "+ capacity/row+" !"));
+      if (col > capacity / row && capacity / row == 1)
+        return res.send(
+          json([], false, "Số cột phải bằng " + capacity / row + " !")
+        );
 
-      if(col>(capacity/row))
-      return res.send(json([], false, "Số cột phải nhỏ hơn hoặc bằng "+ Math.floor(capacity/row)+" !"));
+      if (col > capacity / row)
+        return res.send(
+          json(
+            [],
+            false,
+            "Số cột phải nhỏ hơn hoặc bằng " + Math.floor(capacity / row) + " !"
+          )
+        );
 
-      let rs = await Room.insert(nameRoom, idStatus, img, idBra, capacity, row, col);
+      let rs = await Room.insert(
+        nameRoom,
+        idStatus,
+        img,
+        idBra,
+        capacity,
+        row,
+        col
+      );
       let params = [{ name: "idRoom", type: "Nchar(10)", value: rs[0].idRoom }];
       let data = await Seat.insert(params);
       return res.send(json(data, true, "Thêm thành công!"));

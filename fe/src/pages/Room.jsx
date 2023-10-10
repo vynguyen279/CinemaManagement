@@ -206,20 +206,42 @@ const Room = () => {
               className="search"
               onChange={(e) => setSearch(e.target.value)}
             />
-            <select name="" id="" style={{ padding: "8px", width: "25%", marginLeft: "15px" }} onChange={(e)=>setBranch(e.target.value)}>
+            {/* <select name="" id="" style={{ padding: "8px", width: "25%", marginLeft: "15px" }} onChange={(e)=>}>
             <option value="">Tất cả</option>
             {listBranchData?.map((item, index) => (
               <option value={item.idBra} key={index}>{item.nameBra}</option>
             ))}
-            </select>
-            {localStorage.getItem("role") == "PS00000002"&&branch!='' ? (
-              <button className="btn-plus">
-                <FontAwesomeIcon
-                  icon={faSquarePlus}
-                  className="icon-plus"
-                  onClick={() => setShow(!show)}
-                />
-              </button>
+            </select> */}
+            {localStorage.getItem("role") == "PS00000002" ? (
+              <div
+                className="filter"
+                style={{ marginLeft: "50px", width: "100%" }}
+              >
+                <span style={{ marginLeft: "20px", marginRight: "20px" }}>
+                  Chi nhánh:
+                </span>
+                <select
+                  style={{ fontSize: "20px" }}
+                  className="font-text frame-chevron"
+                  onChange={(e) => {
+                    setBranch(e.target.value);
+                  }}
+                >
+                  <option value="">Tất cả</option>
+                  {listBranchData?.map((item, index) => (
+                    <option value={item.idBra} key={index}>
+                      {item.nameBra}
+                    </option>
+                  ))}
+                </select>
+                <button className="btn-plus" style={{ marginLeft: "45%" }}>
+                  <FontAwesomeIcon
+                    icon={faSquarePlus}
+                    className="icon-plus"
+                    onClick={() => setShow(!show)}
+                  />
+                </button>
+              </div>
             ) : (
               ""
             )}
@@ -295,7 +317,9 @@ const Room = () => {
           </div>
         </div>
       </div>
-      {show? (<InsertRoom show={show} sendData={handlClose} idBra={branch}/>):null}
+      {show ? (
+        <InsertRoom show={show} sendData={handlClose} idBra={branch} />
+      ) : null}
       <UpdateRoom
         show={showUD}
         sendData={handlCloseUD}
