@@ -13,5 +13,6 @@ class Branch {
   static insert(params) {
     return DB.excute(`SP_INSERT_BRANCH`, params);
   }
+
 }
 module.exports = Branch;
