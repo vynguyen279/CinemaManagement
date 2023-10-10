@@ -3,8 +3,9 @@ import { Modal, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
+import { confirmAlert } from "react-confirm-alert"; // Import
 
-import { updateST } from "../../../utils/services";
+import { updateST, cancelST } from "../../../utils/services";
 import "../../../styles/share.css";
 import "../style.css";
 
@@ -32,6 +33,31 @@ const ChangeRM = (props) => {
     } else {
       setTimeout(() => window.location.reload(), 1500);
     }
+  };
+  const cancel = async (data) => {
+    const rs = await cancelST(data);
+    if (rs.status) {
+      setTimeout(() => window.location.reload(), 1500);
+    }
+    return;
+  };
+
+  const submit = (data) => {
+    props.sendData(false);
+    confirmAlert({
+      title: "XÁC NHẬN",
+      message: "Bạn có chắc muốn hủy?",
+      buttons: [
+        {
+          label: "Có",
+          onClick: () => cancel(data),
+        },
+        {
+          label: "Không",
+          onClick: () => {},
+        },
+      ],
+    });
   };
   return (
     <Modal
@@ -70,14 +96,25 @@ const ChangeRM = (props) => {
           </div>
         </div>
         <div className="out-input">
-          <button
-            type="submit"
-            className="btn-confirm"
-            style={{ backgroundColor: "#fff", color: "#000" }}
-            onClick={(e) => changeStatus(e)}
-          >
-            Cập nhật
-          </button>
+          {props.room.length == 0 ? (
+            <button
+              type="submit"
+              className="btn-confirm"
+              style={{ backgroundColor: "#e71717", color: "#fff" }}
+              onClick={() => submit(props.item)}
+            >
+              Hủy
+            </button>
+          ) : (
+            <button
+              type="submit"
+              className="btn-confirm"
+              style={{ backgroundColor: "#fff", color: "#000" }}
+              onClick={(e) => changeStatus(e)}
+            >
+              Cập nhật
+            </button>
+          )}
         </div>
       </div>
     </Modal>

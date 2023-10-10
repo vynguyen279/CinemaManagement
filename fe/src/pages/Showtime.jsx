@@ -95,11 +95,13 @@ const Showtime = () => {
       start: item.showDateTime,
       duration: item.duration,
       idST: item.idST,
+      idBra: localStorage.getItem("branch"),
     };
     const rs = await listRoomEmpty(empty);
     if (!rs.status) {
       return;
     } else {
+      console.log(rs);
       setRoom(rs.data);
       setChange(true);
     }
@@ -211,7 +213,7 @@ const Showtime = () => {
     const rs = await checkST(check);
     if (rs.status) {
       if (rs.data == 0) {
-        toast.error("Phim đang chiếu không được hủy!");
+        toast.error("Phim đang chiếu không được hủy chỉ đổi phòng!");
         return;
       } else {
         if (rs.data == 1) {

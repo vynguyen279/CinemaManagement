@@ -105,9 +105,9 @@ export async function listRoom(data) {
 export async function listRoomEmpty(data) {
   return axios.post("/room/list-empty", data);
 }
-export async function listRoomActive() {
-  return axios.get("/room/list-active");
-}
+// export async function listRoomActive() {
+//   return axios.get("/room/list-active");
+// }
 
 export async function insertRoom(data) {
   return axios.post("/room/insert", data);

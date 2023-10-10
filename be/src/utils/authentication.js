@@ -56,6 +56,34 @@ function managerCheck(req, res, next) {
   next();
 }
 
+function supervisorCheck(req, res, next) {
+  const role = req.body.role;
+  if (role != "PS00000004") {
+    return res.send(
+      json(
+        { client: role, require: "supervisor" },
+        false,
+        "Không có quyền truy cập"
+      )
+    );
+  }
+  next();
+}
+
+function supervisorManaCheck(req, res, next) {
+  const role = req.body.role;
+  if (role != "PS00000004" && role != "PS00000002") {
+    return res.send(
+      json(
+        { client: role, require: "supervisor || manager" },
+        false,
+        "Không có quyền truy cập"
+      )
+    );
+  }
+  next();
+}
+
 function managerAdminCheck(req, res, next) {
   const role = req.body.role;
   if (role != "PS00000001" && role != "PS00000002") {
@@ -109,6 +137,8 @@ module.exports = {
   adminCheck,
   managerCheck,
   managerAdminCheck,
+  supervisorManaCheck,
+  supervisorCheck,
   staffCheck,
   decodedToken,
 };

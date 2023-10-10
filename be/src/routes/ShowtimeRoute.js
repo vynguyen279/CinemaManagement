@@ -4,24 +4,25 @@ const STController = require("../controllers/ShowtimeController");
 const {
   staffCheck,
   managerCheck,
+  supervisorCheck,
   authenticateToken,
 } = require("../utils/authentication");
 
 router.post("/list", authenticateToken, staffCheck, STController.getList);
 // router.post("/list-date", STController.getListDate);
-router.post("/insert", authenticateToken, managerCheck, STController.insert);
+router.post("/insert", authenticateToken, supervisorCheck, STController.insert);
 router.post(
   "/update-status",
-  // authenticateToken,
-  // managerCheck,
+  authenticateToken,
+  staffCheck,
   STController.updateStatus
 );
 router.post(
   "/update-inf",
   authenticateToken,
-  managerCheck,
+  supervisorCheck,
   STController.updateInf
 );
-router.post("/cancel", authenticateToken, managerCheck, STController.cancel);
+router.post("/cancel", authenticateToken, supervisorCheck, STController.cancel);
 router.post("/chart", authenticateToken, managerCheck, STController.chart);
 module.exports = router;

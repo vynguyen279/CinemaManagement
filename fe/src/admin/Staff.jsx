@@ -127,7 +127,7 @@ const Staff = () => {
       }
     }
     console.log(data);
-    //setTimeout(() => window.location.reload(), 1500);
+    setTimeout(() => window.location.reload(), 1500);
 
     // if (data.idPos === item.idPos || data.idPos === "") {
     //   const rs = await updateStatus(data);

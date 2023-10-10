@@ -88,6 +88,39 @@ const admin = [
   },
 ];
 
+const supervisor = [
+  {
+    path: "/profile",
+    display: "Hồ sơ",
+    icon: faIdCard,
+  },
+  {
+    path: "/manager/dashboard",
+    display: "Thống kê",
+    icon: faChartLine,
+  },
+  {
+    path: "/manager/room",
+    display: "Phòng chiếu",
+    icon: faHouse,
+  },
+  {
+    path: "/manager/showtime",
+    display: "Lịch chiếu",
+    icon: faCalendarDays,
+  },
+  {
+    path: "/changePass",
+    display: "Đổi mật khẩu",
+    icon: faLock,
+  },
+  {
+    path: "/login",
+    display: "Đăng xuất",
+    icon: faRightFromBracket,
+  },
+];
+
 const staff = [
   {
     path: "/profile",
@@ -159,7 +192,21 @@ const Sidebar = (key) => {
               </NavLink>
             </div>
           ))
-        : staff.map((item, index) => (
+        : localStorage.role === "PS00000003"
+        ? staff.map((item, index) => (
+            <div className="nav-item" key={index}>
+              <NavLink
+                to={item.path}
+                className={(navClass) =>
+                  navClass.isActive ? "nav-active" : "nav-no-active"
+                }
+              >
+                <FontAwesomeIcon icon={item.icon} className="nav-icon" />
+                {item.display}
+              </NavLink>
+            </div>
+          ))
+        : supervisor.map((item, index) => (
             <div className="nav-item" key={index}>
               <NavLink
                 to={item.path}
