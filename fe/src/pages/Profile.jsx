@@ -9,6 +9,7 @@ import {
   faBirthdayCake,
 } from "@fortawesome/free-solid-svg-icons";
 import PhoneInput from "react-phone-number-input";
+import { toast } from "react-toastify";
 
 import checkRole from "../utils/checkRole";
 import Layout from "../components";
@@ -33,12 +34,44 @@ const Profile = () => {
   const update = async (e) => {
     e.preventDefault();
     data.sex = male;
+    if (
+      !data.name ||
+      !data.email ||
+      !data.phone ||
+      !data.citiIden ||
+      !data.address ||
+      !data.dateBirth
+    ) {
+      toast.error("Không được để trống!");
+      return;
+    }
+    if (!/\S+@\S+\.\S+/.test(data.email)) {
+      toast.error("Email không hợp lệ!");
+      return;
+    }
+    if (
+      data.email.length > 50 ||
+      data.name.length > 50 ||
+      data.address.length > 50
+    ) {
+      toast.error("Họ tên, Email, Địa chỉ không vượt quá 50 kí tự");
+      return;
+    }
+    if (data.citiIden.length !== 12) {
+      toast.error("CCCD phải đủ 12 số");
+      return;
+    }
+    if (isNaN(data.citiIden)) {
+      toast.error("CCCD là số");
+      return;
+    }
     const rs = await updateInf(data);
     if (!rs.status) {
       return;
+    } else {
+      console.log(data);
     }
-    console.log("This is sex:" + data.sex);
-    setTimeout(() => window.location.reload(), 1500);
+    //setTimeout(() => window.location.reload(), 1500);
   };
 
   const getInf = async () => {
@@ -135,7 +168,7 @@ const Profile = () => {
 
                     <Input
                       type="text"
-                      name="citiIdent"
+                      name="citiIden"
                       id="citiIden"
                       style={frameInput}
                       onChange={(e) => handleDataChange(e)}
