@@ -79,7 +79,7 @@ const InsertRoom = (props) => {
               />
             </div>
             <div className="frame-status" style={{ marginTop: "5px" }}>
-              <div className="font-text">Sức chứa</div>
+              <div className="font-text">Số ghế tối đa</div>
               <input
                 name="capacity"
                 className="font-text frame-chevron"
