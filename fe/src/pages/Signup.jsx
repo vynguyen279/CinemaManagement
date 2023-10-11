@@ -68,8 +68,13 @@ const Signup = () => {
       toast.error("Họ tên, Email, Địa chỉ không vượt quá 50 kí tự");
       return;
     }
-    if (data.citiIden.length > 12) {
-      toast.error("CCCD không vượt quá 12 kí tự");
+    if (data.citiIden.length !== 12) {
+      toast.error("CCCD phải đủ 12 số");
+      return;
+    }
+    if (isNaN(data.citiIden)) {
+      console.log(data.citiIden.length);
+      toast.error("CCCD là số");
       return;
     }
     localStorage.setItem("name", data.name);

@@ -20,6 +20,10 @@ const Continue = () => {
       toast.error("Không được để trống!");
       return false;
     }
+    if (form.pass.length !== 8) {
+      toast.error("Mật khẩu phải đủ 8 ký tự!");
+      return false;
+    }
     if (form.pass !== form.rePass) {
       toast.error("Nhập lại mật khẩu không chính xác!");
       return false;
