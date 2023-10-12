@@ -82,30 +82,30 @@ const InsertST = (props) => {
     }
   };
 
-  const insertStatus = (e) => {
-    e.preventDefault();
-    if (data.idMovie == "") {
-      toast.error("Chưa chọn phim!");
-      return;
-    }
-    if (data.showDateTime == "") {
-      toast.error("Chưa chọn thời gian!");
-      return;
-    }
-    if (new Date(String(data.showDateTime).split(":00Z")[0]) < new Date()) {
-      toast.error("Quá thời gian để thêm!");
-      return;
-    }
-    if (data.idRoom == "") {
-      toast.error("Chưa chọn phòng!");
-      return;
-    }
-    if (data.idTic == "") {
-      toast.error("Chưa chọn giá vé!");
-      return;
-    }
-    insert();
-  };
+  // const insertStatus = (e) => {
+  //   e.preventDefault();
+  //   if (data.idMovie == "") {
+  //     toast.error("Chưa chọn phim!");
+  //     return;
+  //   }
+  //   if (data.showDateTime == "") {
+  //     toast.error("Chưa chọn thời gian!");
+  //     return;
+  //   }
+  //   if (new Date(String(data.showDateTime).split(":00Z")[0]) < new Date()) {
+  //     toast.error("Quá thời gian để thêm!");
+  //     return;
+  //   }
+  //   if (data.idRoom == "") {
+  //     toast.error("Chưa chọn phòng!");
+  //     return;
+  //   }
+  //   if (data.idTic == "") {
+  //     toast.error("Chưa chọn giá vé!");
+  //     return;
+  //   }
+  //   insert();
+  // };
 
   const resetValue = (e) => {
     e.preventDefault();
@@ -263,7 +263,7 @@ const InsertST = (props) => {
               backgroundColor: "#fff",
               color: "#000",
             }}
-            onClick={(e) => insertStatus(e)}
+            onClick={(e) => insert(e)}
           >
             Thêm mới
           </button>

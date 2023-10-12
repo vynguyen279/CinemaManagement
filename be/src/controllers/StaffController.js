@@ -4,6 +4,7 @@ dotenv.config();
 const mailer = require("nodemailer");
 const Staff = require("../models/Staff");
 const Staff_Pos = require("../models/Staff_Pos");
+const error = require("../utils/error");
 
 const { getToken, getRefeshToken } = require("../utils/token");
 const { encode, compare } = require("../components/my-bcrypt");
@@ -157,42 +158,101 @@ class StaffController {
 
   signUp = async (req, res) => {
     try {
-      const { name, dateBirth, email, citiIden, phone, address, sex, pass } =
+      const { name, dateBirth, email, citiIden, phone, address, sex, pass, repass } =
         req.body;
+
+      if (!name) {
+        return res.send(json("", false, error.SIGNUP_NAME_EMPTY_ERROR));
+      }
+      if (name.length>50) {
+        return res.send(json("", false, error.SIGNUP_LONG_NAME_ERROR));
+      }
+      if (!email) {
+        return res.send(json("", false, error.SIGNUP_EMAIL_EMPTY_ERROR));
+      }
+      if (email.length>50) {
+        return res.send(json("", false, error.SIGNUP_LONG_EMAIL_ERROR));
+      }
+      if (!/\S+@\S+\.\S+/.test(email)) {
+        return res.send(json("", false, error.SIGNUP_EMAIL_FORMAT_ERROR));
+      }
 
       let rs = await Staff.select(email);
       if (rs.length > 0) {
-        return res.send(json(rs, false, "Email đã tồn tại!"));
+        return res.send(json(rs, false, error.SIGNUP_EXISTED_EMAIL_ERROR));
       }
 
-      let encodePass = encode(pass);
-      let params = [
-        { name: "name", type: "Nvarchar(50)", value: name },
-        { name: "dateBirth", type: "Date", value: dateBirth },
-        { name: "email", type: "Varchar(50)", value: email },
-        { name: "citiIden", type: "Char(12)", value: citiIden },
-        { name: "phone", type: "Char(12)", value: phone },
-        { name: "address", type: "Nvarchar(50)", value: address },
-        { name: "sex", type: "Bit", value: sex },
-        { name: "pass", type: "Varchar(200)", value: encodePass },
-      ];
-
-      rs = await Staff.insert(params);
-      let rs3 = await Staff.select(email);
-      if (rs3.length > 0) {
-        return res.send(
-          json(
-            rs,
-            true,
-            "Đăng ký thành công - Hệ thống sẽ gửi email cho bạn khi được Admin cấp quyền thành công!"
-          )
-        );
-      } else {
-        return res.send(json("", false, "Đăng ký thất bại!"));
+      if (!phone) {
+        return res.send(json("", false, error.SIGNUP_PHONE_EMPTY_ERROR));
       }
-    } catch (error) {
-      console.log(error);
-      return res.send(json(error, false, "Đăng kí thất bại do có lỗi!"));
+      if (/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/.test(phone)) {
+        return res.send(json("", false, error.SIGNUP_PHONE_FORMAT_ERROR));
+      }
+      if (!citiIden) {
+        return res.send(json("", false, error.SIGNUP_ID_EMPTY_ERROR));
+      }
+      if (isNaN(citiIden)||citiIden.length !== 12) {
+        return res.send(json("", false, error.SIGNUP_ID_FORMAT_ERROR));
+      }
+      if (!address) {
+        return res.send(json("", false, error.SIGNUP_ADDRESS_EMPTY_ERROR));
+      }
+
+      if (address.length > 50) {
+        return res.send(json("", false, error.SIGNUP_LONG_ADDRESS_ERROR));
+      }
+      if (!dateBirth) {
+        return res.send(json("", false, error.SIGNUP_BIRTHDAY_EMPTY_ERROR));
+      }
+      // let date = new Date().toLocaleString()
+      // // let year = new Date().toLocaleString("default", { year: "numeric" });
+      // if (new Date(dateBirth).toLocaleString()>date) {
+      //   return res.send(json("", false, error.SIGNUP_BIRTHDAY_FUTURE_ERROR));;
+      // }
+
+      if(pass!==null&&repass!==null){
+        if (!pass) {
+          return res.send(json("", false, error.SIGNUP_PASSWORD_EMPTY_ERROR));
+        }
+        if (pass.length <8 || pass.length>12) {
+          return res.send(json("", false, error.SIGNUP_PASSWORD_FORMAT_ERROR));
+        }
+        // console.log(rePass)
+        if (!repass) {
+          return res.send(json("", false, error.SIGNUP_REPASS_EMPTY_ERROR));
+        }
+        if (repass!=pass) {
+          return res.send(json("", false, error.SIGNUP_REPASS_ERROR));
+        }
+        let encodePass = encode(pass);
+        let params = [
+          { name: "name", type: "Nvarchar(50)", value: name },
+          { name: "dateBirth", type: "Date", value: dateBirth },
+          { name: "email", type: "Varchar(50)", value: email },
+          { name: "citiIden", type: "Char(12)", value: citiIden },
+          { name: "phone", type: "Char(12)", value: phone },
+          { name: "address", type: "Nvarchar(50)", value: address },
+          { name: "sex", type: "Bit", value: sex },
+          { name: "pass", type: "Varchar(200)", value: encodePass },
+          { name: "repass", type: "Varchar(200)", value: repass },
+        ];
+        let rs = await Staff.insert(params);
+        let rs3 = await Staff.select(email);
+        if (rs3.length > 0) {
+          return res.send(json(rs, true, error.SIGNUP_SUCCESS));
+        } else {
+          return res.send(json("", false, error.SIGNUP_FAIL));
+        }
+      }
+      
+      else{
+        console.log("nopass")
+        return res.send(json("", true, ""));
+      }
+
+    } catch (err) {
+      console.log(err)
+      return res.send(json(err, false, error.ERROR));
     }
   };
   updateStaPos = async (req, res) => {
