@@ -129,7 +129,6 @@ class RoomController {
             )
           );
       }
-
       if (row > capacity)
         return res.send(
           json([], false, "Số hàng phải nhỏ hơn hoặc bằng " + capacity + " !")

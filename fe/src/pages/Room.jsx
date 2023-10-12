@@ -234,13 +234,16 @@ const Room = () => {
                     </option>
                   ))}
                 </select>
-                <button className="btn-plus" style={{ marginLeft: "45%" }}>
+                {
+                  branch!=''?(                <button className="btn-plus" style={{ marginLeft: "45%" }}>
                   <FontAwesomeIcon
                     icon={faSquarePlus}
                     className="icon-plus"
                     onClick={() => setShow(!show)}
                   />
-                </button>
+                </button>):null
+                }
+
               </div>
             ) : (
               ""

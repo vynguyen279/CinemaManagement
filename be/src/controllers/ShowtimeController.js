@@ -16,6 +16,7 @@ class ShowtimeController {
         { name: "idBra", type: "Nchar(10)", value: idBra },
       ];
       let rs = await Showtime.getList(params);
+      console.log(rs)
 
       if (rs.recordset.length == 0) {
         return res.send(json([], true, ""));
@@ -23,7 +24,7 @@ class ShowtimeController {
         return res.send(json(rs.recordset, true, ""));
       }
     } catch (error) {
-      return res.send(json(error, false, "Có lỗi!"));
+      return res.send(json(error, false, "Có lỗi"));
     }
   };
 

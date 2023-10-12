@@ -68,6 +68,10 @@ const Signup = () => {
       toast.error("Họ tên, Email, Địa chỉ không vượt quá 50 kí tự");
       return;
     }
+    if (/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/.test(data.phone)) {
+      toast.error("Số điện thoại không hợp lệ!");
+      return;
+    }
     if (data.citiIden.length !== 12) {
       toast.error("CCCD phải đủ 12 số");
       return;
@@ -77,6 +81,18 @@ const Signup = () => {
       toast.error("CCCD là số");
       return;
     }
+    let date = new Date().toLocaleString()
+    let year = new Date().toLocaleString("default", { year: "numeric" });
+    if (new Date(data.dateBirth).toLocaleString()>date) {
+      toast.error("Ngày sinh không hợp lệ!");
+      return;
+    }
+    // if (new Date(data.dateBirth).toLocaleString()<date) {
+    //   console.log(new Date(data.dateBirth).toLocaleString(),date)
+    //   // console.log(date - new Date(data.dateBirth).getFullYear());
+    //   toast.error("không hợp lệ!");
+    //   return;
+    // }
     localStorage.setItem("name", data.name);
     localStorage.setItem("email", data.email);
     localStorage.setItem("phone", data.phone);
@@ -112,7 +128,6 @@ const Signup = () => {
                     style={{ fontSize: 18, color: "#5F5B5B" }}
                   />
                 </div>
-
                 <Input
                   type="text"
                   name="name"
@@ -123,6 +138,7 @@ const Signup = () => {
                 />
               </div>
             </FormGroup>
+            
             <FormGroup>
               <div style={frameFill} className="margin-frame">
                 <div style={frameIcon}>

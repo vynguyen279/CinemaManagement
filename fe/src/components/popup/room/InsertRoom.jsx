@@ -10,7 +10,7 @@ import { insertRoom } from "../../../utils/services";
 import uploadImg from "../../../utils/mail";
 
 const InsertRoom = (props) => {
-  {console.log(props.idBra)}
+  { console.log(props.idBra) }
   const [data, setData] = useState({
     nameRoom: "",
     idStatus: 0,
@@ -22,7 +22,18 @@ const InsertRoom = (props) => {
   });
 
   const insert = async () => {
-    console.log(data)
+    if (data.capacity < 0) {
+      toast.error("Số ghế tối đa phải lớn hơn hoặc bằng 0!");
+      return;
+    }
+    if (data.row < 0) {
+      toast.error("Số hàng phải lớn hơn hoặc bằng 0!");
+      return;
+    }
+    if (data.col < 0) {
+      toast.error("Số cột phải lớn hơn hoặc bằng 0!");
+      return;
+    }
     const rs = await insertRoom(data);
     if (!rs.status) {
       return;
@@ -33,9 +44,21 @@ const InsertRoom = (props) => {
 
   const insertStatus = (e) => {
     e.preventDefault();
-    if (data.nameRoom == "") {
-      toast.error("Không được để trống!");
-      return;
+    if (!data.nameRoom) {
+      toast.error("Tên phòng không được để trống!")
+      return
+    }
+    if (!data.capacity) {
+      toast.error("Số ghế tối đa không được để trống!")
+      return
+    }
+    if (!data.row) {
+      toast.error("Số hàng không được để trống!")
+      return
+    }
+    if (!data.col) {
+      toast.error("Số cột không được để trống!")
+      return
     }
     if (data.img == "") {
       toast.error("Chưa thêm ảnh!");
@@ -68,8 +91,8 @@ const InsertRoom = (props) => {
             className="icon"
           />
         </ModalHeader>
-        <div className="status" style={{ display: "flex", flexDirection:"row", justifyContent: "space-between" }}>
-          <div style={{alignSelf: "flex-start"}}>
+        <div className="status" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+          <div style={{ alignSelf: "flex-start" }}>
             <div className="frame-status" style={{ marginTop: "0px" }}>
               <div className="font-text">Tên phòng</div>
               <input
@@ -84,16 +107,21 @@ const InsertRoom = (props) => {
                 name="capacity"
                 className="font-text frame-chevron"
                 type="number"
-              onChange={(e) => setData({ ...data, capacity: e.target.value })}
+                min="0"
+                onChange={(e) => setData({ ...data, capacity: e.target.value })}
               />
             </div>
+            {/* {
+              data.capacity?():null
+            } */}
             <div className="frame-status" style={{ marginTop: "5px" }}>
               <div className="font-text">Số hàng</div>
               <input
                 name="row"
                 className="font-text frame-chevron"
                 type="number"
-              onChange={(e) => setData({ ...data, row: e.target.value })}
+                min="0"
+                onChange={(e) => setData({ ...data, row: e.target.value })}
               />
             </div>
           </div>
@@ -104,7 +132,8 @@ const InsertRoom = (props) => {
                 name="col"
                 className="font-text frame-chevron"
                 type="number"
-              onChange={(e) => setData({ ...data, col: e.target.value })}
+                min="0"
+                onChange={(e) => setData({ ...data, col: e.target.value })}
               />
             </div>
 
@@ -152,7 +181,7 @@ const InsertRoom = (props) => {
           <button
             type="submit"
             className="btn-confirm"
-            style={{ backgroundColor: "#fff", color: "#000", cursor:"pointer" }}
+            style={{ backgroundColor: "#fff", color: "#000", cursor: "pointer" }}
             onClick={(e) => insertStatus(e)}
           >
             Thêm mới
