@@ -14,7 +14,7 @@ import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { toast } from "react-toastify";
 
-import { check } from "../utils/services";
+import { check, signUp } from "../utils/services";
 import "../styles/share.css";
 
 import {
@@ -41,52 +41,52 @@ const Signup = () => {
   const checkInvalid = async (e) => {
     e.preventDefault();
     localStorage.removeItem("data");
-    if (
-      !data.name ||
-      !data.email ||
-      !data.phone ||
-      !data.citiIden ||
-      !data.address ||
-      !data.dateBirth
-    ) {
-      toast.error("Không được để trống!");
-      return;
-    }
-    if (!/\S+@\S+\.\S+/.test(data.email)) {
-      toast.error("Email không hợp lệ!");
-      return;
-    }
-    const rs = await check(data);
-    if (!rs.status) {
-      return;
-    }
-    if (
-      data.email.length > 50 ||
-      data.name.length > 50 ||
-      data.address.length > 50
-    ) {
-      toast.error("Họ tên, Email, Địa chỉ không vượt quá 50 kí tự");
-      return;
-    }
-    if (/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/.test(data.phone)) {
-      toast.error("Số điện thoại không hợp lệ!");
-      return;
-    }
-    if (data.citiIden.length !== 12) {
-      toast.error("CCCD phải đủ 12 số");
-      return;
-    }
-    if (isNaN(data.citiIden)) {
-      console.log(data.citiIden.length);
-      toast.error("CCCD là số");
-      return;
-    }
-    let date = new Date().toLocaleString()
-    let year = new Date().toLocaleString("default", { year: "numeric" });
-    if (new Date(data.dateBirth).toLocaleString()>date) {
-      toast.error("Ngày sinh không hợp lệ!");
-      return;
-    }
+    // if (
+    //   !data.name ||
+    //   !data.email ||
+    //   !data.phone ||
+    //   !data.citiIden ||
+    //   !data.address ||
+    //   !data.dateBirth
+    // ) {
+    //   toast.error("Không được để trống!");
+    //   return;
+    // }
+    // if (!/\S+@\S+\.\S+/.test(data.email)) {
+    //   toast.error("Email không hợp lệ!");
+    //   return;
+    // }
+    // const rs = await check(data);
+    // if (!rs.status) {
+    //   return;
+    // }
+    // if (
+    //   data.email.length > 50 ||
+    //   data.name.length > 50 ||
+    //   data.address.length > 50
+    // ) {
+    //   toast.error("Họ tên, Email, Địa chỉ không vượt quá 50 kí tự");
+    //   return;
+    // }
+    // if (/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/.test(data.phone)) {
+    //   toast.error("Số điện thoại không hợp lệ!");
+    //   return;
+    // }
+    // if (data.citiIden.length !== 12) {
+    //   toast.error("CCCD phải đủ 12 số");
+    //   return;
+    // }
+    // if (isNaN(data.citiIden)) {
+    //   console.log(data.citiIden.length);
+    //   toast.error("CCCD là số");
+    //   return;
+    // }
+    // let date = new Date().toLocaleString()
+    // let year = new Date().toLocaleString("default", { year: "numeric" });
+    // if (new Date(data.dateBirth).toLocaleString()>date) {
+    //   toast.error("Ngày sinh không hợp lệ!");
+    //   return;
+    // }
     // if (new Date(data.dateBirth).toLocaleString()<date) {
     //   console.log(new Date(data.dateBirth).toLocaleString(),date)
     //   // console.log(date - new Date(data.dateBirth).getFullYear());
@@ -100,7 +100,23 @@ const Signup = () => {
     localStorage.setItem("sex", data.sex);
     localStorage.setItem("dateBirth", data.dateBirth);
     localStorage.setItem("address", data.address);
-
+    const params = {
+      name: data.name,
+      dateBirth: data.dateBirth,
+      email: data.email,
+      citiIden: data.citiIden,
+      phone: data.phone,
+      address: data.address,
+      sex: data.sex,
+      pass: null,
+      repass: null,
+    };
+    // console.log(params);
+    const rs = await signUp(params);
+    console.log(rs)
+    if (!rs.status) {
+      return;
+    }
     window.location.href = "/continue";
   };
 

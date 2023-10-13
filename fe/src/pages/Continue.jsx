@@ -15,24 +15,24 @@ const Continue = () => {
     pass: "",
     rePass: "",
   });
-  const checkInvalid = () => {
-    if (!form.pass || !form.rePass) {
-      toast.error("Không được để trống!");
-      return false;
-    }
-    if (form.pass.length !== 8) {
-      toast.error("Mật khẩu phải đủ 8 ký tự!");
-      return false;
-    }
-    if (form.pass !== form.rePass) {
-      toast.error("Nhập lại mật khẩu không chính xác!");
-      return false;
-    }
-    return true;
-  };
+  // const checkInvalid = () => {
+  //   if (!form.pass || !form.rePass) {
+  //     toast.error("Không được để trống!");
+  //     return false;
+  //   }
+  //   if (form.pass.length !== 8) {
+  //     toast.error("Mật khẩu phải đủ 8 ký tự!");
+  //     return false;
+  //   }
+  //   if (form.pass !== form.rePass) {
+  //     toast.error("Nhập lại mật khẩu không chính xác!");
+  //     return false;
+  //   }
+  //   return true;
+  // };
   const handleSignUp = async (e) => {
     e.preventDefault();
-    if (!checkInvalid()) return;
+    // if (!checkInvalid()) return;
     const params = {
       name: localStorage.getItem("name"),
       dateBirth: localStorage.getItem("dateBirth"),
@@ -42,8 +42,9 @@ const Continue = () => {
       address: localStorage.getItem("address"),
       sex: localStorage.getItem("sex"),
       pass: form.pass,
+      repass: form.rePass,
     };
-    console.log(params);
+    // console.log(params);
     const rs = await signUp(params);
     if (!rs.status) {
       return;

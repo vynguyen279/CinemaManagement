@@ -1,5 +1,6 @@
 const json = require("../components/json");
 const dotenv = require("dotenv");
+const error = require("../utils/error")
 dotenv.config();
 const Showtime = require("../models/Showtime");
 const History = require("../models/History");
@@ -77,11 +78,23 @@ class ShowtimeController {
   insert = async (req, res) => {
     try {
       const { idMovie, idTic, showDateTime, idRoom } = req.body;
+      if (!idMovie) {
+        return res.send(json("", false, error.ADDSHOWCASE_MOVIE_EMPTY_ERROR));
+      }
+      if (!showDateTime) {
+        return res.send(json("", false, error.ADDSHOWCASE_DATETIME_EMPTY_ERROR));
+      }
+      if (!idRoom) {
+        return res.send(json("", false, error.ADDSHOWCASE_ROOM_EMPTY_ERROR));
+      }
+      if (!idTic) {
+        return res.send(json("", false, error.ADDSHOWCASE_PRICE_EMPTY_ERROR));
+      }
       const rs = await Showtime.insert(idMovie, idTic, showDateTime);
       const row = await History.insert(rs[0].idST, idRoom, 1);
-      return res.send(json(row, true, "Thêm thành công!"));
-    } catch (error) {
-      return res.send(json(error, false, "Thêm thất bại do có lỗi!"));
+      return res.send(json(row, true, error.ADDSHOWCASE_SUCCESS));
+    } catch (err) {
+      return res.send(json(err, false, error.ERROR));
     }
   };
 

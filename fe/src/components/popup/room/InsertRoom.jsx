@@ -22,18 +22,6 @@ const InsertRoom = (props) => {
   });
 
   const insert = async () => {
-    if (data.capacity < 0) {
-      toast.error("Số ghế tối đa phải lớn hơn hoặc bằng 0!");
-      return;
-    }
-    if (data.row < 0) {
-      toast.error("Số hàng phải lớn hơn hoặc bằng 0!");
-      return;
-    }
-    if (data.col < 0) {
-      toast.error("Số cột phải lớn hơn hoặc bằng 0!");
-      return;
-    }
     const rs = await insertRoom(data);
     if (!rs.status) {
       return;
@@ -42,30 +30,30 @@ const InsertRoom = (props) => {
     }
   };
 
-  const insertStatus = (e) => {
-    e.preventDefault();
-    if (!data.nameRoom) {
-      toast.error("Tên phòng không được để trống!")
-      return
-    }
-    if (!data.capacity) {
-      toast.error("Số ghế tối đa không được để trống!")
-      return
-    }
-    if (!data.row) {
-      toast.error("Số hàng không được để trống!")
-      return
-    }
-    if (!data.col) {
-      toast.error("Số cột không được để trống!")
-      return
-    }
-    if (data.img == "") {
-      toast.error("Chưa thêm ảnh!");
-      return;
-    }
-    insert();
-  };
+  // const insertStatus = (e) => {
+  //   e.preventDefault();
+  //   if (!data.nameRoom) {
+  //     toast.error("Tên phòng không được để trống!")
+  //     return
+  //   }
+  //   if (!data.capacity) {
+  //     toast.error("Số ghế tối đa không được để trống!")
+  //     return
+  //   }
+  //   if (!data.row) {
+  //     toast.error("Số hàng không được để trống!")
+  //     return
+  //   }
+  //   if (!data.col) {
+  //     toast.error("Số cột không được để trống!")
+  //     return
+  //   }
+  //   if (data.img == "") {
+  //     toast.error("Chưa thêm ảnh!");
+  //     return;
+  //   }
+  //   insert();
+  // };
 
   const handleDataChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -182,7 +170,7 @@ const InsertRoom = (props) => {
             type="submit"
             className="btn-confirm"
             style={{ backgroundColor: "#fff", color: "#000", cursor: "pointer" }}
-            onClick={(e) => insertStatus(e)}
+            onClick={(e) => insert(e)}
           >
             Thêm mới
           </button>

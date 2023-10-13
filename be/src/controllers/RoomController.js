@@ -1,5 +1,6 @@
 const json = require("../components/json");
 const dotenv = require("dotenv");
+const error = require("../utils/error");
 dotenv.config();
 const Room = require("../models/Room");
 const Seat = require("../models/Seat");
@@ -112,7 +113,12 @@ class RoomController {
         { name: "idBranch", type: "Nchar(10)", value: idBra },
       ];
 
+      if(!nameRoom){
+        return res.send(json("", false, error.ADDROOM_NAME_EMPTY_ERROR));
+      }
+
       let searchRoomByName = await Room.getList(searchParams);
+      console.log(searchRoomByName)
 
       if (searchRoomByName.recordset.length > 0) {
         if (
@@ -123,20 +129,31 @@ class RoomController {
             json(
               [],
               false,
-              "Chi nhánh này đã có phòng tên ' " +
-                nameRoom +
-                " '. Vui lòng chọn tên khác!"
+              error.ADDROOM_SAME_NAME_ERROR
             )
           );
       }
+      if(!capacity){
+        return res.send(json("", false, error.ADDROOM_CAPACITY_EMPTY_ERROR));
+      }
+      if(capacity < 0){
+        return res.send(json("", false, error.ADDROOM_CAPACITY_NEGATIVE_ERROR));
+      }
+      if(!row){
+        return res.send(json("", false, error.ADDROOM_ROW_EMPTY_ERROR));
+      }
+
       if (row > capacity)
-        return res.send(
-          json([], false, "Số hàng phải nhỏ hơn hoặc bằng " + capacity + " !")
-        );
+      return res.send(
+        json([], false, error.ADDROOM_ROW_CAPACITY_ERROR + capacity + " !")
+      );
+      if(!col){
+        return res.send(json("", false, error.ADDROOM_COL_EMPTY_ERROR));
+      }
 
       if (col > capacity / row && capacity / row == 1)
         return res.send(
-          json([], false, "Số cột phải bằng " + capacity / row + " !")
+          json([], false, error.ADDROOM_COL_ROW_ERROR + capacity / row + " !")
         );
 
       if (col > capacity / row)
@@ -144,9 +161,13 @@ class RoomController {
           json(
             [],
             false,
-            "Số cột phải nhỏ hơn hoặc bằng " + Math.floor(capacity / row) + " !"
+            error.ADDROOM_COL_ROW_ERROR2 + Math.floor(capacity / row) + " !"
           )
         );
+        if (!img)
+        return res.send(
+          json([], false, error.ADDROOM_IMG_EMPTY_ERROR)
+        ); 
 
       let rs = await Room.insert(
         nameRoom,
@@ -159,10 +180,10 @@ class RoomController {
       );
       let params = [{ name: "idRoom", type: "Nchar(10)", value: rs[0].idRoom }];
       let data = await Seat.insert(params);
-      return res.send(json(data, true, "Thêm thành công!"));
-    } catch (error) {
+      return res.send(json(data, true, error.ADDROOM_SUCCESSS));
+    } catch (err) {
       // console.log(error)
-      return res.send(json(error, false, "Thêm thất bại do có lỗi!"));
+      return res.send(json(err, false, error.ERROR));
     }
   };
 
