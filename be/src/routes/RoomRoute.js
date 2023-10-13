@@ -12,8 +12,8 @@ const {
 router.post("/list", authenticateToken, staffCheck, RoomController.getList);
 router.post(
   "/list-empty",
-  authenticateToken,
-  supervisorManaCheck,
+  // authenticateToken,
+  // supervisorManaCheck,
   RoomController.getListEmpty
 );
 // router.get(
