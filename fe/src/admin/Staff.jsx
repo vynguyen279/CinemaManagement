@@ -59,7 +59,7 @@ const Staff = () => {
     const data = {
       keyword: key,
       idBra: bra,
-      key: bra == "1" ? 1 : 0,
+      key: bra == "1" ? 1 : bra == "-1" ? -1 : 0,
     };
     const rs = await list(data);
     if (!rs.status) {
@@ -97,7 +97,11 @@ const Staff = () => {
     e.preventDefault();
     data.idStaff = item.idStaff;
     if (data.idStatus === "") {
-      data.idStatus = item.idStatus;
+      if (item.idStatus === 2) {
+        data.idStatus = 1;
+      } else {
+        data.idStatus = item.idStatus;
+      }
     }
     if (data.idPos === "") {
       data.idPos = item.idPos;
@@ -106,7 +110,7 @@ const Staff = () => {
       if (item.idBra == null) {
         data.idBra = listBra[0].idBra;
       } else {
-        data.idBra(item.idBra);
+        data.idBra = item.idBra;
       }
     }
     if ((data.idStatus == 1) & (data.idStatus != item.idStatus)) {
@@ -189,6 +193,7 @@ const Staff = () => {
               >
                 <option value="1">Quản lý</option>
                 <option value="">Tất cả chi nhánh</option>
+                <option value="-1">Chưa cấp</option>
                 {listBra.map((item, index) => (
                   <option value={item.idBra}>{item.nameBra}</option>
                 ))}
@@ -203,8 +208,8 @@ const Staff = () => {
                 <th>Họ tên</th>
                 <th>Số điện thoại</th>
                 <th>Email</th>
-                {bra == "1" ? "" : <th>Chi nhánh</th>}
-                <th>Cấp bậc</th>
+                {bra === "1" || bra === "-1" ? "" : <th>Chi nhánh</th>}
+                {bra === "-1" ? "" : <th>Cấp bậc</th>}
                 <th>Trạng thái</th>
                 <th>Hành động</th>
               </tr>
@@ -215,8 +220,8 @@ const Staff = () => {
                   <td>{item.name}</td>
                   <td>{item.phone}</td>
                   <td>{item.email}</td>
-                  {bra == "1" ? "" : <td>{item.nameBra}</td>}
-                  <td>{item.namePos}</td>
+                  {bra === "1" || bra === "-1" ? "" : <td>{item.nameBra}</td>}
+                  {bra === "-1" ? "" : <td>{item.namePos}</td>}
                   <td>
                     {item.idStatus === 0
                       ? "Khóa"

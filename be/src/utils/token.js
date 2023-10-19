@@ -1,4 +1,4 @@
-function getToken(email, mailChangePassword = false, role = "customer") {
+function getToken(email, mailChangePassword = false, role) {
   let minutes = 1200;
   if (mailChangePassword) minutes = 50;
   require("dotenv").config();
@@ -17,7 +17,7 @@ function getToken(email, mailChangePassword = false, role = "customer") {
   return token;
 }
 
-function getRefeshToken(email, role = "customer") {
+function getRefeshToken(email, role) {
   let minutes = 4320;
   require("dotenv").config();
   // Generate a refresh token
