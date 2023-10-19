@@ -113,7 +113,7 @@ const Signup = () => {
     };
     // console.log(params);
     const rs = await signUp(params);
-    console.log(rs)
+    console.log(rs);
     if (!rs.status) {
       return;
     }
@@ -154,7 +154,7 @@ const Signup = () => {
                 />
               </div>
             </FormGroup>
-            
+
             <FormGroup>
               <div style={frameFill} className="margin-frame">
                 <div style={frameIcon}>

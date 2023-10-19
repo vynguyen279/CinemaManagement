@@ -49,13 +49,11 @@ const UpdateStaff = (props) => {
             {props.item.idStatus === 2 ? (
               <select
                 className="font-text frame-chevron"
-                value={
-                  data.idStatus === "" ? props.item.idStatus : data.idStatus
-                }
+                value={1}
                 onChange={(e) => setData({ ...data, idStatus: e.target.value })}
               >
                 <option value={1}>Cấp tài khoản</option>
-                <option value={2}>Chưa cấp</option>
+                {/* <option value={2}>Chưa cấp</option> */}
               </select>
             ) : (
               <select
@@ -83,7 +81,7 @@ const UpdateStaff = (props) => {
               ))}{" "}
             </select>
           </div>
-          {props.item.idPos === "PS00000002" ? (
+          {props.item.idPos === "PS00000002" || props.item.idPos == null ? (
             data.idPos === "" ? (
               ""
             ) : data.idPos === "PS00000002" ? (

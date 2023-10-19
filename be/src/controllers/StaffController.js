@@ -96,7 +96,6 @@ class StaffController {
     try {
       const { email, pass } = req.body;
       let rs = await Staff.select(email);
-      console.log(rs)
       if (rs.length == 0) {
         return res.send(json("", false, "Tài khoản không tồn tại"));
       }
@@ -113,44 +112,24 @@ class StaffController {
         return res.send(json("", false, "Tài khoản này chưa được cấp quyền!"));
       }
 
-      const {
-        idStaff,
-        name,
-        dateBirth,
-        citiIden,
-        phone,
-        address,
-        sex,
-        idStatus,
-        idBra,
-      } = rs[0];
-      // get role
-      let rows = await Staff_Pos.select(idStaff);
-      const idPos = rows[0].idPos;
-      const token = getToken(email, false, rows[0].idPos);
-      const refreshToken = getRefeshToken(email, idPos);
+      // const {
+      //   idStaff,
+      //   name,
+      //   dateBirth,
+      //   citiIden,
+      //   phone,
+      //   address,
+      //   sex,
+      //   idStatus,
+      //   idBra,
+      //   idPos,
+      // } = rs[0];
+
+      const token = getToken(email, false, rs[0].idPos);
+      // const refreshToken = getRefeshToken(email, idPos);
       res.setHeader("Authorization", token);
       res.setHeader("Access-Control-Expose-Headers", "*");
-      return res.send(
-        json(
-          {
-            idPos,
-            idStaff,
-            name,
-            dateBirth,
-            citiIden,
-            phone,
-            address,
-            sex,
-            email,
-            pass,
-            idStatus,
-            idBra,
-          },
-          true,
-          "Đăng nhập thành công"
-        )
-      );
+      return res.send(json(rs[0], true, "Đăng nhập thành công"));
     } catch (error) {
       // console.log(error);
       return res.send(error, false, "Đăng nhập thất bại do có lỗi");
@@ -159,19 +138,28 @@ class StaffController {
 
   signUp = async (req, res) => {
     try {
-      const { name, dateBirth, email, citiIden, phone, address, sex, pass, repass } =
-        req.body;
+      const {
+        name,
+        dateBirth,
+        email,
+        citiIden,
+        phone,
+        address,
+        sex,
+        pass,
+        repass,
+      } = req.body;
 
       if (!name) {
         return res.send(json("", false, error.SIGNUP_NAME_EMPTY_ERROR));
       }
-      if (name.length>50) {
+      if (name.length > 50) {
         return res.send(json("", false, error.SIGNUP_LONG_NAME_ERROR));
       }
       if (!email) {
         return res.send(json("", false, error.SIGNUP_EMAIL_EMPTY_ERROR));
       }
-      if (email.length>50) {
+      if (email.length > 50) {
         return res.send(json("", false, error.SIGNUP_LONG_EMAIL_ERROR));
       }
       if (!/\S+@\S+\.\S+/.test(email)) {
@@ -192,7 +180,7 @@ class StaffController {
       if (!citiIden) {
         return res.send(json("", false, error.SIGNUP_ID_EMPTY_ERROR));
       }
-      if (isNaN(citiIden)||citiIden.length !== 12) {
+      if (isNaN(citiIden) || citiIden.length !== 12) {
         return res.send(json("", false, error.SIGNUP_ID_FORMAT_ERROR));
       }
       if (!address) {
@@ -211,18 +199,18 @@ class StaffController {
       //   return res.send(json("", false, error.SIGNUP_BIRTHDAY_FUTURE_ERROR));;
       // }
 
-      if(pass!==null&&repass!==null){
+      if (pass !== null && repass !== null) {
         if (!pass) {
           return res.send(json("", false, error.SIGNUP_PASSWORD_EMPTY_ERROR));
         }
-        if (pass.length <8 || pass.length>12) {
+        if (pass.length < 8 || pass.length > 12) {
           return res.send(json("", false, error.SIGNUP_PASSWORD_FORMAT_ERROR));
         }
         // console.log(rePass)
         if (!repass) {
           return res.send(json("", false, error.SIGNUP_REPASS_EMPTY_ERROR));
         }
-        if (repass!=pass) {
+        if (repass != pass) {
           return res.send(json("", false, error.SIGNUP_REPASS_ERROR));
         }
         let encodePass = encode(pass);
@@ -244,13 +232,10 @@ class StaffController {
         } else {
           return res.send(json("", false, error.SIGNUP_FAIL));
         }
-      }
-      
-      else{
+      } else {
         // console.log("nopass")
         return res.send(json("", true, ""));
       }
-
     } catch (err) {
       console.log(err)
       return res.send(json(err, false, error.ERROR));

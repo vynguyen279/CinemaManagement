@@ -10,7 +10,6 @@ class Staff {
     phone,
     address,
     sex,
-    idStatus,
     pass
   ) {
     this.idStaff = idStaff;
@@ -21,13 +20,20 @@ class Staff {
     this.phone = phone;
     this.address = address;
     this.sex = sex;
-    this.idStatus = idStatus;
     this.pass = pass;
-    this.idBra = idBra;
   }
 
   static select(email) {
-    return DB.query(`SELECT * FROM STAFF WHERE email = '${email}'`);
+    return DB.query(`SELECT s.*, h.idStatus, h.idBra, h.idPos
+    FROM STAFF as s
+    LEFT JOIN STAFF_POS h ON s.idStaff  = h.idStaff 
+      WHERE s.email = '${email}'
+         AND h.dayPro = (
+        SELECT MAX(dayPro)
+        FROM STAFF_POS
+        WHERE idStaff = s.idStaff
+        )
+      ORDER BY s.idStaff ASC`);
   }
 
   static selectInf(idStaff) {

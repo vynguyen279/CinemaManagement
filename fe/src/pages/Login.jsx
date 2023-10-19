@@ -43,7 +43,6 @@ function useAuth() {
       setTimeout(() => (window.location.href = "/manager/showtime"), 1500);
     else {
       localStorage.setItem("branch", rs.data[0].idBra);
-      console.log(rs.data[0]);
       if (localStorage.role === "PS00000003")
         setTimeout(() => (window.location.href = "/supervisor/room"), 1500);
       else setTimeout(() => (window.location.href = "/supervisor/room"), 1500);
