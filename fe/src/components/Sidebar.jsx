@@ -128,7 +128,7 @@ const staff = [
     icon: faIdCard,
   },
   {
-    path: "/manager/room",
+    path: "/supervisor/room",
     display: "Phòng chiếu",
     icon: faHouse,
   },

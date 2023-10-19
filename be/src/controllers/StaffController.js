@@ -96,6 +96,7 @@ class StaffController {
     try {
       const { email, pass } = req.body;
       let rs = await Staff.select(email);
+      console.log(rs)
       if (rs.length == 0) {
         return res.send(json("", false, "Tài khoản không tồn tại"));
       }
@@ -151,7 +152,7 @@ class StaffController {
         )
       );
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       return res.send(error, false, "Đăng nhập thất bại do có lỗi");
     }
   };
@@ -246,12 +247,12 @@ class StaffController {
       }
       
       else{
-        console.log("nopass")
+        // console.log("nopass")
         return res.send(json("", true, ""));
       }
 
     } catch (err) {
-      console.log(err)
+      // console.log(err)
       return res.send(json(err, false, error.ERROR));
     }
   };
@@ -295,7 +296,7 @@ class StaffController {
         rs.length > 0 &&
         String(rs[0].idStaff).trim() !== String(idStaff).trim()
       ) {
-        console.log(rs[0].idStaff);
+        // console.log(rs[0].idStaff);
         return res.send(json(rs, false, "Email đã tồn tại!"));
       }
       let row = await Staff.updateInf(
@@ -346,9 +347,6 @@ class StaffController {
     let mk = Date.now().toString(36);
     let pass = encode(mk);
     let rs2 = await Staff.reset(email, pass);
-    console.log(
-      "Cấp lại mật khẩu thành công, mật khẩu mới: " + mk + " " + pass
-    );
     res.send(json(mk, true, "Vào mail để lấy mật khẩu mới!"));
   };
 }

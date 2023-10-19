@@ -101,8 +101,8 @@
   */
   width: 100%; 
   overflow-y: auto;
-  margin-top: 0;
-  padding: 15px;
+  margin-top: 10%;
+  padding: 10px;
   background-color: #c5e2ec;
   border-radius: 10px;
   flex-direction: column;
@@ -120,6 +120,7 @@
 .font-text {
   font-size: 25px;
   font-family: IBM Plex Serif;
+  margin-top: 10px;
 }
 
 .frame-chevron {
@@ -156,23 +157,24 @@
 
 .modal-box-map {
   height: 650px;
-  width: 650px;
+  width: 100%;
   background-color: #c5e2ec;
   border-radius: 10px;
   flex-direction: column;
+  padding: 0 10px;
 }
 
 .row {
   display: flex;
   justify-content: center;
-  margin: 20px 0 20px 0;
+  margin: 20px 0;
 }
 
 .btn-row {
   background-color: #000;
   color: #fff;
-  width: 40px;
-  height: 40px;
+  /* width: 40px;
+  height: 40px; */
   border-radius: 5px;
   margin-right: 20px;
 }
@@ -180,10 +182,10 @@
 .btn-id {
   /* background-color: #fff; */
   color: #000;
-  width: 40px;
-  height: 40px;
+  /* width: 40px;
+  height: 40px; */
   border-radius: 5px;
-  margin: 0 10px 0 10px;
+  margin: 0 5px;
 }
 
 .btn-id-error {

@@ -46,9 +46,10 @@ class Room {
     );
   }
 
-  static update(idRoom, nameRoom, idStatus, img) {
+  static update(idRoom, nameRoom, idStatus, img, capacity, row, col) {
     return DB.query(
-      `UPDATE ROOM SET nameRoom = N'${nameRoom}', idStatus = '${idStatus}', img = '${img}' WHERE idRoom = '${idRoom}'`
+      `UPDATE ROOM SET nameRoom = N'${nameRoom}', idStatus = '${idStatus}', img = '${img}',
+      capacity = '${capacity}', row = '${row}', col = '${col}' WHERE idRoom = '${idRoom}'`
     );
   }
   static delete(idRoom) {

@@ -14,14 +14,14 @@ const managerPath = [
 const supervisorPath = [
   "/profile",
   "/manager/dashboard",
-  "/manager/room",
+  "/supervisor/room",
   "/manager/showtime",
   "/changePass",
   "/login",
 ];
 const staffPath = [
   "/profile",
-  "/manager/room",
+  "/supervisor/room",
   "/manager/showtime",
   "/changePass",
   "/login",

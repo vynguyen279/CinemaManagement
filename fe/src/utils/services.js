@@ -144,6 +144,9 @@ export async function updateMap(id, data) {
 export async function listFac(id) {
   return axios.get(`/fac/${id}/list`);
 }
+export async function listFacStatus(id) {
+  return axios.get(`/fac/${id}/listStatus`);
+}
 
 export async function insertFac(id, data) {
   return axios.post(`/fac/${id}/insert`, data);
@@ -151,6 +154,10 @@ export async function insertFac(id, data) {
 
 export async function updateFac(id, data) {
   return axios.put(`/fac/${id}/update`, data);
+}
+
+export async function updateStatusFac(id, data) {
+  return axios.put(`/fac/${id}/updateStatus`, data);
 }
 
 export async function deleteFac(id, data) {

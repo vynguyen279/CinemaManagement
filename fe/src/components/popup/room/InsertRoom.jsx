@@ -10,7 +10,6 @@ import { insertRoom } from "../../../utils/services";
 import uploadImg from "../../../utils/mail";
 
 const InsertRoom = (props) => {
-  { console.log(props.idBra) }
   const [data, setData] = useState({
     nameRoom: "",
     idStatus: 0,

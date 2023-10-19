@@ -133,7 +133,7 @@ const FacRoom = (props) => {
           </table>
         </div>
       </div>
-      <InsertFac show={show} sendData={handlClose} id={id} />
+      <InsertFac show={show} sendData={handlClose} id={props.id} />
       <UpdateFac show={showUD} sendData={handlCloseUD} id={id} item={item} />
     </Modal>
   );

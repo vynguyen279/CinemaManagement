@@ -30,15 +30,13 @@ function useAuth() {
       return;
     }
     const rs = await login(data);
-    console.log(rs);
     if (!rs.status) {
       return;
     }
     localStorage.setItem("token", rs.Authorization);
+    localStorage.setItem("user", JSON.stringify(rs.data[0]));
     localStorage.setItem("role", rs.data[0].idPos);
-    console.log(rs.data[0].idPos);
     localStorage.setItem("id", rs.data[0].idStaff);
-    console.log("set token:", localStorage.getItem("token"));
     if (localStorage.role === "PS00000001")
       setTimeout(() => (window.location.href = "/admin/staff"), 1500);
     else if (localStorage.role === "PS00000002")
@@ -47,7 +45,7 @@ function useAuth() {
       localStorage.setItem("branch", rs.data[0].idBra);
       console.log(rs.data[0]);
       if (localStorage.role === "PS00000003")
-        setTimeout(() => (window.location.href = "/manager/room"), 1500);
+        setTimeout(() => (window.location.href = "/supervisor/room"), 1500);
       else setTimeout(() => (window.location.href = "/manager/showtime"), 1500);
     }
   };

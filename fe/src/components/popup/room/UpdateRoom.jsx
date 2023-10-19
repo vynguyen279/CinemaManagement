@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Modal, ModalHeader } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
-import { toast } from "react-toastify";
+import { updateRoom } from "../../../utils/services";
 
 import "../../../styles/share.css";
 import "../style.css";
@@ -10,23 +10,48 @@ import uploadImg from "../../../utils/mail";
 
 const UpdateRoom = (props) => {
   const [data, setData] = useState({
-    idRoom: "",
-    nameRoom: "",
-    idStatus: "",
-    img: "",
+    idRoom: props.item.idRoom,
+    nameRoom: props.item.nameRoom,
+    idStatus: props.item.idStatus,
+    capacity: props.item.capacity,
+    row: props.item.row,
+    img: props.item.img,
+    col: props.item.col
   });
 
   const handleDataChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    setData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
+    // console.log(data)
   };
 
   const handleUploadImage = (e) => {
     uploadImg(e.target.files[0]).then((rs) => setData({ ...data, img: rs }));
   };
 
-  const updateStatus = (e) => {
-    props.update(e, data, props.item);
-    props.sendData(false);
+  // const updateStatus = (e) => {
+  //   e.preventDefault()
+  //   props.update(e, data, props.item);
+  //   props.sendData(false);
+  // };
+
+  const update = async (e,data) => {
+    e.preventDefault();
+    console.log(data)
+    // data.idRoom = item.idRoom;
+    // // console.log(data)
+    // if (data.idStatus == "") {
+    //   data.idStatus = item.idStatus;
+    // }
+    // if (data.nameRoom == "") {
+    //   data.nameRoom = item.nameRoom;
+    // }
+    // if (data.img == "") {
+    //   data.img = item.img;
+    // }
+    const rs = await updateRoom(data);
+    if (rs.status) {
+      setTimeout(() => window.location.reload(), 1500);
+    }else return
   };
 
   return (
@@ -45,36 +70,66 @@ const UpdateRoom = (props) => {
             className="icon"
           />
         </ModalHeader>
-        <div className="status" style={{ marginBottom: "0px" }}>
-          <div className="frame-status">
+        <div className="status" style={{ marginBottom: "0px", display: "flex", flexDirection: "row", justifyContent:"space-between" }}>
+          <div className="frame-status" style={{ alignSelf: "flex-start" }}>
             <div className="font-text">Tên phòng</div>
             <input
               name="nameRoom"
               className="font-text frame-chevron"
-              placeholder={props.item.nameRoom}
-              onChange={(e) => setData({ ...data, nameRoom: e.target.value })}
+              placeholder={data.nameRoom}
+              onChange={handleDataChange}
+              disabled={
+                localStorage.getItem("role") == "PS00000002" ? false : true
+              }
+            />
+            <div className="font-text">Số ghế tối đa</div>
+            <input
+              name="capacity"
+              className="font-text frame-chevron"
+              placeholder={data.capacity}
+              onChange={handleDataChange}
+              disabled={
+                localStorage.getItem("role") == "PS00000002" ? false : true
+              }
+            />
+            <div className="font-text">Số hàng</div>
+            <input
+              name="row"
+              className="font-text frame-chevron"
+              placeholder={data.row}
+              onChange={handleDataChange}
               disabled={
                 localStorage.getItem("role") == "PS00000002" ? false : true
               }
             />
           </div>
           <div className="frame-status">
+          <div className="font-text">Số cột</div>
+            <input
+              name="col"
+              className="font-text frame-chevron"
+              placeholder={data.col}
+              onChange={handleDataChange}
+              disabled={
+                localStorage.getItem("role") == "PS00000002" ? false : true
+              }
+            />
             <div className="font-text">Trạng thái</div>
 
             <select
+            name="idStatus"
               className="font-text frame-chevron"
-              value={data.idStatus == "" ? props.item.idStatus : data.idStatus}
-              onChange={(e) => setData({ ...data, idStatus: e.target.value })}
+              placeholder={data.idStatus}
+              onChange={handleDataChange}
             >
               <option value={0}>Hỏng</option>
               <option value={1}>Họat động</option>
             </select>
-          </div>
-          <div className="frame-status" style={{ marginTop: "5px" }}>
+            <div className="frame-status" style={{ marginTop: "5px" }}>
             {/* <div className="font-text">Hình ảnh</div> */}
             <label htmlFor="staffImg">
               <img
-                src={data.img || props.item.img}
+                src={data.img}
                 alt=""
                 name="img"
                 onChange={handleDataChange}
@@ -95,13 +150,14 @@ const UpdateRoom = (props) => {
               />
             </label>
           </div>
+          </div>
         </div>
         <div className="out-input" style={{ marginTop: "0px" }}>
           <button
             type="submit"
             className="btn-confirm"
             style={{ backgroundColor: "#fff", color: "#000" }}
-            onClick={(e) => updateStatus(e)}
+            onClick={(e) => update(e,data)}
           >
             Cập nhật
           </button>

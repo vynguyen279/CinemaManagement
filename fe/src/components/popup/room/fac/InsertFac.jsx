@@ -12,12 +12,12 @@ import uploadImg from "../../../../utils/mail";
 const InsertFac = (props) => {
   const [data, setData] = useState({
     nameFac: "",
-    idStatus: "",
     img: "",
   });
-
+  // console.log(data)
   const insert = async () => {
-    const rs = await insertFac(props.id, data);
+    console.log(data)
+    const rs = await insertFac(props.id,data);
     if (!rs.status) {
       return;
     } else {
@@ -32,9 +32,9 @@ const InsertFac = (props) => {
       toast.error("Chưa chọn ảnh!");
       return;
     }
-    if (data.idStatus == "") {
-      data.idStatus = 1;
-    }
+    // if (data.idStatus == "") {
+    //   data.idStatus = 1;
+    // }
     if (data.nameFac == "") {
       toast.error("Không được để trống!");
       return;
@@ -76,7 +76,7 @@ const InsertFac = (props) => {
               onChange={(e) => setData({ ...data, nameFac: e.target.value })}
             />
           </div>
-          <div className="frame-status">
+          {/* <div className="frame-status">
             <div className="font-text">Trạng thái</div>
 
             <select
@@ -87,7 +87,7 @@ const InsertFac = (props) => {
               <option value={0}>Hỏng</option>
               <option value={1}>Họat động</option>
             </select>
-          </div>
+          </div> */}
           <div className="frame-status" style={{ marginTop: "5px" }}>
             {/* <div className="font-text">Hình ảnh</div> */}
             <label htmlFor="staffImg">

@@ -8,6 +8,7 @@ const {
 } = require("../utils/authentication");
 
 router.get("/:id/list", authenticateToken, staffCheck, FacController.getList);
+router.get("/:id/listStatus", authenticateToken, staffCheck, FacController.getListStatus);
 router.post(
   "/:id/insert",
   authenticateToken,
@@ -15,6 +16,7 @@ router.post(
   FacController.insert
 );
 router.put("/:id/update", authenticateToken, staffCheck, FacController.update);
+router.put("/:id/updateStatus", authenticateToken, staffCheck, FacController.updateStatus);
 router.post(
   "/:id/delete",
   authenticateToken,

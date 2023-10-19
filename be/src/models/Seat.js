@@ -20,6 +20,9 @@ class Seat {
     return DB.query(`UPDATE SEAT SET idStatus = '${idStatus}' 
     WHERE idRoom = '${idRoom}' AND idSeat = '${idSeat}' AND idRow = '${idRow}' `);
   }
+  static delete(idRoom) {
+    return DB.query(`DELETE FROM SEAT WHERE idRoom = '${idRoom}'`);
+  }
 }
 
 module.exports = Seat;

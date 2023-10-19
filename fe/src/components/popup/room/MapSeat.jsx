@@ -5,10 +5,17 @@ import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
 
 import "../../../styles/share.css";
 import "../style.css";
-import {} from "../../../utils/services";
+import { } from "../../../utils/services";
 import ColorToggleButton from "./ColorToggleButton";
 
 const MapSeat = (props) => {
+  // console.log(props.item)
+  const mapList = (row) => {
+    return props.map.filter(item => {
+      return item.idRow === row;
+    }
+    )
+  }
   //   const getLimitedList = () => {
   //     return initialData.slice(start, end);
   //   };
@@ -20,7 +27,7 @@ const MapSeat = (props) => {
       className="modal"
       style={{ zIndex: 0 }}
     >
-      <div className="modal-box-map">
+      <div className="modal-box-map" style={{ overflow:"auto" }}>
         <ModalHeader closeButton className="header-modal">
           <div className="modal-title">Sơ đồ chỗ ngồi</div>
           <FontAwesomeIcon
@@ -29,78 +36,320 @@ const MapSeat = (props) => {
             className="icon"
           />
         </ModalHeader>
-        <div style={{ marginTop: "40px" }}>
-          <div className="row">
-            <button className="btn-row">A</button>
-            {props.map.slice(0, 8)?.map((item, index) => (
-              <ColorToggleButton
-                defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
-                alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
-                item={item}
-              />
-            ))}
-          </div>
-          <div className="row">
-            <button className="btn-row">B</button>
-            {props.map.slice(8, 16)?.map((item, index) => (
-              <ColorToggleButton
-                defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
-                alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
-                item={item}
-              />
-            ))}
-          </div>
-          <div className="row">
-            <button className="btn-row">C</button>
-            {props.map.slice(16, 24)?.map((item, index) => (
-              <ColorToggleButton
-                defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
-                alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
-                item={item}
-              />
-            ))}
-          </div>
-          <div className="row">
-            <button className="btn-row">D</button>
-            {props.map.slice(24, 32)?.map((item, index) => (
-              <ColorToggleButton
-                defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
-                alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
-                item={item}
-              />
-            ))}
-          </div>
-          <div className="row">
-            <button className="btn-row">E</button>
-            {props.map.slice(32, 40)?.map((item, index) => (
-              <ColorToggleButton
-                defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
-                alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
-                item={item}
-              />
-            ))}
-          </div>
-          <div className="row">
-            <button className="btn-row">F</button>
-            {props.map.slice(40, 48)?.map((item, index) => (
-              <ColorToggleButton
-                defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
-                alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
-                item={item}
-              />
-            ))}
-          </div>
-          <div className="row">
-            <button className="btn-row">G</button>
-            {props.map.slice(48, 56)?.map((item, index) => (
-              <ColorToggleButton
-                defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
-                alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
-                item={item}
-              />
-            ))}
-          </div>
-          <div className="row">
+        <div style={{ marginTop: "40px", display: "flex", flexDirection: "column" }}>
+          {
+            props.item.row >= 1 ? (<div className="row">
+              <button className="btn-row">A</button>
+              {mapList("A").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 2 ? (<div className="row">
+              <button className="btn-row">B</button>
+              {mapList("B").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 3 ? (<div className="row">
+              <button className="btn-row">C</button>
+              {mapList("C").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 4 ? (<div className="row">
+              <button className="btn-row">D</button>
+              {mapList("D").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 5 ? (<div className="row">
+              <button className="btn-row">E</button>
+              {mapList("E").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 6 ? (<div className="row">
+              <button className="btn-row">F</button>
+              {mapList("F").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 7 ? (<div className="row">
+              <button className="btn-row">G</button>
+              {mapList("G").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 8 ? (<div className="row">
+              <button className="btn-row">H</button>
+              {mapList("H").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 9 ? (<div className="row">
+              <button className="btn-row">I</button>
+              {mapList("I").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 10 ? (<div className="row">
+              <button className="btn-row">J</button>
+              {mapList("J").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 11 ? (<div className="row">
+              <button className="btn-row">K</button>
+              {mapList("K").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 12 ? (<div className="row">
+              <button className="btn-row">L</button>
+              {mapList("L").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 13 ? (<div className="row">
+              <button className="btn-row">M</button>
+              {mapList("M").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 14 ? (<div className="row">
+              <button className="btn-row">N</button>
+              {mapList("N").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 15 ? (<div className="row">
+              <button className="btn-row">O</button>
+              {mapList("O").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 16 ? (<div className="row">
+              <button className="btn-row">P</button>
+              {mapList("P").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 17 ? (<div className="row">
+              <button className="btn-row">Q</button>
+              {mapList("Q").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 18 ? (<div className="row">
+              <button className="btn-row">R</button>
+              {mapList("R").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 19 ? (<div className="row">
+              <button className="btn-row">S</button>
+              {mapList("S").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 20 ? (<div className="row">
+              <button className="btn-row">T</button>
+              {mapList("T").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 21 ? (<div className="row">
+              <button className="btn-row">U</button>
+              {mapList("U").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 22 ? (<div className="row">
+              <button className="btn-row">V</button>
+              {mapList("V").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 23 ? (<div className="row">
+              <button className="btn-row">W</button>
+              {mapList("W").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 24 ? (<div className="row">
+              <button className="btn-row">X</button>
+              {mapList("X").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 25 ? (<div className="row">
+              <button className="btn-row">Y</button>
+              {mapList("Y").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {
+            props.item.row >= 26 ? (<div className="row">
+              <button className="btn-row">Z</button>
+              {mapList("Z").map((item, index) => (
+                <ColorToggleButton
+                  defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
+                  alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
+                  item={item}
+                />
+              ))}
+            </div>) : null
+          }
+          {/* <div className="row">
             <button className="btn-row">H</button>
             {props.map.slice(56, 64)?.map((item, index) => (
               <ColorToggleButton
@@ -109,7 +358,7 @@ const MapSeat = (props) => {
                 item={item}
               />
             ))}
-          </div>
+          </div> */}
         </div>
       </div>
     </Modal>

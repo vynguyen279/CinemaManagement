@@ -15,6 +15,7 @@ import Ticket from "../manager/Ticket";
 import Showtime from "../pages/Showtime";
 import Room from "../pages/Room";
 import Branch from "../manager/Branch";
+import RoomMap from "../pages/RoomMap";
 
 const Routers = () => {
   return (
@@ -30,6 +31,7 @@ const Routers = () => {
         <Route path="manager/dashboard" element={<Dashboard />} />
         <Route path="manager/showtime" element={<Showtime />} />
         <Route path="manager/room" element={<Room />} />
+        <Route path="supervisor/room" element={<RoomMap />} />
         <Route path="login" element={<Login />} />
         <Route path="getpass" element={<Getpass />} />
         <Route path="signup" element={<Signup />} />

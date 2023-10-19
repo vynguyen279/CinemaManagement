@@ -29,6 +29,7 @@ import HisRoom from "../components/popup/room/HisRoom";
 import MapSeat from "../components/popup/room/MapSeat";
 import { confirmAlert } from "react-confirm-alert"; // Import
 import "react-confirm-alert/src/react-confirm-alert.css"; // Import css
+import { toast } from "react-toastify";
 
 const Room = () => {
   const [value, setValue] = useState();
@@ -39,6 +40,7 @@ const Room = () => {
   const [showHis, setShowHis] = useState(false);
   const [showMap, setShowMap] = useState(false);
   const [item, setItem] = useState({});
+  const [item2, setItem2] = useState({});
   const [fac, setFac] = useState([]);
   const [his, setHis] = useState([]);
   const [map, setMap] = useState([]);
@@ -134,24 +136,6 @@ const Room = () => {
   };
 
   //update
-  const update = async (e, data, item) => {
-    e.preventDefault();
-    data.idRoom = item.idRoom;
-    if (data.idStatus == "") {
-      data.idStatus = item.idStatus;
-    }
-    if (data.nameRoom == "") {
-      data.nameRoom = item.nameRoom;
-    }
-    if (data.img == "") {
-      data.img = item.img;
-    }
-    const rs = await updateRoom(data);
-    if (rs.status) {
-      setTimeout(() => window.location.reload(), 1500);
-    }
-    return;
-  };
 
   //list fac
   const getFac = async (id) => {
@@ -303,7 +287,11 @@ const Room = () => {
                     <FontAwesomeIcon
                       icon={faCouch}
                       className="icon-action"
-                      onClick={() => getListMap(item.idRoom)}
+                      onClick={() =>{ 
+                        getListMap(item.idRoom);
+                        setItem2(item)
+                      }
+                      }
                     />
                     <FontAwesomeIcon
                       icon={faRectangleList}
@@ -323,14 +311,16 @@ const Room = () => {
       {show ? (
         <InsertRoom show={show} sendData={handlClose} idBra={branch} />
       ) : null}
-      <UpdateRoom
-        show={showUD}
-        sendData={handlCloseUD}
-        item={item}
-        update={update}
-      />
+      {
+        showUD?(      <UpdateRoom
+          show={showUD}
+          sendData={handlCloseUD}
+          item={item}
+          // update={update}
+        />):null
+      }
       <FacRoom show={showFac} sendData={handlCloseFac} list={fac} id={id} />
-      <MapSeat show={showMap} sendData={handlCloseMap} map={map} id={id} />
+      <MapSeat show={showMap} sendData={handlCloseMap} map={map} id={id} item={item2} />
       <HisRoom show={showHis} sendData={handlCloseHis} his={his} id={id} />
     </Layout>
   );

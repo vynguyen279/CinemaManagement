@@ -29,7 +29,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   function (config) {
-    console.log("Call API: " + config.url);
+    // console.log("Call API: " + config.url);
     displayLoading = true; //setDisplayLoading(true);
     config.headers.Authorization = localStorage.token;
     return config;

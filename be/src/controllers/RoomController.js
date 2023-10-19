@@ -96,10 +96,49 @@ class RoomController {
 
   update = async (req, res) => {
     try {
-      const { idRoom, nameRoom, idStatus, img } = req.body;
-      let rs = await Room.update(idRoom, nameRoom, idStatus, img);
+      const { idRoom, nameRoom, idStatus, img, capacity, row, col } = req.body;
+      if(!nameRoom){
+        return res.send(json("", false, error.ADDROOM_NAME_EMPTY_ERROR));
+      }
+
+      if(!capacity){
+        return res.send(json("", false, error.ADDROOM_CAPACITY_EMPTY_ERROR));
+      }
+      if(capacity < 0){
+        return res.send(json("", false, error.ADDROOM_CAPACITY_NEGATIVE_ERROR));
+      }
+      if(!row){
+        return res.send(json("", false, error.ADDROOM_ROW_EMPTY_ERROR));
+      }
+      if (parseInt(row) > parseInt(capacity))
+      return res.send(
+        json([], false, error.ADDROOM_ROW_CAPACITY_ERROR + capacity + "!")
+      );
+      if(!col){
+        return res.send(json("", false, error.ADDROOM_COL_EMPTY_ERROR));
+      }
+
+      if (parseInt(col) > parseInt(capacity) / parseInt(row) && parseInt(capacity) / parseInt(row) == 1)
+        return res.send(
+          json([], false, error.ADDROOM_COL_ROW_ERROR + parseInt(capacity) / parseInt(row) + " !")
+        );
+
+      if (parseInt(col) > parseInt(capacity) / parseInt(row))
+        return res.send(
+          json(
+            [],
+            false,
+            error.ADDROOM_COL_ROW_ERROR2 + Math.floor(parseInt(capacity) / parseInt(row)) + " !"
+          )
+        );
+        if (!img)
+        return res.send(
+          json([], false, error.ADDROOM_IMG_EMPTY_ERROR)
+        ); 
+      let rs = await Room.update(idRoom, nameRoom, idStatus, img, capacity, row, col);
       return res.send(json(rs, true, "Cập nhật thành công!"));
     } catch (error) {
+      console.log(error)
       return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
     }
   };
@@ -178,7 +217,11 @@ class RoomController {
         row,
         col
       );
-      let params = [{ name: "idRoom", type: "Nchar(10)", value: rs[0].idRoom }];
+      let params = [
+        { name: "idRoom", type: "Nchar(10)", value: rs[0].idRoom },
+        { name: "row", type: "int", value: row },
+        { name: "col", type: "int", value: col },
+      ];
       let data = await Seat.insert(params);
       return res.send(json(data, true, error.ADDROOM_SUCCESSS));
     } catch (err) {
