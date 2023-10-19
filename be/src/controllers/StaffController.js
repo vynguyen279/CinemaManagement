@@ -186,7 +186,7 @@ class StaffController {
       if (!phone) {
         return res.send(json("", false, error.SIGNUP_PHONE_EMPTY_ERROR));
       }
-      if (/^(0?)(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$/.test(phone)) {
+      if (!/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/.test(phone)) {
         return res.send(json("", false, error.SIGNUP_PHONE_FORMAT_ERROR));
       }
       if (!citiIden) {
@@ -252,7 +252,7 @@ class StaffController {
       }
 
     } catch (err) {
-      // console.log(err)
+      console.log(err)
       return res.send(json(err, false, error.ERROR));
     }
   };

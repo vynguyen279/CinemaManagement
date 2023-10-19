@@ -97,10 +97,32 @@ class RoomController {
   update = async (req, res) => {
     try {
       const { idRoom, nameRoom, idStatus, img, capacity, row, col } = req.body;
+      const { idBra } = req.body;
+      let searchParams = [
+        { name: "keyword", type: "Nvarchar(100)", value: nameRoom },
+        { name: "idBranch", type: "Nchar(10)", value: idBra },
+      ];
+
       if(!nameRoom){
         return res.send(json("", false, error.ADDROOM_NAME_EMPTY_ERROR));
       }
 
+      let searchRoomByName = await Room.getList(searchParams);
+      console.log(searchRoomByName)
+
+      if (searchRoomByName.recordset.length > 0) {
+        if (
+          searchRoomByName.recordset[0].nameRoom.toLowerCase() ==
+          nameRoom.toLowerCase() && searchRoomByName.recordset[0].idRoom != idRoom
+        )
+          return res.send(
+            json(
+              [],
+              false,
+              error.ADDROOM_SAME_NAME_ERROR
+            )
+          );
+      }
       if(!capacity){
         return res.send(json("", false, error.ADDROOM_CAPACITY_EMPTY_ERROR));
       }
@@ -110,20 +132,28 @@ class RoomController {
       if(!row){
         return res.send(json("", false, error.ADDROOM_ROW_EMPTY_ERROR));
       }
+      if(row < 0){
+        return res.send(json("", false, error.ADDROOM_ROW_NEGATIVE_ERROR));
+      }
+
       if (parseInt(row) > parseInt(capacity))
       return res.send(
-        json([], false, error.ADDROOM_ROW_CAPACITY_ERROR + capacity + "!")
+        json([], false, error.ADDROOM_ROW_CAPACITY_ERROR + capacity + " !")
       );
       if(!col){
         return res.send(json("", false, error.ADDROOM_COL_EMPTY_ERROR));
       }
 
-      if (parseInt(col) > parseInt(capacity) / parseInt(row) && parseInt(capacity) / parseInt(row) == 1)
+      if(col < 0){
+        return res.send(json("", false, error.ADDROOM_COL_NEGATIVE_ERROR));
+      }
+
+      if (parseInt(col) >= 0 && parseInt(capacity) / parseInt(row) == 1)
         return res.send(
-          json([], false, error.ADDROOM_COL_ROW_ERROR + parseInt(capacity) / parseInt(row) + " !")
+          json([], false, error.ADDROOM_COL_ROW_ERROR + capacity / row + " !")
         );
 
-      if (parseInt(col) > parseInt(capacity) / parseInt(row))
+      if (parseInt(col) > parseInt(capacity) / parseInt(row) )
         return res.send(
           json(
             [],
@@ -135,6 +165,7 @@ class RoomController {
         return res.send(
           json([], false, error.ADDROOM_IMG_EMPTY_ERROR)
         ); 
+
       let rs = await Room.update(idRoom, nameRoom, idStatus, img, capacity, row, col);
       return res.send(json(rs, true, "Cập nhật thành công!"));
     } catch (error) {
@@ -181,8 +212,11 @@ class RoomController {
       if(!row){
         return res.send(json("", false, error.ADDROOM_ROW_EMPTY_ERROR));
       }
+      if(row < 0){
+        return res.send(json("", false, error.ADDROOM_ROW_NEGATIVE_ERROR));
+      }
 
-      if (row > capacity)
+      if (parseInt(row) > parseInt(capacity))
       return res.send(
         json([], false, error.ADDROOM_ROW_CAPACITY_ERROR + capacity + " !")
       );
@@ -190,17 +224,21 @@ class RoomController {
         return res.send(json("", false, error.ADDROOM_COL_EMPTY_ERROR));
       }
 
-      if (col > capacity / row && capacity / row == 1)
+      if(col < 0){
+        return res.send(json("", false, error.ADDROOM_COL_NEGATIVE_ERROR));
+      }
+
+      if (parseInt(col) >= 0 && parseInt(capacity) / parseInt(row) == 1)
         return res.send(
           json([], false, error.ADDROOM_COL_ROW_ERROR + capacity / row + " !")
         );
 
-      if (col > capacity / row)
+      if (parseInt(col) > parseInt(capacity) / parseInt(row) )
         return res.send(
           json(
             [],
             false,
-            error.ADDROOM_COL_ROW_ERROR2 + Math.floor(capacity / row) + " !"
+            error.ADDROOM_COL_ROW_ERROR2 + Math.floor(parseInt(capacity) / parseInt(row)) + " !"
           )
         );
         if (!img)

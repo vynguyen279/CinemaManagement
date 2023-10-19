@@ -9,6 +9,7 @@ import "../style.css";
 import uploadImg from "../../../utils/mail";
 
 const UpdateRoom = (props) => {
+  const [oldName, setOldName] = useState("")
   const [data, setData] = useState({
     idRoom: props.item.idRoom,
     nameRoom: props.item.nameRoom,
@@ -16,11 +17,13 @@ const UpdateRoom = (props) => {
     capacity: props.item.capacity,
     row: props.item.row,
     img: props.item.img,
-    col: props.item.col
+    col: props.item.col,
+    idBra: props.item.idBra,
   });
 
   const handleDataChange = (e) => {
     setData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
+    // setOldName((pre) => ({ ...pre, [e.target.name]: e.target.value }))
     // console.log(data)
   };
 
@@ -36,18 +39,7 @@ const UpdateRoom = (props) => {
 
   const update = async (e,data) => {
     e.preventDefault();
-    console.log(data)
-    // data.idRoom = item.idRoom;
-    // // console.log(data)
-    // if (data.idStatus == "") {
-    //   data.idStatus = item.idStatus;
-    // }
-    // if (data.nameRoom == "") {
-    //   data.nameRoom = item.nameRoom;
-    // }
-    // if (data.img == "") {
-    //   data.img = item.img;
-    // }
+    // console.log(data)
     const rs = await updateRoom(data);
     if (rs.status) {
       setTimeout(() => window.location.reload(), 1500);
@@ -77,6 +69,7 @@ const UpdateRoom = (props) => {
               name="nameRoom"
               className="font-text frame-chevron"
               placeholder={data.nameRoom}
+              value={data.nameRoom}
               onChange={handleDataChange}
               disabled={
                 localStorage.getItem("role") == "PS00000002" ? false : true
@@ -87,6 +80,7 @@ const UpdateRoom = (props) => {
               name="capacity"
               className="font-text frame-chevron"
               placeholder={data.capacity}
+              value={data.capacity}
               onChange={handleDataChange}
               disabled={
                 localStorage.getItem("role") == "PS00000002" ? false : true
@@ -97,6 +91,7 @@ const UpdateRoom = (props) => {
               name="row"
               className="font-text frame-chevron"
               placeholder={data.row}
+              value={data.row}
               onChange={handleDataChange}
               disabled={
                 localStorage.getItem("role") == "PS00000002" ? false : true
@@ -109,6 +104,7 @@ const UpdateRoom = (props) => {
               name="col"
               className="font-text frame-chevron"
               placeholder={data.col}
+              value={data.col}
               onChange={handleDataChange}
               disabled={
                 localStorage.getItem("role") == "PS00000002" ? false : true
