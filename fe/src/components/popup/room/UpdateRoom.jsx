@@ -9,7 +9,7 @@ import "../style.css";
 import uploadImg from "../../../utils/mail";
 
 const UpdateRoom = (props) => {
-  const [oldName, setOldName] = useState("")
+  const [oldName, setOldName] = useState("");
   const [data, setData] = useState({
     idRoom: props.item.idRoom,
     nameRoom: props.item.nameRoom,
@@ -37,13 +37,13 @@ const UpdateRoom = (props) => {
   //   props.sendData(false);
   // };
 
-  const update = async (e,data) => {
+  const update = async (e, data) => {
     e.preventDefault();
     // console.log(data)
     const rs = await updateRoom(data);
     if (rs.status) {
       setTimeout(() => window.location.reload(), 1500);
-    }else return
+    } else return;
   };
 
   return (
@@ -62,7 +62,15 @@ const UpdateRoom = (props) => {
             className="icon"
           />
         </ModalHeader>
-        <div className="status" style={{ marginBottom: "0px", display: "flex", flexDirection: "row", justifyContent:"space-between" }}>
+        <div
+          className="status"
+          style={{
+            marginBottom: "0px",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
           <div className="frame-status" style={{ alignSelf: "flex-start" }}>
             <div className="font-text">Tên phòng</div>
             <input
@@ -99,7 +107,7 @@ const UpdateRoom = (props) => {
             />
           </div>
           <div className="frame-status">
-          <div className="font-text">Số cột</div>
+            <div className="font-text">Số cột</div>
             <input
               name="col"
               className="font-text frame-chevron"
@@ -113,7 +121,7 @@ const UpdateRoom = (props) => {
             <div className="font-text">Trạng thái</div>
 
             <select
-            name="idStatus"
+              name="idStatus"
               className="font-text frame-chevron"
               placeholder={data.idStatus}
               onChange={handleDataChange}
@@ -122,30 +130,30 @@ const UpdateRoom = (props) => {
               <option value={1}>Họat động</option>
             </select>
             <div className="frame-status" style={{ marginTop: "5px" }}>
-            {/* <div className="font-text">Hình ảnh</div> */}
-            <label htmlFor="staffImg">
-              <img
-                src={data.img}
-                alt=""
-                name="img"
-                onChange={handleDataChange}
-                value={data.img}
-                // className='form-avt'
-                width="300"
-              />
-              <input
-                type="file"
-                id="staffImg"
-                className="font-text frame-chevron"
-                style={{ display: "none" }}
-                onChange={handleUploadImage}
-                placeholder="Upload"
-                disabled={
-                  localStorage.getItem("role") == "PS00000002" ? false : true
-                }
-              />
-            </label>
-          </div>
+              {/* <div className="font-text">Hình ảnh</div> */}
+              <label htmlFor="staffImg">
+                <img
+                  src={data.img}
+                  alt=""
+                  name="img"
+                  onChange={handleDataChange}
+                  value={data.img}
+                  // className='form-avt'
+                  width="300"
+                />
+                <input
+                  type="file"
+                  id="staffImg"
+                  className="font-text frame-chevron"
+                  style={{ display: "none" }}
+                  onChange={handleUploadImage}
+                  placeholder="Upload"
+                  disabled={
+                    localStorage.getItem("role") == "PS00000002" ? false : true
+                  }
+                />
+              </label>
+            </div>
           </div>
         </div>
         <div className="out-input" style={{ marginTop: "0px" }}>
@@ -153,7 +161,7 @@ const UpdateRoom = (props) => {
             type="submit"
             className="btn-confirm"
             style={{ backgroundColor: "#fff", color: "#000" }}
-            onClick={(e) => update(e,data)}
+            onClick={(e) => update(e, data)}
           >
             Cập nhật
           </button>

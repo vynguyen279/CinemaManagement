@@ -153,7 +153,7 @@ const Branch = () => {
       <UpdateBranch
         show={show}
         item={item}
-        update={update}
+        //update={update}
         sendData={handlClose}
       />
       <InsertBranch show={showInsert} sendData={handlCloseInsert} />

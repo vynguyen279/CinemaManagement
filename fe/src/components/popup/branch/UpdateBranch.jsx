@@ -9,8 +9,8 @@ import "../style.css";
 
 const UpdateBranch = (props) => {
   const [data, setData] = useState({
-    idBra: "",
-    nameBra: "",
+    idBra: props.item.idBra,
+    nameBra: props.item.nameBra,
   });
 
   const updateStatus = (e) => {
@@ -22,9 +22,14 @@ const UpdateBranch = (props) => {
       toast.error("Không được quá 50 ký tự!");
       return;
     }
-    props.update(e, data, props.item);
+    console.log(data); //props.update(e, data, props.item);
   };
 
+  const handleDataChange = (e) => {
+    setData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
+    // setOldName((pre) => ({ ...pre, [e.target.name]: e.target.value }))
+    // console.log(data)
+  };
   return (
     <Modal
       isOpen={props.show}
@@ -53,11 +58,11 @@ const UpdateBranch = (props) => {
           <div className="frame-status">
             <div className="font-text">Tên chi nhánh</div>
             <Input
-              type="text"
+              name="nameBra"
               className="font-text frame-chevron"
-              onChange={(e) => setData({ ...data, nameBra: e.target.value })}
-              id="nameBra"
-              value={props.item.nameBra}
+              onChange={handleDataChange}
+              placeholder={data.nameBra}
+              value={data.nameBra}
             />
           </div>
         </div>

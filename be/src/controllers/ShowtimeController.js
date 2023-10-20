@@ -104,17 +104,17 @@ class ShowtimeController {
   };
 
   updateInf = async (req, res) => {
-    // try {
-    const { idST, idMovie, showDateTime, newRoom, oldRoom, idTic } = req.body;
-    if (newRoom != oldRoom) {
-      const row = await History.insert(idST, oldRoom, 0);
-      setTimeout(async () => await History.insert(idST, newRoom, 1), 1000);
+    try {
+      const { idST, idMovie, showDateTime, newRoom, oldRoom, idTic } = req.body;
+      if (newRoom != oldRoom) {
+        const row = await History.insert(idST, oldRoom, 0);
+        setTimeout(async () => await History.insert(idST, newRoom, 1), 1000);
+      }
+      const rs = await Showtime.updateInf(idST, idMovie, idTic, showDateTime);
+      return res.send(json(rs, true, "Cập nhật thành công!"));
+    } catch (error) {
+      return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
     }
-    const rs = await Showtime.updateInf(idST, idMovie, idTic, showDateTime);
-    return res.send(json(rs, true, "Cập nhật thành công!"));
-    // } catch (error) {
-    //   return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
-    // }
   };
 
   cancel = async (req, res) => {
