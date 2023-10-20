@@ -104,7 +104,11 @@ const Staff = () => {
       }
     }
     if (data.idPos === "") {
-      data.idPos = item.idPos;
+      if (item.idPos == null) {
+        data.idPos = "PS00000002";
+      } else {
+        data.idPos = item.idPos;
+      }
     }
     if (data.idBra == "" && data.idPos != "PS00000002") {
       if (item.idBra == null) {
@@ -185,19 +189,34 @@ const Staff = () => {
               <select
                 style={{ marginLeft: "2%", fontSize: "20px" }}
                 className="font-text frame-chevron"
-                value={bra == "" ? "" : bra}
+                value={bra != 1 && bra != -1 ? "" : bra}
                 onChange={(e) => {
                   setBra(e.target.value);
                   getListSearch(key, e.target.value);
                 }}
               >
                 <option value="1">Quản lý</option>
-                <option value="">Tất cả chi nhánh</option>
+                <option value="">Chi nhánh</option>
                 <option value="-1">Chưa cấp</option>
-                {listBra.map((item, index) => (
-                  <option value={item.idBra}>{item.nameBra}</option>
-                ))}
               </select>
+              {bra != 1 && bra != -1 ? (
+                <select
+                  style={{ marginLeft: "2%", fontSize: "20px" }}
+                  className="font-text frame-chevron"
+                  value={bra == 0 ? "" : bra}
+                  onChange={(e) => {
+                    setBra(e.target.value);
+                    getListSearch(key, e.target.value);
+                  }}
+                >
+                  <option value="">Tất cả</option>
+                  {listBra.map((item, index) => (
+                    <option value={item.idBra}>{item.nameBra}</option>
+                  ))}
+                </select>
+              ) : (
+                ""
+              )}
             </div>
           </div>
           <div className="frame-list">

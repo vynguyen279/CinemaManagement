@@ -13,31 +13,32 @@ import checkRole from "../utils/checkRole";
 import Layout from "../components";
 import "../styles/share.css";
 import InsertBranch from "../components/popup/branch/InsertBranch";
-import { listBranch } from "../utils/services";
+import UpdateBranch from "../components/popup/branch/UpdateBranch";
+import { listBranch, updateBranch, deleteBranch } from "../utils/services";
 
 const Branch = () => {
   const [value, setValue] = useState([]);
   const [show, setShow] = useState(false);
   const [showInsert, setShowInsert] = useState(false);
   const [item, setItem] = useState("");
-  //const [key, setKey] = useState('');
+  const [key, setKey] = useState("");
 
-  //   const submit = (e, item) => {
-  //     confirmAlert({
-  //       title: "XÁC NHẬN",
-  //       message: "Bạn có chắc muốn xóa?",
-  //       buttons: [
-  //         {
-  //           label: "Có",
-  //           onClick: () => deleteTicket(e, item),
-  //         },
-  //         {
-  //           label: "Không",
-  //           onClick: () => {},
-  //         },
-  //       ],
-  //     });
-  //   };
+  const submit = (e, item) => {
+    confirmAlert({
+      title: "XÁC NHẬN",
+      message: "Bạn có chắc muốn xóa?",
+      buttons: [
+        {
+          label: "Có",
+          onClick: () => deleteBra(e, item),
+        },
+        {
+          label: "Không",
+          onClick: () => {},
+        },
+      ],
+    });
+  };
 
   const getListSearch = async (e) => {
     const data = {
@@ -64,34 +65,35 @@ const Branch = () => {
     }
   };
 
-  //   const update = async (e, data, item) => {
-  //     e.preventDefault();
-  //     data.idTic = item.idTic;
-  //     const rs = await updateTic(data);
-  //     if (rs.status) {
-  //       setTimeout(() => window.location.reload(), 1500);
-  //     }
-  //     return;
-  //   };
+  const update = async (e, data, item) => {
+    e.preventDefault();
+    data.idBra = item.idBra;
+    const rs = await updateBranch(data);
+    if (rs.status) {
+      handlClose(false);
+      setTimeout(() => window.location.reload(), 1500);
+    }
+    return;
+  };
 
-  //   const deleteTicket = async (e, item) => {
-  //     e.preventDefault();
-  //     const params = { idTic: item.idTic };
-  //     const rs = await deleteTic(params);
-  //     if (rs.status) {
-  //       console.log(item.idTic);
-  //       setTimeout(() => window.location.reload(), 1500);
-  //     }
-  //     return;
-  //   };
+  const deleteBra = async (e, item) => {
+    e.preventDefault();
+    const params = { idBra: item.idBra };
+    const rs = await deleteBranch(params);
+    if (rs.status) {
+      console.log(item.idTic);
+      setTimeout(() => window.location.reload(), 1500);
+    }
+    return;
+  };
 
   useEffect(() => {
     getList();
   }, []);
 
-  //   const handlClose = (bool) => {
-  //     setShow(bool);
-  //   };
+  const handlClose = (bool) => {
+    setShow(bool);
+  };
 
   const handlCloseInsert = (bool) => {
     setShowInsert(bool);
@@ -139,7 +141,7 @@ const Branch = () => {
                     <FontAwesomeIcon
                       icon={faTrashAlt}
                       className="icon-action"
-                      //   onClick={(e) => submit(e, item)}
+                      onClick={(e) => submit(e, item)}
                     />
                   </td>
                 </tr>
@@ -148,12 +150,12 @@ const Branch = () => {
           </div>
         </div>
       </div>
-      {/* <UpdateTicket
+      <UpdateBranch
         show={show}
-        sendData={handlClose}
         item={item}
         update={update}
-      /> */}
+        sendData={handlClose}
+      />
       <InsertBranch show={showInsert} sendData={handlCloseInsert} />
     </Layout>
   );

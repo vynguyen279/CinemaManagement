@@ -13,6 +13,14 @@ export async function listBranch(data) {
 export async function insertBranch(data) {
   return axios.post("/branch/insert", data);
 }
+
+export async function updateBranch(data) {
+  return axios.post("/branch/update", data);
+}
+
+export async function deleteBranch(data) {
+  return axios.post("/branch/delete", data);
+}
 ///account
 export async function check(data) {
   return axios.post("/account/check", data);

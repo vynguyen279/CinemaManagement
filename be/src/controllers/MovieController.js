@@ -55,7 +55,7 @@ class MovieController {
         img,
         describe
       );
-      return res.send(json(rs, true, "Thêm thành công!"));
+      return res.send(json(rs, true, "Thêm phim thành công!"));
     } catch (error) {
       return res.send(json(error, false, "Thêm phim thất bại!"));
     }
@@ -89,7 +89,7 @@ class MovieController {
         img,
         describe
       );
-      return res.send(json(rs, true, "Cập nhật thành công!"));
+      return res.send(json(rs, true, "Cập nhật phim thành công!"));
     } catch (error) {
       return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
     }
@@ -100,10 +100,12 @@ class MovieController {
       const { idMovie } = req.body;
       let rs = await Movie.select(idMovie);
       if (rs.length > 0) {
-        return res.send(json(rs, false, "Không được xóa!"));
+        return res.send(
+          json(rs, false, "Không được xóa phim đã có lịch chiếu!")
+        );
       } else {
         let row = await Movie.delete(idMovie);
-        return res.send(json(rs, true, "Xoá thành công!"));
+        return res.send(json(rs, true, "Xoá phim thành công!"));
       }
     } catch (error) {
       return res.send(json(error, false, "Xóa thất bại do có lỗi!"));

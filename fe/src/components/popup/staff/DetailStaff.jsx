@@ -51,7 +51,7 @@ const DetailStaff = (props) => {
                   name="username"
                   id="username"
                   style={frameInput}
-                  placeholder={props.item.name}
+                  value={props.item.name}
                   disabled
                 />
               </div>
@@ -67,7 +67,7 @@ const DetailStaff = (props) => {
                   name="email"
                   id="email"
                   style={frameInput}
-                  placeholder={props.item.email}
+                  value={props.item.email}
                   disabled
                 />
               </div>
@@ -92,7 +92,7 @@ const DetailStaff = (props) => {
                   name="cccd"
                   id="cccd"
                   style={frameInput}
-                  placeholder={props.item.citiIden}
+                  value={props.item.citiIden}
                   disabled
                 />
               </div>
@@ -108,7 +108,7 @@ const DetailStaff = (props) => {
                   name="address"
                   id="address"
                   style={frameInput}
-                  placeholder={props.item.address}
+                  value={props.item.address}
                   disabled
                 />
               </div>
@@ -124,7 +124,7 @@ const DetailStaff = (props) => {
                   name="birthDay"
                   id="birthDay"
                   style={frameInput}
-                  placeholder={String(props.item.dateBirth).split("T")[0]}
+                  value={String(props.item.dateBirth).split("T")[0]}
                   disabled
                 />
               </div>
@@ -140,7 +140,7 @@ const DetailStaff = (props) => {
                   name="sex"
                   id="sex"
                   style={frameInput}
-                  placeholder={props.item.sex === true ? "Nữ" : "Nam"}
+                  value={props.item.sex === true ? "Nữ" : "Nam"}
                   disabled
                 />
               </div>

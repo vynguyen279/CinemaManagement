@@ -14,5 +14,12 @@ class Branch {
     return DB.excute(`SP_INSERT_BRANCH`, params);
   }
 
+  static update(params) {
+    return DB.excute(`SP_UPDATE_BRANCH`, params);
+  }
+
+  static delete(params) {
+    return DB.excute(`SP_DELETE_BRANCH`, params);
+  }
 }
 module.exports = Branch;
