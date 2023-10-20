@@ -21,6 +21,7 @@ const InsertRoom = (props) => {
   });
 
   const insert = async () => {
+    console.log(data)
     const rs = await insertRoom(data);
     if (!rs.status) {
       return;

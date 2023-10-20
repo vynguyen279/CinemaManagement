@@ -237,7 +237,7 @@ class StaffController {
         return res.send(json("", true, ""));
       }
     } catch (err) {
-      // console.log(err)
+      console.log(err)
       return res.send(json(err, false, error.ERROR));
     }
   };

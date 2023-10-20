@@ -45,7 +45,7 @@ function useAuth() {
       localStorage.setItem("branch", rs.data[0].idBra);
       if (localStorage.role === "PS00000003")
         setTimeout(() => (window.location.href = "/supervisor/room"), 1500);
-      else setTimeout(() => (window.location.href = "/manager/showtime"), 1500);
+      else setTimeout(() => (window.location.href = "/supervisor/room"), 1500);
     }
   };
   return {
