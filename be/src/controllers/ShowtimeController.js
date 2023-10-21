@@ -1,6 +1,6 @@
 const json = require("../components/json");
 const dotenv = require("dotenv");
-const error = require("../utils/error")
+const error = require("../utils/error");
 dotenv.config();
 const Showtime = require("../models/Showtime");
 const History = require("../models/History");
@@ -17,7 +17,7 @@ class ShowtimeController {
         { name: "idBra", type: "Nchar(10)", value: idBra },
       ];
       let rs = await Showtime.getList(params);
-      console.log(rs)
+      console.log(rs);
 
       if (rs.recordset.length == 0) {
         return res.send(json([], true, ""));
@@ -82,13 +82,18 @@ class ShowtimeController {
         return res.send(json("", false, error.ADDSHOWCASE_MOVIE_EMPTY_ERROR));
       }
       if (!showDateTime) {
-        return res.send(json("", false, error.ADDSHOWCASE_DATETIME_EMPTY_ERROR));
+        return res.send(
+          json("", false, error.ADDSHOWCASE_DATETIME_EMPTY_ERROR)
+        );
       }
       if (!idRoom) {
         return res.send(json("", false, error.ADDSHOWCASE_ROOM_EMPTY_ERROR));
       }
       if (!idTic) {
         return res.send(json("", false, error.ADDSHOWCASE_PRICE_EMPTY_ERROR));
+      }
+      if (new Date(String(showDateTime).split(":00Z")[0]) < new Date()) {
+        return res.send(json("", false, error.ADDSHOWCASE_DATETIME_LATE_ERROR));
       }
       const rs = await Showtime.insert(idMovie, idTic, showDateTime);
       const row = await History.insert(rs[0].idST, idRoom, 1);
@@ -99,17 +104,17 @@ class ShowtimeController {
   };
 
   updateInf = async (req, res) => {
-    // try {
-    const { idST, idMovie, showDateTime, newRoom, oldRoom, idTic } = req.body;
-    if (newRoom != oldRoom) {
-      const row = await History.insert(idST, oldRoom, 0);
-      setTimeout(async () => await History.insert(idST, newRoom, 1), 1000);
+    try {
+      const { idST, idMovie, showDateTime, newRoom, oldRoom, idTic } = req.body;
+      if (newRoom != oldRoom) {
+        const row = await History.insert(idST, oldRoom, 0);
+        setTimeout(async () => await History.insert(idST, newRoom, 1), 1000);
+      }
+      const rs = await Showtime.updateInf(idST, idMovie, idTic, showDateTime);
+      return res.send(json(rs, true, "Cập nhật thành công!"));
+    } catch (error) {
+      return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
     }
-    const rs = await Showtime.updateInf(idST, idMovie, idTic, showDateTime);
-    return res.send(json(rs, true, "Cập nhật thành công!"));
-    // } catch (error) {
-    //   return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
-    // }
   };
 
   cancel = async (req, res) => {
@@ -117,7 +122,7 @@ class ShowtimeController {
       const { idST, idRoom } = req.body;
       const rs = await Showtime.cancel(idST);
       const row = await History.insert(idST, idRoom, 0);
-      return res.send(json(row, true, "Hủy thành công!"));
+      return res.send(json(row, true, "Hủy lịch chiếu thành công!"));
     } catch (error) {
       return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
     }

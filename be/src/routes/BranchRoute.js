@@ -3,6 +3,7 @@ const router = express.Router();
 const BranchController = require("../controllers/BranchController");
 const {
   managerAdminCheck,
+  managerCheck,
   authenticateToken,
 } = require("../utils/authentication");
 
@@ -13,6 +14,23 @@ router.post(
   BranchController.getList
 );
 
-router.post("/insert", BranchController.insert);
+router.post(
+  "/insert",
+  authenticateToken,
+  managerCheck,
+  BranchController.insert
+);
+router.post(
+  "/update",
+  authenticateToken,
+  managerCheck,
+  BranchController.update
+);
 
+router.post(
+  "/delete",
+  authenticateToken,
+  managerCheck,
+  BranchController.delete
+);
 module.exports = router;

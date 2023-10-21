@@ -51,6 +51,10 @@ const Test = (props) => {
       console.log(data.img);
       return;
     }
+    if (new Date(String(data.preDate).split(":00Z")[0]) < new Date()) {
+      toast.error("Thời gian khởi chiếu không hợp lệ!");
+      return;
+    }
     insert();
   };
   const handleDataChange = (e) => {
@@ -68,7 +72,7 @@ const Test = (props) => {
       keyboard={false}
       className="modal"
     >
-      <div className="modal-box-large" style={{ marginBottom: "50px" }}>
+      <div className="modal-box-large">
         <ModalHeader closeButton className="header-modal">
           <div className="modal-title">Thêm mới</div>
           <FontAwesomeIcon

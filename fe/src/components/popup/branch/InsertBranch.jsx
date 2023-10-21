@@ -28,6 +28,10 @@ const InsertBranch = (props) => {
       toast.error("Không được để trống!");
       return;
     }
+    if (data.nameBra.length > 50) {
+      toast.error("Không được quá 50 ký tự!");
+      return;
+    }
     insert();
   };
   const handleDataChange = (e) => {

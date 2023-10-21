@@ -42,7 +42,7 @@ const UpdateMovie = (props) => {
       keyboard={false}
       className="modal"
     >
-      <div className="modal-box-large" style={{ marginBottom: "50px" }}>
+      <div className="modal-box-large">
         <ModalHeader closeButton className="header-modal">
           <div className="modal-title">Chỉnh sửa</div>
           <FontAwesomeIcon
@@ -174,7 +174,7 @@ const UpdateMovie = (props) => {
                     className="font-text frame-chevron"
                     name="genre"
                     id="genre"
-                    placeholder={props.item.genre}
+                    value={props.item.genre}
                     onChange={(e) => handleDataChange(e)}
                   />
                 </div>
@@ -209,142 +209,6 @@ const UpdateMovie = (props) => {
           </button>
         </div>
       </div>
-      {/* <div className="modal-box-large">
-        <ModalHeader closeButton className="header-modal">
-          <div className="modal-title">Chỉnh sửa</div>
-          <FontAwesomeIcon
-            icon={faSquareXmark}
-            onClick={() => props.sendData(false)}
-            className="icon"
-          />
-        </ModalHeader>
-        <div className="status">
-          <div className="frame-status">
-            <div className="font-text">Tên phim</div>
-            <input
-              type="text"
-              className="font-text frame-chevron"
-              name="nameMovie"
-              id="nameMovie"
-              onChange={(e) => handleDataChange(e)}
-              placeholder={props.item.nameMovie}
-            />
-          </div>
-          <div className="frame-status">
-            <div className="font-text">Nước sản xuất</div>
-            <input
-              type="text"
-              className="font-text frame-chevron"
-              name="proCountry"
-              id="proCountry"
-              onChange={(e) => handleDataChange(e)}
-              placeholder={props.item.proCountry}
-            />
-          </div>
-          <div className="frame-status">
-            <div className="font-text">Ngày khởi chiếu</div>
-            <input
-              type="text"
-              className="font-text frame-chevron"
-              name="preDate"
-              id="preDate"
-              onFocus={(e) => (e.target.type = "date")}
-              placeholder={String(props.item.preDate).split("T")[0]}
-              onChange={(e) => handleDataChange(e)}
-            />
-          </div>
-          <div className="frame-status">
-            <div className="font-text">Thời lượng</div>
-            <input
-              type="number"
-              className="font-text frame-chevron"
-              name="duration"
-              id="duration"
-              placeholder={props.item.duration}
-              onChange={(e) => handleDataChange(e)}
-            />
-          </div>
-          <div className="frame-status">
-            <div className="font-text">Đạo diễn</div>
-            <input
-              type="text"
-              className="font-text frame-chevron"
-              name="director"
-              id="director"
-              placeholder={props.item.director}
-              onChange={(e) => handleDataChange(e)}
-            />
-          </div>
-          <div className="frame-status">
-            <div className="font-text">Diễn viên</div>
-            <input
-              type="text"
-              className="font-text frame-chevron"
-              name="actor"
-              id="actor"
-              placeholder={props.item.actor}
-              onChange={(e) => handleDataChange(e)}
-            />
-          </div>
-          <div className="frame-status">
-            <div className="font-text">Thể loại</div>
-            <input
-              type="text"
-              className="font-text frame-chevron"
-              name="genre"
-              id="genre"
-              placeholder={props.item.genre}
-              onChange={(e) => handleDataChange(e)}
-            />
-          </div>
-          <div className="frame-status">
-            <div className="font-text">Hình ảnh</div>
-            <label htmlFor="staffImg">
-              <img
-                src={data.img || props.item.img}
-                alt=""
-                name="img"
-                onChange={handleDataChange}
-                value={data.img}
-                width="100"
-              />
-              <input
-                type="file"
-                id="staffImg"
-                className="font-text frame-chevron"
-                style={{ display: "none" }}
-                onChange={handleUploadImage}
-                placeholder="Upload"
-              />
-            </label>
-          </div>
-          <div className="frame-status">
-            <div className="font-text">Trạng thái</div>
-            <select
-              className="font-text frame-chevron"
-              value={data.idStatus === "" ? props.item.idStatus : data.idStatus}
-              onChange={(e) => setData({ ...data, idStatus: e.target.value })}
-            >
-              <option value={0}>Ngừng chiếu</option>
-              <option value={1}>Họat động</option>
-            </select>
-          </div>
-        </div>
-        <div className="out-input">
-          <button
-            type="submit"
-            className="btn-confirm"
-            style={{
-              backgroundColor: "#fff",
-              color: "#000",
-              marginBottom: "50px",
-            }}
-            onClick={(e) => updateStatus(e)}
-          >
-            Cập nhật
-          </button>
-        </div>
-      </div> */}
     </Modal>
   );
 };

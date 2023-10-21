@@ -21,16 +21,6 @@ class BranchController {
     }
   };
 
-  // update = async (req, res) => {
-  //   try {
-  //     const { idTic, nameTic } = req.body;
-  //     let rs = await Ticket.updateTic(idTic, nameTic);
-  //     return res.send(json(rs, true, "Cập nhật thành công!"));
-  //   } catch (error) {
-  //     return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
-  //   }
-  // };
-
   insert = async (req, res) => {
     try {
       const { nameBra } = req.body;
@@ -39,29 +29,45 @@ class BranchController {
       ];
       let rs = await Branch.insert(params);
       if (rs.returnValue == 0) {
-        return res.send(json(rs, false, "Chi nhánh này đã có!"));
+        return res.send(json(rs, false, "Tên chi nhánh này đã tồn tại!"));
       } else {
-        return res.send(json(rs, true, "Thêm thành công!"));
+        return res.send(json(rs, true, "Thêm chi nhánh thành công!"));
       }
-      return res.send(json(rs, true, "Thêm thành công!"));
     } catch (error) {
-      return res.send(json(error, false, "Giá vé là số!"));
+      return res.send(json(error, false, "Có lỗi!"));
     }
   };
 
-  // delete = async (req, res) => {
-  //   try {
-  //     const { idTic } = req.body;
-  //     let rs = await Ticket.check(idTic);
-  //     if (rs.length > 0) {
-  //       return res.send(json(rs, false, "Không được xóa!"));
-  //     } else {
-  //       let row = await Ticket.delete(idTic);
-  //       return res.send(json(row, true, "Xóa thành công!"));
-  //     }
-  //   } catch (error) {
-  //     return res.send(json(error, false, "Xóa thất bại do có lỗi!"));
-  //   }
-  // };
+  update = async (req, res) => {
+    try {
+      const { idBra, nameBra } = req.body;
+      const params = [
+        { name: "idBra", type: "Nchar(10)", value: idBra },
+        { name: "nameBra", type: "Nvarchar(50)", value: nameBra },
+      ];
+      let rs = await Branch.update(params);
+      if (rs.returnValue == 0) {
+        return res.send(json(rs, false, "Tên chi nhánh này đã tồn tại!"));
+      } else {
+        return res.send(json(rs, true, "Cập nhật chi nhánh thành công!"));
+      }
+    } catch (error) {
+      return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
+    }
+  };
+  delete = async (req, res) => {
+    try {
+      const { idBra } = req.body;
+      const params = [{ name: "idBra", type: "Nchar(10)", value: idBra }];
+      let rs = await Branch.delete(params);
+      if (rs.returnValue == 0) {
+        return res.send(json(rs, false, "Không được xóa chi nhánh!"));
+      } else {
+        return res.send(json(rs, true, "Xóa chi nhánh thành công!"));
+      }
+    } catch (error) {
+      return res.send(json(error, false, "Xóa thất bại do có lỗi!"));
+    }
+  };
 }
 module.exports = new BranchController();

@@ -25,7 +25,7 @@ class TicketController {
     try {
       const { idTic, nameTic } = req.body;
       let rs = await Ticket.updateTic(idTic, nameTic);
-      return res.send(json(rs, true, "Cập nhật thành công!"));
+      return res.send(json(rs, true, "Cập nhật giá vé thành công!"));
     } catch (error) {
       return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
     }
@@ -35,7 +35,7 @@ class TicketController {
     try {
       const { nameTic, price } = req.body;
       let rs = await Ticket.insert(nameTic, price);
-      return res.send(json(rs, true, "Thêm thành công!"));
+      return res.send(json(rs, true, "Thêm giá vé thành công!"));
     } catch (error) {
       return res.send(json(error, false, "Giá vé là số!"));
     }
@@ -46,10 +46,12 @@ class TicketController {
       const { idTic } = req.body;
       let rs = await Ticket.check(idTic);
       if (rs.length > 0) {
-        return res.send(json(rs, false, "Không được xóa!"));
+        return res.send(
+          json(rs, false, "Không được xóa giá vé đã áp dụng trong lịch chiếu!")
+        );
       } else {
         let row = await Ticket.delete(idTic);
-        return res.send(json(row, true, "Xóa thành công!"));
+        return res.send(json(row, true, "Xóa giá vé thành công!"));
       }
     } catch (error) {
       return res.send(json(error, false, "Xóa thất bại do có lỗi!"));

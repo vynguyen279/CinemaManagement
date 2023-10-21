@@ -99,7 +99,7 @@
 .modal-box-update {
   /* height: 600px;
   */
-  width: 100%; 
+  width: 100%;
   overflow-y: auto;
   margin-top: 10%;
   padding: 10px;
@@ -147,7 +147,7 @@
 
 /*Movie*/
 .modal-box-large {
-  height: 700px;
+  height: 750px;
   width: 1200px;
   background-color: #c5e2ec;
   border-radius: 10px;

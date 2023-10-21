@@ -71,7 +71,7 @@ const Profile = () => {
     } else {
       console.log(data);
     }
-    //setTimeout(() => window.location.reload(), 1500);
+    setTimeout(() => window.location.reload(), 1500);
   };
 
   const getInf = async () => {
@@ -130,7 +130,7 @@ const Profile = () => {
                       id="name"
                       style={frameInput}
                       onChange={(e) => handleDataChange(e)}
-                      placeholder={data.name}
+                      value={data.name}
                     />
                   </div>
                 </FormGroup>
@@ -146,7 +146,7 @@ const Profile = () => {
                       id="email"
                       style={frameInput}
                       onChange={(e) => handleDataChange(e)}
-                      placeholder={data.email}
+                      value={data.email}
                     />
                   </div>
                 </FormGroup>
@@ -172,7 +172,7 @@ const Profile = () => {
                       id="citiIden"
                       style={frameInput}
                       onChange={(e) => handleDataChange(e)}
-                      placeholder={data.citiIden}
+                      value={data.citiIden}
                     />
                   </div>
                 </FormGroup>
@@ -188,7 +188,7 @@ const Profile = () => {
                       id="address"
                       style={frameInput}
                       onChange={(e) => handleDataChange(e)}
-                      placeholder={data.address}
+                      value={data.address}
                     />
                   </div>
                 </FormGroup>
@@ -205,7 +205,7 @@ const Profile = () => {
                       style={frameInput}
                       onChange={(e) => handleDataChange(e)}
                       onFocus={(e) => (e.target.type = "date")}
-                      placeholder={String(data.dateBirth).split("T")[0]}
+                      value={String(data.dateBirth).split("T")[0]}
                     />
                   </div>
                 </FormGroup>

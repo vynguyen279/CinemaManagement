@@ -18,6 +18,10 @@ const UpdateTicket = (props) => {
       toast.error("Tên không được để trống!");
       return;
     }
+    if (data.nameTic.length > 20) {
+      toast.error("Không được quá 20 ký tự!");
+      return;
+    }
     props.update(e, data, props.item);
     props.sendData(false);
   };
@@ -38,7 +42,7 @@ const UpdateTicket = (props) => {
             className="icon"
           />
         </ModalHeader>
-        <div className="status">
+        <div className="status" style={{ marginBottom: "50px" }}>
           <div className="frame-status">
             <div className="font-text">Mã vé</div>
             <Input
@@ -64,7 +68,7 @@ const UpdateTicket = (props) => {
             />
           </div>
         </div>
-        <div className="out-input">
+        <div className="out-input" style={{ marginTop: "0px" }}>
           <button
             type="submit"
             className="btn-confirm"
