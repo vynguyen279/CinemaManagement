@@ -148,8 +148,8 @@ export async function listFacStatus(id) {
   return axios.get(`/fac/${id}/listStatus`);
 }
 
-export async function insertFac(id, data) {
-  return axios.post(`/fac/${id}/insert`, data);
+export async function insertFac(data) {
+  return axios.post(`/fac/insert`, data);
 }
 
 export async function updateFac(id, data) {

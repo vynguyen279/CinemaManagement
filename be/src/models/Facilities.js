@@ -18,11 +18,10 @@ class Fac {
       where idRoom='${idRoom}' and FACILITIES.idFac = T.idFac`);
   }
 
-  static insert(idRoom, nameFac, img) {
-    return DB.query(
-      `INSERT INTO FACILITIES(idRoom, nameFac, img) VALUES ('${idRoom}', N'${nameFac}', '${img}')`
-    );
+  static insert(params) {
+    return DB.excute(`SP_INSERT_FACILITIES`, params);
   }
+
   static update(idFac, nameFac, img) {
     return DB.query(
       `UPDATE FACILITIES SET nameFac = N'${nameFac}', img = '${img}' WHERE idFac = '${idFac}'`

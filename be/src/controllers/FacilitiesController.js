@@ -21,6 +21,7 @@ class FacController {
     try {
       const idRoom = req.params.id;
       let rs = await Fac.getListStatus(idRoom);
+      console.log(rs)
       if (rs.length > 0) {
         return res.send(json(rs, true, "Lấy danh sách thành công!"));
       } else {
@@ -54,10 +55,22 @@ class FacController {
 
   insert = async (req, res) => {
     try {
-      const idRoom = req.params.id;
-      const { nameFac, img } = req.body;
-      let rs = await Fac.insert(idRoom, nameFac, img);
-      return res.send(json(rs, true, "Thêm thành công!"));
+      const { nameFac, idRoom, img } = req.body;
+      const params = [
+        { name: "nameFac", type: "Nvarchar(30)", value: nameFac },
+        { name: "idRoom", type: "nchar(10)", value: idRoom },
+        { name: "img", type: "text", value: img },
+      ];
+      let rs = await Fac.insert(params);
+      if(rs.returnValue == 1){
+        let rs2 = await Fac.updateStatus(rs.recordset[0].idFac, 1)
+        // console.log(rs2)
+        // if(rs2.status){
+          return res.send(json(rs, true, "Thêm thành công!"));
+        // }
+      }
+      else
+      return res.send(json([], false, "CSVC này đã tồn tại trong phòng!"));
     } catch (error) {
       console.log(error)
       return res.send(json(error, false, "Thêm thất bại do có lỗi!"));
@@ -68,8 +81,10 @@ class FacController {
     try {
       const idFac = req.params.id;
       let rs = await Fac.delete(idFac);
+      
       return res.send(json(rs, true, "Xóa thành công!"));
     } catch (error) {
+      console.log(error)
       return res.send(json(error, false, "Xóa thất bại do có lỗi!"));
     }
   };

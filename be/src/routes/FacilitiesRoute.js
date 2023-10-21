@@ -10,7 +10,7 @@ const {
 router.get("/:id/list", authenticateToken, staffCheck, FacController.getList);
 router.get("/:id/listStatus", authenticateToken, staffCheck, FacController.getListStatus);
 router.post(
-  "/:id/insert",
+  "/insert",
   authenticateToken,
   managerCheck,
   FacController.insert
