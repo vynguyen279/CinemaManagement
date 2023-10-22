@@ -8,6 +8,7 @@ import "../../../styles/share.css";
 import "../style.css";
 
 const RoomDetail = (props) => {
+  console.log(localStorage.role)
   const [fac, setFac] = useState();
   const [map, setMap] = useState();
   const [facItem, setItem] = useState();
@@ -26,7 +27,7 @@ const RoomDetail = (props) => {
     if (!rs.status) {
       return;
     } else {
-      console.log(rs.data)
+      console.log(rs)
       setFac(rs.data);
       // setShowFac(!showFac);
       // setID(id);
@@ -34,8 +35,10 @@ const RoomDetail = (props) => {
   };
 
   useState(() => {
-    getFac()
     getListMap()
+  }, [])
+  useState(() => {
+    getFac()
   }, [])
   return (
     <Modal
@@ -44,7 +47,7 @@ const RoomDetail = (props) => {
       keyboard={false}
       className="modal"
     >
-      <div className="modal-box-update">
+      <div className="modal-box-update" style={{ overflowY: 'auto', height: '80vh' }}>
         <ModalHeader closeButton className="header-modal">
           <div className="modal-title">Chi tiết phòng chiếu</div>
           <FontAwesomeIcon
@@ -53,8 +56,8 @@ const RoomDetail = (props) => {
             className="icon"
           />
         </ModalHeader>
-        <div style={{ display: "flex", padding:'10px', width:'100%' }}>
-          <div className="status" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", overflow: 'auto', height: "500px" }}>
+        <div style={{ display: "flex", padding: '10px', width: '100%', flexDirection: 'column', height: '80vh' }}>
+          <div className="status" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", height: "500px", marginBottom: '0px' }}>
 
             <Map map={map} item={props.data} />
             <div className="frame-list" style={{ alignSelf: "flex-start" }}>
@@ -87,20 +90,46 @@ const RoomDetail = (props) => {
                     <td>{item.idStatus == 0 ? "Hỏng" : "Hoạt động"}</td>
                     <td>
                       {" "}
+                      {
+                        localStorage.role === 'PS00000004' ? (<input type="checkbox" disabled />) : (<input type="checkbox" onChange={(e) => { console.log(item) }} />)
+                      }
 
-                      <input type="checkbox" onChange={(e) => { console.log(item)}} />
                     </td>
                   </tr>
                 ))}
-
               </table>
-
             </div>
-
           </div>
-          <div>
-            <label htmlFor="">Ghi chú</label>
-            <textarea name="" id="" cols="60" rows="30"></textarea>
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "space-between" }}>
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              <label htmlFor="">Ghi chú</label>
+              <textarea name="" id="" cols="60" rows="20"></textarea>
+            </div>
+            {
+              localStorage.role === 'PS00000004' ? (
+                <div style={{width: "100%", marginTop:"20px", marginLeft:"30px"}}>
+                  <div>
+                    <input type="radio" name="status" id="" />
+                    <label htmlFor="">Tiếp tục sử dụng</label>
+                  </div>
+                  <div style={{marginTop:"10px"}}>
+                    <input type="radio" name="status" id="" />
+                    <label htmlFor="">Hỏng</label>
+                  </div>
+                  <div style={{marginTop:"15px"}}>
+                    <label for="" class="form-label" style={{marginRight:"8px"}}>Đổi sang phòng</label>
+                    <select class="form-select form-select-lg" name="" id="" style={{padding:"10px 20px"}}>
+                      <option selected>Không đổi</option>
+                      <option selected>Phòng 01</option>
+                      <option value="">Phòng 02</option>
+                      <option value="">Phòng 03</option>
+                    </select>
+                  </div>
+                  <button style={{ padding: "10px 20px", border: "1px solid #000", borderRadius: "30px", background: "#fff", cursor: "pointer", marginTop: "15px", alignSelf:"center" }}>Cập nhật</button>
+                </div>
+              ) : null
+            }
+
           </div>
         </div>
       </div>

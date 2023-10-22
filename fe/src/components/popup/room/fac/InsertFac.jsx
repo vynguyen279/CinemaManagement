@@ -12,12 +12,13 @@ import uploadImg from "../../../../utils/mail";
 const InsertFac = (props) => {
   const [data, setData] = useState({
     nameFac: "",
+    idRoom:props.id,
     img: "",
   });
   // console.log(data)
   const insert = async () => {
-    console.log(data)
-    const rs = await insertFac(props.id,data);
+    // console.log(props.id)
+    const rs = await insertFac(data);
     if (!rs.status) {
       return;
     } else {

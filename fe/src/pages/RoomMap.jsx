@@ -45,7 +45,7 @@ const RoomMap = () => {
     return (
         <Layout
             title="Danh sách phòng chiếu"
-            pos={localStorage.role === "PS00000002" ? "Quản lý" : "Nhân viên"}
+            pos={localStorage.role === "PS00000002" ? "Quản lý" : "Giám sát"}
         >
             <div className="frame">
                 <div style={{ display: "flex", flexWrap: "wrap", flexDirection: 'row', gap: "70px", width: "60%", height: "80%", overflowY: "auto" }}>
