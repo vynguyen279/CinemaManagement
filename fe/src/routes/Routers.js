@@ -10,7 +10,7 @@ import Profile from "../pages/Profile";
 import Changepass from "../pages/Changepass";
 import Staff from "../admin/Staff";
 import Film from "../manager/Film";
-import Dashboard from "../manager/Dashboard";
+import Dashboard from "../pages/Dashboard";
 import Ticket from "../manager/Ticket";
 import Showtime from "../pages/Showtime";
 import Room from "../pages/Room";

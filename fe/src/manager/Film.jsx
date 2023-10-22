@@ -48,47 +48,6 @@ const Film = () => {
     }
   };
 
-  const update = async (e, data, item) => {
-    e.preventDefault();
-    data.idMovie = item.idMovie;
-    if (data.idStatus === "") {
-      data.idStatus = item.idStatus;
-    }
-    if (data.nameMovie === "") {
-      data.nameMovie = item.nameMovie;
-    }
-    if (data.proCountry === "") {
-      data.proCountry = item.proCountry;
-    }
-    if (data.preDate === "") {
-      data.preDate = item.preDate;
-    }
-    if (data.duration === "") {
-      data.duration = item.duration;
-    }
-    if (data.director === "") {
-      data.director = item.director;
-    }
-    if (data.actor === "") {
-      data.actor = item.actor;
-    }
-    if (data.genre === "") {
-      data.genre = item.genre;
-    }
-    if (data.describe === "") {
-      data.describe = item.describe;
-    }
-    if (data.img === "") {
-      data.img = item.img;
-    }
-    const rs = await updateMov(data);
-    if (!rs.status) {
-      return;
-    } else {
-      setTimeout(() => window.location.reload(), 1500);
-    }
-  };
-
   const submit = (e, item) => {
     confirmAlert({
       title: "XÁC NHẬN",
@@ -207,12 +166,9 @@ const Film = () => {
         </div>
       </div>
       <InsertMovie show={show} sendData={handlClose} />
-      <UpdateMovie
-        show={showUD}
-        sendData={handlCloseUD}
-        item={item}
-        update={update}
-      />
+      {showUD ? (
+        <UpdateMovie show={showUD} sendData={handlCloseUD} item={item} />
+      ) : null}
     </Layout>
   );
 };

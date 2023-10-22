@@ -101,6 +101,7 @@ const Room = () => {
       setValue(rs.data);
     }
   };
+
   const getListBranch = async () => {
     checkRole();
     const data = { keyword: "" };
@@ -218,16 +219,15 @@ const Room = () => {
                     </option>
                   ))}
                 </select>
-                {
-                  branch!=''?(                <button className="btn-plus" style={{ marginLeft: "45%" }}>
-                  <FontAwesomeIcon
-                    icon={faSquarePlus}
-                    className="icon-plus"
-                    onClick={() => setShow(!show)}
-                  />
-                </button>):null
-                }
-
+                {branch != "" ? (
+                  <button className="btn-plus" style={{ marginLeft: "45%" }}>
+                    <FontAwesomeIcon
+                      icon={faSquarePlus}
+                      className="icon-plus"
+                      onClick={() => setShow(!show)}
+                    />
+                  </button>
+                ) : null}
               </div>
             ) : (
               ""
@@ -287,11 +287,10 @@ const Room = () => {
                     <FontAwesomeIcon
                       icon={faCouch}
                       className="icon-action"
-                      onClick={() =>{ 
+                      onClick={() => {
                         getListMap(item.idRoom);
-                        setItem2(item)
-                      }
-                      }
+                        setItem2(item);
+                      }}
                     />
                     <FontAwesomeIcon
                       icon={faRectangleList}
@@ -311,16 +310,22 @@ const Room = () => {
       {show ? (
         <InsertRoom show={show} sendData={handlClose} idBra={branch} />
       ) : null}
-      {
-        showUD?(      <UpdateRoom
+      {showUD ? (
+        <UpdateRoom
           show={showUD}
           sendData={handlCloseUD}
           item={item}
           // update={update}
-        />):null
-      }
+        />
+      ) : null}
       <FacRoom show={showFac} sendData={handlCloseFac} list={fac} id={id} />
-      <MapSeat show={showMap} sendData={handlCloseMap} map={map} id={id} item={item2} />
+      <MapSeat
+        show={showMap}
+        sendData={handlCloseMap}
+        map={map}
+        id={id}
+        item={item2}
+      />
       <HisRoom show={showHis} sendData={handlCloseHis} his={his} id={id} />
     </Layout>
   );

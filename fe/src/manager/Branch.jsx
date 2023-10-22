@@ -20,8 +20,7 @@ const Branch = () => {
   const [value, setValue] = useState([]);
   const [show, setShow] = useState(false);
   const [showInsert, setShowInsert] = useState(false);
-  const [item, setItem] = useState("");
-  const [key, setKey] = useState("");
+  const [item, setItem] = useState({});
 
   const submit = (e, item) => {
     confirmAlert({
@@ -63,17 +62,6 @@ const Branch = () => {
     } else {
       setValue(rs.data);
     }
-  };
-
-  const update = async (e, data, item) => {
-    e.preventDefault();
-    data.idBra = item.idBra;
-    const rs = await updateBranch(data);
-    if (rs.status) {
-      handlClose(false);
-      setTimeout(() => window.location.reload(), 1500);
-    }
-    return;
   };
 
   const deleteBra = async (e, item) => {
@@ -150,12 +138,9 @@ const Branch = () => {
           </div>
         </div>
       </div>
-      <UpdateBranch
-        show={show}
-        item={item}
-        //update={update}
-        sendData={handlClose}
-      />
+      {show ? (
+        <UpdateBranch show={show} item={item} sendData={handlClose} />
+      ) : null}
       <InsertBranch show={showInsert} sendData={handlCloseInsert} />
     </Layout>
   );

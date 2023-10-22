@@ -100,7 +100,7 @@ const supervisor = [
     icon: faChartLine,
   },
   {
-    path: "/manager/room",
+    path: "/supervisor/room",
     display: "Phòng chiếu",
     icon: faHouse,
   },

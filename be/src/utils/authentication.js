@@ -33,7 +33,7 @@ function staffCheck(req, res, next) {
   if (role != "PS00000003" && role != "PS00000002" && role != "PS00000004") {
     return res.send(
       json(
-        { client: role, require: "staff || manager" },
+        { client: role, require: "staff || manager || supervisor" },
         false,
         "Không có quyền truy cập"
       )
