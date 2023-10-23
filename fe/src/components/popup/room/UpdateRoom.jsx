@@ -17,9 +17,11 @@ const UpdateRoom = (props) => {
     capacity: props.item.capacity,
     row: props.item.row,
     img: props.item.img,
+    note: null,
     col: props.item.col,
     idBra: props.item.idBra,
   });
+  // console.log(data)
 
   const handleDataChange = (e) => {
     setData((pre) => ({ ...pre, [e.target.name]: e.target.value }));

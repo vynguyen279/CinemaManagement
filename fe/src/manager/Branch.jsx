@@ -20,7 +20,7 @@ const Branch = () => {
   const [value, setValue] = useState([]);
   const [show, setShow] = useState(false);
   const [showInsert, setShowInsert] = useState(false);
-  const [item, setItem] = useState("");
+  const [item, setItem] = useState({});
   const [key, setKey] = useState("");
 
   const submit = (e, item) => {
@@ -150,6 +150,7 @@ const Branch = () => {
           </div>
         </div>
       </div>
+      
       <UpdateBranch
         show={show}
         item={item}

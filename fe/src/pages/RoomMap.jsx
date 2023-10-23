@@ -25,6 +25,7 @@ import {
 import RoomFrame from "../components/popup/room/RoomFrame";
 
 const RoomMap = () => {
+    // console.log(localStorage.role)
     const [value, setValue] = useState();
     const getList = async () => {
         checkRole();
@@ -35,7 +36,7 @@ const RoomMap = () => {
             return;
         } else {
             setValue(rs.data);
-            console.log(rs.data);
+            // console.log(rs.data);
         }
     };
 
@@ -45,7 +46,7 @@ const RoomMap = () => {
     return (
         <Layout
             title="Danh sách phòng chiếu"
-            pos={localStorage.role === "PS00000002" ? "Quản lý" : "Giám sát"}
+            pos={localStorage.role === "PS00000003" ? "Nhân viên" : "Giám sát"}
         >
             <div className="frame">
                 <div style={{ display: "flex", flexWrap: "wrap", flexDirection: 'row', gap: "70px", width: "60%", height: "80%", overflowY: "auto" }}>

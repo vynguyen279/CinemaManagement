@@ -24,6 +24,7 @@ const FacRoom = (props) => {
 
   const submit = (e, item) => {
     //delete
+    
     if (window.confirm("Bạn muốn xóa?")) {
       deleteFacRM(e, item.idFac);
     } else {
@@ -134,7 +135,9 @@ const FacRoom = (props) => {
         </div>
       </div>
       <InsertFac show={show} sendData={handlClose} id={props.id} />
-      <UpdateFac show={showUD} sendData={handlCloseUD} id={id} item={item} />
+      {
+        showUD?(<UpdateFac show={showUD} sendData={handlCloseUD} id={id} item={item} />): null
+      }
     </Modal>
   );
 };

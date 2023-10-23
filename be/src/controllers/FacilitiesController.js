@@ -49,6 +49,7 @@ class FacController {
       let rs = await Fac.updateStatus(idFac, idStatus);
       return res.send(json(rs, true, "Cập nhật trạng thái thành công!"));
     } catch (error) {
+      console.log(error)
       return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
     }
   };
@@ -80,6 +81,7 @@ class FacController {
   delete = async (req, res) => {
     try {
       const idFac = req.params.id;
+      let r = await Fac.deleteFacHis(idFac)
       let rs = await Fac.delete(idFac);
       
       return res.send(json(rs, true, "Xóa thành công!"));

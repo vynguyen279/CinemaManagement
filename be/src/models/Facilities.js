@@ -35,6 +35,12 @@ class Fac {
   static delete(idFac) {
     return DB.query(`DELETE FROM FACILITIES WHERE idFac = '${idFac}'`);
   }
+  static deleteFacHis(idFac) {
+    return DB.query(`DELETE FROM HIS_FAC WHERE idFac = '${idFac}'`);
+  }
+  static deleteByRoom(idRoom) {
+    return DB.query(`DELETE FROM FACILITIES WHERE idRoom = '${idRoom}'`);
+  }
 }
 
 module.exports = Fac;

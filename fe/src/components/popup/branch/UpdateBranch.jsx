@@ -12,6 +12,8 @@ const UpdateBranch = (props) => {
     idBra: props.item.idBra,
     nameBra: props.item.nameBra,
   });
+  console.log(data)
+  console.log(props.item)
 
   const updateStatus = (e) => {
     if (data.nameBra == "") {
@@ -26,6 +28,7 @@ const UpdateBranch = (props) => {
   };
 
   const handleDataChange = (e) => {
+    e.preventDefault()
     setData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
     // setOldName((pre) => ({ ...pre, [e.target.name]: e.target.value }))
     // console.log(data)
@@ -61,7 +64,7 @@ const UpdateBranch = (props) => {
               name="nameBra"
               className="font-text frame-chevron"
               onChange={handleDataChange}
-              placeholder={data.nameBra}
+              // placeholder={data.nameBra}
               value={data.nameBra}
             />
           </div>

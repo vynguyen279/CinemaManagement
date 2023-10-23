@@ -37,6 +37,7 @@ function useAuth() {
     localStorage.setItem("user", JSON.stringify(rs.data[0]));
     localStorage.setItem("role", rs.data[0].idPos);
     localStorage.setItem("id", rs.data[0].idStaff);
+    console.log(localStorage.role)
     if (localStorage.role === "PS00000001")
       setTimeout(() => (window.location.href = "/admin/staff"), 1500);
     else if (localStorage.role === "PS00000002")

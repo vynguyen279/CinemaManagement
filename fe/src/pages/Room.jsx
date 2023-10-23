@@ -18,7 +18,7 @@ import {
   updateRoom,
   listBranch,
   deleteRoom,
-  listFac,
+  listFacStatus,
   listHis,
   listMap,
 } from "../utils/services";
@@ -139,7 +139,7 @@ const Room = () => {
 
   //list fac
   const getFac = async (id) => {
-    const rs = await listFac(id);
+    const rs = await listFacStatus(id);
     if (!rs.status) {
       return;
     } else {

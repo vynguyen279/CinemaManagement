@@ -4,49 +4,67 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 
-import { updateFac } from "../../../../utils/services";
+import { updateFac, updateStatusFac } from "../../../../utils/services";
 import "../../../../styles/share.css";
 import "../../style.css";
 import uploadImg from "../../../../utils/mail";
 
 const UpdateFac = (props) => {
   const [data, setData] = useState({
-    nameFac: "",
-    idStatus: "",
-    img: "",
+    nameFac: props.item.nameFac,
+    img: props.item.img,
+  });
+  const [status, setStatus] = useState({
+    idStatus: props.item.idStatus
   });
 
   const update = async () => {
-    const rs = await updateFac(props.item.idFac, data);
+    // console.log(props.item.idFac[0])
+    // console.log(status.idStatus)
+    // console.log(data.nameFac)
+    const rs = await updateFac(props.item.idFac[0], data);
     if (!rs.status) {
       return;
     } else {
+      if(props.item.idStatus!=status.idStatus){
+      const rs2 = await updateStatusFac(props.item.idFac[0], status);
       setTimeout(() => window.location.reload(), 1500);
+      } else{
+        setTimeout(() => window.location.reload(), 1500);
+      }
     }
-    return;
   };
 
-  const updateStatus = (e) => {
-    e.preventDefault();
-    if (data.idStatus == "") {
-      data.idStatus = props.item.idStatus;
-    }
-    if (data.nameFac == "") {
-      data.nameFac = props.item.nameFac;
-    }
-    if (data.img == "") {
-      data.img = props.item.img;
-    }
-    update();
-  };
+  // const updateAll = (e) => {
+  //   e.preventDefault();
+  //   if (data.idStatus == "") {
+  //     data.idStatus = props.item.idStatus;
+  //   }
+  //   if (data.nameFac == "") {
+  //     data.nameFac = props.item.nameFac;
+  //   }
+  //   if (data.img == "") {
+  //     data.img = props.item.img;
+  //   }
+  //   update();
+  // };
 
   const handleDataChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
+    // setStatus({ ...status, [e.target.name]: e.target.value });
+  };
+
+  const handleStatusChange = (e) => {
+    setStatus({ ...status, [e.target.name]: e.target.value });
   };
 
   const handleUploadImage = (e) => {
     uploadImg(e.target.files[0]).then((rs) => setData({ ...data, img: rs }));
   };
+
+  useState(()=>{
+
+  },[status])
 
   return (
     <Modal
@@ -68,10 +86,10 @@ const UpdateFac = (props) => {
           <div className="frame-status">
             <div className="font-text">Tên cơ sơ vật chất</div>
             <input
-              name="nameRoom"
+              name="nameFac"
               className="font-text frame-chevron"
-              placeholder={props.item.nameFac}
-              onChange={(e) => setData({ ...data, nameFac: e.target.value })}
+              value={data.nameFac}
+              onChange={(e) => handleDataChange(e)}
               disabled={
                 localStorage.getItem("role") == "PS00000002" ? false : true
               }
@@ -82,11 +100,12 @@ const UpdateFac = (props) => {
 
             <select
               className="font-text frame-chevron"
-              value={data.idStatus == "" ? props.item.idStatus : data.idStatus}
-              onChange={(e) => setData({ ...data, idStatus: e.target.value })}
+              name="idStatus"
+              value={status.idStatus}
+              onChange={handleStatusChange}
             >
-              <option value={0}>Hỏng</option>
-              <option value={1}>Họat động</option>
+              <option value={0} >Hỏng</option>
+              <option value={1} >Họat động</option>
             </select>
           </div>
           <div className="frame-status" style={{ marginTop: "5px" }}>
@@ -117,7 +136,7 @@ const UpdateFac = (props) => {
             type="submit"
             className="btn-confirm"
             style={{ backgroundColor: "#fff", color: "#000" }}
-            onClick={(e) => updateStatus(e)}
+            onClick={(e) => update(e)}
           >
             Cập nhật
           </button>

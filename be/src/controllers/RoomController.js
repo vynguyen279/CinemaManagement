@@ -4,6 +4,7 @@ const error = require("../utils/error");
 dotenv.config();
 const Room = require("../models/Room");
 const Seat = require("../models/Seat");
+const Fac = require("../models/Facilities");
 const History = require("../models/History");
 
 class RoomController {
@@ -96,7 +97,7 @@ class RoomController {
 
   update = async (req, res) => {
     try {
-      const { idRoom, nameRoom, idStatus, img, capacity, row, col } = req.body;
+      const { idRoom, nameRoom, idStatus, img, capacity, row, col, note } = req.body;
       const { idBra } = req.body;
       let searchParams = [
         { name: "keyword", type: "Nvarchar(100)", value: nameRoom },
@@ -108,7 +109,7 @@ class RoomController {
       }
 
       let searchRoomByName = await Room.getList(searchParams);
-      console.log(searchRoomByName)
+      // console.log(searchRoomByName)
 
       if (searchRoomByName.recordset.length > 0) {
         if (
@@ -166,7 +167,7 @@ class RoomController {
           json([], false, error.ADDROOM_IMG_EMPTY_ERROR)
         ); 
 
-      let rs = await Room.update(idRoom, nameRoom, idStatus, img, capacity, row, col);
+      let rs = await Room.update(idRoom, nameRoom, idStatus, img, capacity, row, col, note);
       return res.send(json(rs, true, "Cập nhật thành công!"));
     } catch (error) {
       console.log(error)
@@ -277,7 +278,9 @@ class RoomController {
           json(rs, false, "Không được xóa!Phòng này có trong lịch chiếu")
         );
       } else {
+        let seat = await Seat.delete(idRoom)
         let row = await Room.delete(idRoom);
+        let fact = await Fac.delete(idRoom);
         return res.send(json(row, true, "Xóa thành công!"));
       }
     } catch (error) {

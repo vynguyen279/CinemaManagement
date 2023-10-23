@@ -1,17 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Modal, ModalHeader } from "reactstrap";
+import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
-import { listFacStatus, listMap, updateFac, updateRoom } from "../../../utils/services";
+import { listFacStatus, listMap, updateStatusFac, updateRoom } from "../../../utils/services";
 import Map from "./Map";
 import "../../../styles/share.css";
 import "../style.css";
 
 const RoomDetail = (props) => {
-  console.log(localStorage.role)
   const [fac, setFac] = useState();
+  const [note, setNote] = useState();
+  const [value, setValue] = useState([]);
   const [map, setMap] = useState();
-  const [facItem, setItem] = useState();
+  const [data, setData] = useState({
+    idRoom: props.data.idRoom,
+    nameRoom: props.data.nameRoom,
+    idStatus: props.data.idStatus,
+    capacity: props.data.capacity,
+    row: props.data.row,
+    img: props.data.img,
+    note: props.data.note?props.data.note:"",
+    col: props.data.col,
+    idBra: props.data.idBra,
+  });
 
   const getListMap = async () => {
     const rs = await listMap(props.data.idRoom);
@@ -21,17 +33,75 @@ const RoomDetail = (props) => {
       setMap(rs.data);
     }
   };
+  const changeRoomStatus = async () => {
+    // console.log(data)
+    const rs = await updateRoom(data);
+    if (!rs.status) {
+      return;
+    } else {
+      window.location.reload()
+    }
+  };
+  const checkNote = (array) => {
+    for (let index = 0; index < value.length; index++) {
+      if (array[index].idStatus === 0) {
+        // console.log(array[index].idStatus)
+        return 1
+      }
+    }
+    return 0
+  };
+  const handleCheck = async () => {
+    if (checkNote(value) === 0) {
+      for (let index = 0; index < value.length; index++) {
+        const rs = await updateStatusFac(value[index].idFac[0], { idStatus: value[index].idStatus });
+        const rs2 = await updateRoom({
+          idRoom: props.data.idRoom,
+          nameRoom: props.data.nameRoom,
+          idStatus: 1,
+          capacity: props.data.capacity,
+          row: props.data.row,
+          img: props.data.img,
+          note: note,
+          col: props.data.col,
+          idBra: props.data.idBra,
+        });
+        setValue([])
+      }
+    } else {
+      if (!note) {
+        toast.error("Bạn phải nhập ghi chú trước khi cập nhật!")
+        return
+      }
+      for (let index = 0; index < value.length; index++) {
+        const rs = await updateStatusFac(value[index].idFac[0], { idStatus: value[index].idStatus });
+        const rs2 = await updateRoom({
+          idRoom: props.data.idRoom,
+          nameRoom: props.data.nameRoom,
+          idStatus: 3,
+          capacity: props.data.capacity,
+          row: props.data.row,
+          img: props.data.img,
+          note: note,
+          col: props.data.col,
+          idBra: props.data.idBra,
+        });
+      }
+      setValue([])
+    }
+  };
 
   const getFac = async () => {
     const rs = await listFacStatus(props.data.idRoom);
     if (!rs.status) {
       return;
     } else {
-      console.log(rs)
       setFac(rs.data);
-      // setShowFac(!showFac);
-      // setID(id);
     }
+  };
+  const handleDataChange = (e) => {
+    setData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
+    setNote(e.target.value)
   };
 
   useState(() => {
@@ -40,6 +110,9 @@ const RoomDetail = (props) => {
   useState(() => {
     getFac()
   }, [])
+  useEffect(() => {
+
+  }, [value, data])
   return (
     <Modal
       isOpen={props.show}
@@ -56,8 +129,8 @@ const RoomDetail = (props) => {
             className="icon"
           />
         </ModalHeader>
-        <div style={{ display: "flex", padding: '10px', width: '100%', flexDirection: 'column', height: '80vh' }}>
-          <div className="status" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", height: "500px", marginBottom: '0px' }}>
+        <div style={{ display: "flex", padding: '10px', width: '100%', flexDirection: 'column', height: '80vh', overflowY: "auto" }}>
+          <div className="status" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", height: "500px", marginBottom: '10px', overflowY: "auto" }}>
 
             <Map map={map} item={props.data} />
             <div className="frame-list" style={{ alignSelf: "flex-start" }}>
@@ -91,7 +164,15 @@ const RoomDetail = (props) => {
                     <td>
                       {" "}
                       {
-                        localStorage.role === 'PS00000004' ? (<input type="checkbox" disabled />) : (<input type="checkbox" onChange={(e) => { console.log(item) }} />)
+
+                        localStorage.role === 'PS00000004' ? (<input type="checkbox" disabled checked={item.idStatus === 1 ? false : true} />) : (<input type="checkbox"
+                          checked={!item.idStatus}
+                          // onClick={(e)=>{setFacStatus({ ...facStatus, idStatus: e.target.checked })}}
+                          onChange={(e) => {
+                            setValue((pre) => [{ idFac: item.idFac, idStatus: !e.target.checked ? 1 : 0 }, ...pre])
+                            // setId(item.idFac);
+                            // setFacStatus({ ...facStatus, idStatus: !e.target.checked?1:0 })
+                          }} />)
                       }
 
                     </td>
@@ -103,31 +184,25 @@ const RoomDetail = (props) => {
           <div style={{ display: 'flex', flexDirection: 'row', justifyContent: "space-between" }}>
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <label htmlFor="">Ghi chú</label>
-              <textarea name="" id="" cols="60" rows="20"></textarea>
+              {
+                localStorage.role==='PS00000004'?(<textarea name="note" id="" cols="60" rows="20" value={data.note} disabled onChange={handleDataChange}></textarea>):(<textarea name="note" id="" cols="60" rows="20" value={data.note} onChange={handleDataChange}></textarea>)
+              }
             </div>
             {
               localStorage.role === 'PS00000004' ? (
-                <div style={{width: "100%", marginTop:"20px", marginLeft:"30px"}}>
+                <div style={{ width: "100%", marginTop: "20px", marginLeft: "30px" }}>
                   <div>
-                    <input type="radio" name="status" id="" />
+                    <input type="radio" name="status" id="" onChange={(e)=>setData((pre) => ({ ...pre, idStatus: e.target.value }))} value={1}/>
                     <label htmlFor="">Tiếp tục sử dụng</label>
                   </div>
-                  <div style={{marginTop:"10px"}}>
-                    <input type="radio" name="status" id="" />
+                  <div style={{ marginTop: "10px" }}>
+                    <input type="radio" name="status" id="" value={4} onChange={(e)=>setData((pre) => ({ ...pre, idStatus: e.target.value }))}/>
                     <label htmlFor="">Hỏng</label>
                   </div>
-                  <div style={{marginTop:"15px"}}>
-                    <label for="" class="form-label" style={{marginRight:"8px"}}>Đổi sang phòng</label>
-                    <select class="form-select form-select-lg" name="" id="" style={{padding:"10px 20px"}}>
-                      <option selected>Không đổi</option>
-                      <option selected>Phòng 01</option>
-                      <option value="">Phòng 02</option>
-                      <option value="">Phòng 03</option>
-                    </select>
-                  </div>
-                  <button style={{ padding: "10px 20px", border: "1px solid #000", borderRadius: "30px", background: "#fff", cursor: "pointer", marginTop: "15px", alignSelf:"center" }}>Cập nhật</button>
+
+                  <button style={{ padding: "10px 20px", border: "1px solid #000", borderRadius: "30px", background: "#fff", cursor: "pointer", marginTop: "15px", alignSelf: "center" }} onClick={changeRoomStatus}>Cập nhật</button>
                 </div>
-              ) : null
+              ) : <button style={{ padding: "10px 20px", border: "1px solid #000", borderRadius: "30px", background: "#fff", cursor: "pointer", marginTop: "15px", alignSelf: "flex-end", marginRight: "150px" }} onClick={handleCheck}>Cập nhật</button>
             }
 
           </div>
