@@ -6,14 +6,15 @@ const {
   managerCheck,
   authenticateToken,
   supervisorManaCheck,
+  supervisorCheck,
   staffCheck,
 } = require("../utils/authentication");
 
 router.post("/list", authenticateToken, staffCheck, RoomController.getList);
 router.post(
   "/list-empty",
-  // authenticateToken,
-  // supervisorManaCheck,
+  authenticateToken,
+  supervisorCheck,
   RoomController.getListEmpty
 );
 // router.get(
@@ -44,6 +45,11 @@ router.post(
   staffCheck,
   SeatController.update
 );
-router.post("/chart", authenticateToken, managerCheck, RoomController.chart);
+router.post(
+  "/chart",
+  authenticateToken,
+  supervisorManaCheck,
+  RoomController.chart
+);
 
 module.exports = router;

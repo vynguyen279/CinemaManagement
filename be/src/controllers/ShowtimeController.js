@@ -59,11 +59,12 @@ class ShowtimeController {
 
   chart = async (req, res) => {
     try {
-      const { Year, Month, Key } = req.body;
+      const { Year, Month, Key, Bra } = req.body;
       let params = [
         { name: "Year", type: "Int", value: Year },
         { name: "Month", type: "Int", value: Month },
         { name: "Key", type: "Int", value: Key },
+        { name: "Bra", type: "Mchar(10)", value: Bra },
       ];
       const rs = await Showtime.chart(params);
       if (rs.recordset == []) {

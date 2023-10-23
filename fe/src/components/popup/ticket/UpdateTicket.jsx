@@ -3,17 +3,18 @@ import { Modal, ModalHeader, Input } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
+import { updateTic } from "../../../utils/services";
 
 import "../../../styles/share.css";
 import "../style.css";
 
 const UpdateTicket = (props) => {
   const [data, setData] = useState({
-    idTic: "",
-    nameTic: "",
+    idTic: props.item.idTic,
+    nameTic: props.item.nameTic,
   });
 
-  const updateStatus = (e) => {
+  const updateStatus = async (e) => {
     if (data.nameTic == "") {
       toast.error("Tên không được để trống!");
       return;
@@ -22,8 +23,13 @@ const UpdateTicket = (props) => {
       toast.error("Không được quá 20 ký tự!");
       return;
     }
-    props.update(e, data, props.item);
+    e.preventDefault();
+    const rs = await updateTic(data);
+    if (rs.status) {
+      setTimeout(() => window.location.reload(), 1500);
+    }
     props.sendData(false);
+    return;
   };
 
   return (
@@ -47,7 +53,7 @@ const UpdateTicket = (props) => {
             <div className="font-text">Mã vé</div>
             <Input
               className="font-text frame-chevron"
-              placeholder={props.item.idTic}
+              placeholder={data.idTic}
               disabled
             />
           </div>
@@ -56,7 +62,7 @@ const UpdateTicket = (props) => {
             <Input
               className="font-text frame-chevron"
               onChange={(e) => setData({ ...data, nameTic: e.target.value })}
-              placeholder={props.item.nameTic}
+              value={data.nameTic}
             />
           </div>
           <div className="frame-status">

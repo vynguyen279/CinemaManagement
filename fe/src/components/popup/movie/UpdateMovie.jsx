@@ -2,28 +2,51 @@ import React, { useState } from "react";
 import { Modal, ModalHeader, Input } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
 
+import { updateMov } from "../../../utils/services";
 import "../../../styles/share.css";
 import "../style.css";
 import uploadImg from "../../../utils/mail";
 
 const UpdateMovie = (props) => {
   const [data, setData] = useState({
-    idMovie: "",
-    nameMovie: "",
-    proCountry: "",
-    preDate: "",
-    duration: "",
-    director: "",
-    actor: "",
-    genre: "",
-    idStatus: "",
-    img: "",
-    describe: "",
+    idMovie: props.item.idMovie,
+    nameMovie: props.item.nameMovie,
+    proCountry: props.item.proCountry,
+    preDate: props.item.preDate,
+    duration: props.item.duration,
+    director: props.item.director,
+    actor: props.item.actor,
+    genre: props.item.genre,
+    idStatus: props.item.idStatus,
+    img: props.item.img,
+    describe: props.item.describe,
   });
 
-  const updateStatus = (e) => {
-    props.update(e, data, props.item);
+  const updateStatus = async (e) => {
+    e.preventDefault();
+    if (
+      data.actor == "" ||
+      data.describe == "" ||
+      data.director == "" ||
+      data.duration == "" ||
+      data.genre == "" ||
+      data.idMovie == "" ||
+      data.idStatus == "" ||
+      data.img == "" ||
+      data.img == "" ||
+      (data.nameMovie == "") | (data.preDate == "") ||
+      data.proCountry == ""
+    ) {
+      toast.error("Không được để trống thông tin phim!");
+    }
+    const rs = await updateMov(data);
+    if (!rs.status) {
+      return;
+    } else {
+      setTimeout(() => window.location.reload(), 1500);
+    }
     props.sendData(false);
   };
 
@@ -58,12 +81,11 @@ const UpdateMovie = (props) => {
             <div className="frame-fill-row">
               <label htmlFor="staffImg" style={{ marginTop: "30px" }}>
                 <img
-                  src={data.img || props.item.img}
+                  src={data.img}
                   alt=""
                   name="img"
                   onChange={handleDataChange}
                   value={data.img}
-                  // className='form-avt'
                   width="250"
                 />
                 <input
@@ -79,9 +101,7 @@ const UpdateMovie = (props) => {
                 <div className="font-text">Trạng thái</div>
                 <select
                   className="font-text frame-chevron"
-                  value={
-                    data.idStatus === "" ? props.item.idStatus : data.idStatus
-                  }
+                  value={data.idStatus}
                   onChange={(e) =>
                     setData({ ...data, idStatus: e.target.value })
                   }
@@ -102,7 +122,7 @@ const UpdateMovie = (props) => {
                     name="nameMovie"
                     id="nameMovie"
                     onChange={(e) => handleDataChange(e)}
-                    placeholder={props.item.nameMovie}
+                    value={data.nameMovie}
                   />
                 </div>
                 <div className="frame-status margin-content">
@@ -113,7 +133,7 @@ const UpdateMovie = (props) => {
                     name="proCountry"
                     id="proCountry"
                     onChange={(e) => handleDataChange(e)}
-                    placeholder={props.item.proCountry}
+                    value={data.proCountry}
                   />
                 </div>
               </div>
@@ -126,7 +146,7 @@ const UpdateMovie = (props) => {
                     name="preDate"
                     id="preDate"
                     onFocus={(e) => (e.target.type = "date")}
-                    placeholder={String(props.item.preDate).split("T")[0]}
+                    value={String(data.preDate).split("T")[0]}
                     onChange={(e) => handleDataChange(e)}
                   />
                 </div>
@@ -137,7 +157,7 @@ const UpdateMovie = (props) => {
                     className="font-text frame-chevron"
                     name="duration"
                     id="duration"
-                    placeholder={props.item.duration}
+                    value={data.duration}
                     onChange={(e) => handleDataChange(e)}
                   />
                 </div>
@@ -150,7 +170,7 @@ const UpdateMovie = (props) => {
                     className="font-text frame-chevron"
                     name="director"
                     id="director"
-                    placeholder={props.item.director}
+                    value={data.director}
                     onChange={(e) => handleDataChange(e)}
                   />
                 </div>
@@ -161,7 +181,7 @@ const UpdateMovie = (props) => {
                     className="font-text frame-chevron"
                     name="actor"
                     id="actor"
-                    placeholder={props.item.actor}
+                    value={data.actor}
                     onChange={(e) => handleDataChange(e)}
                   />
                 </div>
@@ -174,7 +194,7 @@ const UpdateMovie = (props) => {
                     className="font-text frame-chevron"
                     name="genre"
                     id="genre"
-                    value={props.item.genre}
+                    value={data.genre}
                     onChange={(e) => handleDataChange(e)}
                   />
                 </div>
@@ -187,7 +207,7 @@ const UpdateMovie = (props) => {
                     name="describe"
                     rows={4}
                     onChange={(e) => handleDataChange(e)}
-                    placeholder={props.item.describe}
+                    value={data.describe}
                   />
                 </div>
               </div>

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 
+import { updateBranch } from "../../../utils/services";
 import "../../../styles/share.css";
 import "../style.css";
 
@@ -15,7 +16,8 @@ const UpdateBranch = (props) => {
   console.log(data)
   console.log(props.item)
 
-  const updateStatus = (e) => {
+  const updateStatus = async (e) => {
+    console.log(data);
     if (data.nameBra == "") {
       toast.error("Tên không được để trống!");
       return;
@@ -24,7 +26,13 @@ const UpdateBranch = (props) => {
       toast.error("Không được quá 50 ký tự!");
       return;
     }
-    console.log(data); //props.update(e, data, props.item);
+    e.preventDefault();
+    const rs = await updateBranch(data);
+    if (rs.status) {
+      props.sendData(false);
+      setTimeout(() => window.location.reload(), 1500);
+    }
+    return;
   };
 
   const handleDataChange = (e) => {
@@ -54,7 +62,7 @@ const UpdateBranch = (props) => {
             <div className="font-text">Mã chi nhánh</div>
             <Input
               className="font-text frame-chevron"
-              value={props.item.idBra}
+              value={data.idBra}
               disabled
             />
           </div>

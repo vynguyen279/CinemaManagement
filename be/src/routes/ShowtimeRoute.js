@@ -5,6 +5,7 @@ const {
   staffCheck,
   managerCheck,
   supervisorCheck,
+  supervisorManaCheck,
   authenticateToken,
 } = require("../utils/authentication");
 
@@ -24,5 +25,10 @@ router.post(
   STController.updateInf
 );
 router.post("/cancel", authenticateToken, supervisorCheck, STController.cancel);
-router.post("/chart", authenticateToken, managerCheck, STController.chart);
+router.post(
+  "/chart",
+  authenticateToken,
+  supervisorManaCheck,
+  STController.chart
+);
 module.exports = router;

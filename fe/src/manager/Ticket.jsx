@@ -16,13 +16,13 @@ import "../styles/share.css";
 import formatMoney from "../components/format/formatMoney";
 import UpdateTicket from "../components/popup/ticket/UpdateTicket";
 import InsertTicket from "../components/popup/ticket/InsertTicket";
-import { updateTic, deleteTic } from "../utils/services";
+import { deleteTic } from "../utils/services";
 
 const Ticket = () => {
   const [value, setValue] = useState([]);
   const [show, setShow] = useState(false);
   const [showInsert, setShowInsert] = useState(false);
-  const [item, setItem] = useState("");
+  const [item, setItem] = useState({});
   //const [key, setKey] = useState('');
 
   const submit = (e, item) => {
@@ -65,16 +65,6 @@ const Ticket = () => {
     } else {
       setValue(rs.data);
     }
-  };
-
-  const update = async (e, data, item) => {
-    e.preventDefault();
-    data.idTic = item.idTic;
-    const rs = await updateTic(data);
-    if (rs.status) {
-      setTimeout(() => window.location.reload(), 1500);
-    }
-    return;
   };
 
   const deleteTicket = async (e, item) => {
@@ -153,12 +143,9 @@ const Ticket = () => {
           </div>
         </div>
       </div>
-      <UpdateTicket
-        show={show}
-        sendData={handlClose}
-        item={item}
-        update={update}
-      />
+      {show ? (
+        <UpdateTicket show={show} sendData={handlClose} item={item} />
+      ) : null}
       <InsertTicket show={showInsert} sendData={handlCloseInsert} />
     </Layout>
   );
