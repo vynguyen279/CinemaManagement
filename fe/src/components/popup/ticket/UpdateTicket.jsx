@@ -15,14 +15,14 @@ const UpdateTicket = (props) => {
   });
 
   const updateStatus = async (e) => {
-    if (data.nameTic == "") {
-      toast.error("Tên không được để trống!");
-      return;
-    }
-    if (data.nameTic.length > 20) {
-      toast.error("Không được quá 20 ký tự!");
-      return;
-    }
+    // if (data.nameTic == "") {
+    //   toast.error("Tên không được để trống!");
+    //   return;
+    // }
+    // if (data.nameTic.length > 20) {
+    //   toast.error("Không được quá 20 ký tự!");
+    //   return;
+    // }
     e.preventDefault();
     const rs = await updateTic(data);
     if (rs.status) {

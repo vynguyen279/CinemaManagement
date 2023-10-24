@@ -25,14 +25,14 @@ const InsertTicket = (props) => {
 
   const insertStatus = (e) => {
     e.preventDefault();
-    if (data.nameTic == "" || data.price == "") {
-      toast.error("Không được để trống!");
-      return;
-    }
-    if (data.nameTic.length > 20) {
-      toast.error("Không được quá 20 ký tự!");
-      return;
-    }
+    // if (data.nameTic == "" || data.price == "") {
+    //   toast.error("Không được để trống!");
+    //   return;
+    // }
+    // if (data.nameTic.length > 20) {
+    //   toast.error("Không được quá 20 ký tự!");
+    //   return;
+    // }
     insert();
   };
   const handleDataChange = (e) => {

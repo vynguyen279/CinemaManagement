@@ -157,6 +157,8 @@ const Dashboard = () => {
         setFac("");
         setShowed([]);
         setCancel([]);
+        setTotalCancel(0);
+        setTotalShowed(0);
       }
     }
   };
@@ -180,6 +182,10 @@ const Dashboard = () => {
         getFac(rs.data[0].idRoom);
       } else {
         setRoom("");
+        setShowed([]);
+        setCancel([]);
+        setTotalCancel(0);
+        setTotalShowed(0);
       }
     }
   };
@@ -337,6 +343,8 @@ const Dashboard = () => {
         } else {
           setListFacilities([]);
           setFac("");
+          setShowed([]);
+          setCancel([]);
         }
       }
     }

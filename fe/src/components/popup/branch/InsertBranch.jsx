@@ -24,14 +24,14 @@ const InsertBranch = (props) => {
 
   const insertStatus = (e) => {
     e.preventDefault();
-    if (data.nameBra == "") {
-      toast.error("Không được để trống!");
-      return;
-    }
-    if (data.nameBra.length > 50) {
-      toast.error("Không được quá 50 ký tự!");
-      return;
-    }
+    // if (data.nameBra == "") {
+    //   toast.error("Không được để trống!");
+    //   return;
+    // }
+    // if (data.nameBra.length > 50) {
+    //   toast.error("Không được quá 50 ký tự!");
+    //   return;
+    // }
     insert();
   };
   const handleDataChange = (e) => {

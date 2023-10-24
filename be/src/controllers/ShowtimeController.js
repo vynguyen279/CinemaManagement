@@ -24,24 +24,24 @@ class ShowtimeController {
       } else {
         return res.send(json(rs.recordset, true, ""));
       }
-    } catch (error) {
-      return res.send(json(error, false, "Có lỗi"));
+    } catch (e) {
+      return res.send(json(e, false, error.SHOWCASE_GETLIST_FAIL));
     }
   };
 
-  getListDate = async (req, res) => {
-    try {
-      const { start, end } = req.body;
-      let rs = await Showtime.getListDate(start, end);
-      if (rs.length > 0) {
-        return res.send(json(rs, true, "Lấy danh sách thành công!"));
-      } else {
-        return res.send(json([], true, "Lịch sử trống!"));
-      }
-    } catch (error) {
-      return res.send(json(error, false, "Có lỗi!"));
-    }
-  };
+  // getListDate = async (req, res) => {
+  //   try {
+  //     const { start, end } = req.body;
+  //     let rs = await Showtime.getListDate(start, end);
+  //     if (rs.length > 0) {
+  //       return res.send(json(rs, true, error.SHOWCASE_GETLIST_SUCCESS));
+  //     } else {
+  //       return res.send(json([], true, "Lịch sử trống!"));
+  //     }
+  //   } catch (error) {
+  //     return res.send(json(error, false, "Có lỗi!"));
+  //   }
+  // };
 
   updateStatus = async (req, res) => {
     try {
@@ -52,8 +52,8 @@ class ShowtimeController {
       ];
       const rs = await Showtime.updateStatus(params);
       return res.send(json(rs.returnValue, true, ""));
-    } catch (error) {
-      return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
+    } catch (e) {
+      return res.send(json(e, false, error.SHOWCASE_UPDATE_STATUS_FAIL));
     }
   };
 
@@ -68,11 +68,11 @@ class ShowtimeController {
       ];
       const rs = await Showtime.chart(params);
       if (rs.recordset == []) {
-        return res.send(json(rs.recordset, false, "Lấy biểu đồ thất bại!"));
+        return res.send(json(rs.recordset, false, error.CHART_FAIL));
       }
       return res.send(json(rs.recordset, true, ""));
-    } catch (error) {
-      return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
+    } catch (e) {
+      return res.send(json(e, false, error.CHART_FAIL));
     }
   };
 
@@ -80,27 +80,25 @@ class ShowtimeController {
     try {
       const { idMovie, idTic, showDateTime, idRoom } = req.body;
       if (!idMovie) {
-        return res.send(json("", false, error.ADDSHOWCASE_MOVIE_EMPTY_ERROR));
+        return res.send(json("", false, error.SHOWCASE_MOVIE_EMPTY_ERROR));
       }
       if (!showDateTime) {
-        return res.send(
-          json("", false, error.ADDSHOWCASE_DATETIME_EMPTY_ERROR)
-        );
+        return res.send(json("", false, error.SHOWCASE_DATETIME_EMPTY_ERROR));
       }
       if (!idRoom) {
-        return res.send(json("", false, error.ADDSHOWCASE_ROOM_EMPTY_ERROR));
+        return res.send(json("", false, error.SHOWCASE_ROOM_EMPTY_ERROR));
       }
       if (!idTic) {
-        return res.send(json("", false, error.ADDSHOWCASE_PRICE_EMPTY_ERROR));
+        return res.send(json("", false, error.SHOWCASE_PRICE_EMPTY_ERROR));
       }
       if (new Date(String(showDateTime).split(":00Z")[0]) < new Date()) {
-        return res.send(json("", false, error.ADDSHOWCASE_DATETIME_LATE_ERROR));
+        return res.send(json("", false, error.SHOWCASE_DATETIME_LATE_ERROR));
       }
       const rs = await Showtime.insert(idMovie, idTic, showDateTime);
       const row = await History.insert(rs[0].idST, idRoom, 1);
-      return res.send(json(row, true, error.ADDSHOWCASE_SUCCESS));
+      return res.send(json(row, true, error.SHOWCASE_ADD_SUCCESS));
     } catch (err) {
-      return res.send(json(err, false, error.ERROR));
+      return res.send(json(err, false, error.SHOWCASE_ADD_FAIL));
     }
   };
 
@@ -112,9 +110,9 @@ class ShowtimeController {
         setTimeout(async () => await History.insert(idST, newRoom, 1), 1000);
       }
       const rs = await Showtime.updateInf(idST, idMovie, idTic, showDateTime);
-      return res.send(json(rs, true, "Cập nhật thành công!"));
-    } catch (error) {
-      return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
+      return res.send(json(rs, true, error.SHOWCASE_UPDATE_SUCCESS));
+    } catch (e) {
+      return res.send(json(e, false, error.SHOWCASE_UPDATE_FAIL));
     }
   };
 
@@ -123,9 +121,9 @@ class ShowtimeController {
       const { idST, idRoom } = req.body;
       const rs = await Showtime.cancel(idST);
       const row = await History.insert(idST, idRoom, 0);
-      return res.send(json(row, true, "Hủy lịch chiếu thành công!"));
-    } catch (error) {
-      return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
+      return res.send(json(row, true, error.SHOWCASE_CANCEL_SUCCESS));
+    } catch (e) {
+      return res.send(json(e, false, error.SHOWCASE_CANCEL_FAIL));
     }
   };
 }

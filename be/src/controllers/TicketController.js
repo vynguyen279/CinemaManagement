@@ -2,6 +2,7 @@ const json = require("../components/json");
 const dotenv = require("dotenv");
 dotenv.config();
 const Ticket = require("../models/Ticket");
+const error = require("../utils/error");
 
 class TicketController {
   getList = async (req, res) => {
@@ -16,28 +17,42 @@ class TicketController {
       } else {
         return res.send(json(rs.recordset, true, ""));
       }
-    } catch (error) {
-      return res.send(json(error, false, "Có lỗi!"));
+    } catch (e) {
+      return res.send(json(e, false, error.ERROR));
     }
   };
 
   update = async (req, res) => {
     try {
       const { idTic, nameTic } = req.body;
+      if (!nameTic) return res.send(json("", false, error.TICKET_NAME_EMPTY));
+      if (!price) return res.send(json("", false, error.TICKET_PRICE_EMPTY));
+      if (nameTic.length > 20)
+        return res.send(json("", false, error.TICKET_NAME_LONG));
+      if (!/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/.test(phone)) {
+        return res.send(json("", false, error.TICKET_PRICE_FORMAT));
+      }
       let rs = await Ticket.updateTic(idTic, nameTic);
-      return res.send(json(rs, true, "Cập nhật giá vé thành công!"));
-    } catch (error) {
-      return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
+      return res.send(json(rs, true, error.TICKET_UPDATE_SUCCESS));
+    } catch (e) {
+      return res.send(json(e, false, error.TICKET_UPDATE_FAIL));
     }
   };
 
   insert = async (req, res) => {
     try {
       const { nameTic, price } = req.body;
+      if (!nameTic) return res.send(json("", false, error.TICKET_NAME_EMPTY));
+      if (!price) return res.send(json("", false, error.TICKET_PRICE_EMPTY));
+      if (nameTic.length > 20)
+        return res.send(json("", false, error.TICKET_NAME_LONG));
+      if (!/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/.test(phone)) {
+        return res.send(json("", false, error.TICKET_PRICE_FORMAT));
+      }
       let rs = await Ticket.insert(nameTic, price);
-      return res.send(json(rs, true, "Thêm giá vé thành công!"));
-    } catch (error) {
-      return res.send(json(error, false, "Giá vé là số!"));
+      return res.send(json(rs, true, error.TICKET_ADD_SUCCESS));
+    } catch (e) {
+      return res.send(json(e, false, error.TICKET_ADD_FAIL));
     }
   };
 
@@ -46,15 +61,13 @@ class TicketController {
       const { idTic } = req.body;
       let rs = await Ticket.check(idTic);
       if (rs.length > 0) {
-        return res.send(
-          json(rs, false, "Không được xóa giá vé đã áp dụng trong lịch chiếu!")
-        );
+        return res.send(json(rs, false, error.TICKET_DELETE_ERROR));
       } else {
         let row = await Ticket.delete(idTic);
-        return res.send(json(row, true, "Xóa giá vé thành công!"));
+        return res.send(json(row, true, error.TICKET_DELETE_SUCCESS));
       }
-    } catch (error) {
-      return res.send(json(error, false, "Xóa thất bại do có lỗi!"));
+    } catch (e) {
+      return res.send(json(e, false, error.TICKET_DELETE_FAIL));
     }
   };
 }
