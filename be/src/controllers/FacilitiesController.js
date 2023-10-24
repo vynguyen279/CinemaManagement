@@ -36,6 +36,7 @@ class FacController {
     try {
       const idFac = req.params.id;
       const { nameFac, img } = req.body;
+      // let rs = await Fac.getList(idRoom);
       let rs = await Fac.update(idFac, nameFac, img);
       return res.send(json(rs, true, "Cập nhật thành công!"));
     } catch (error) {

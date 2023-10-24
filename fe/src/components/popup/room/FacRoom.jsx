@@ -93,7 +93,7 @@ const FacRoom = (props) => {
             {props.list?.map((item, index) => (
               <tr key={item.idFac}>
                 <td>{index + 1}</td>
-                <td>{item.idFac}</td>
+                <td>{item.idFac[0]}</td>
                 <td>
                   <img
                     src={

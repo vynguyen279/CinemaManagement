@@ -9,12 +9,12 @@ const RoomFrame = (props) => {
     };
     return (
         
-        <div style={{ width: "30%", height: "30%", background: `${props.color}`, borderRadius: "10px", padding: "10px 20px", cursor: 'pointer' }} onClick={() => setShow(true)}>
+        <div style={{ width: "30%", height: "30%", background: `${props.color}`, borderRadius: "10px", padding: "8px 20px", cursor: 'pointer' }} onClick={() => setShow(true)}>
             <h2>{props.data.nameRoom}</h2>
             <h4>Trạng thái: {props.data.idStatus}</h4>
             {
-                props.data.note&&props.data.idStatus!=4?
-                (<h6 style={{fontSize: "30px", textAlign:'center'}}>!</h6>):null
+                props.data.note&&(props.data.idStatus==1 || props.data.idStatus==4)?
+                (<h6 style={{fontSize: "20px", textAlign:'center'}}>!</h6>):null
             }
             
             <RoomDetail show={show} close={handleClose} data={props.data}/>

@@ -39,6 +39,7 @@ router.post(
   RoomController.getHisDate
 );
 router.get("/:id/seat", authenticateToken, staffCheck, SeatController.getList);
+router.get("/:id/redSeat", authenticateToken, staffCheck, SeatController.getListRedSeat);
 router.post(
   "/:id/update-seat",
   authenticateToken,

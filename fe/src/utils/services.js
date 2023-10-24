@@ -144,6 +144,9 @@ export async function chartRoom(data) {
 export async function listMap(id) {
   return axios.get(`/room/${id}/seat`);
 }
+export async function listRedSeat(id) {
+  return axios.get(`/room/${id}/redSeat`);
+}
 
 export async function updateMap(id, data) {
   return axios.post(`/room/${id}/update-seat`, data);

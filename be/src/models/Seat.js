@@ -12,6 +12,10 @@ class Seat {
     return DB.query(`SELECT * FROM SEAT WHERE idRoom = '${idRoom}'`);
   }
 
+  static listRedSeat(idRoom) {
+    return DB.query(`select * from SEAT where idRoom='${idRoom}' AND idStatus=0`);
+  }
+
   static insert(params) {
     return DB.excute(`SP_THEM_PHONG_GHE`, params);
   }

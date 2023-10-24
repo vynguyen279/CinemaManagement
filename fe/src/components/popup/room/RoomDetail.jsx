@@ -3,15 +3,18 @@ import { Modal, ModalHeader } from "reactstrap";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
-import { listFacStatus, listMap, updateStatusFac, updateRoom } from "../../../utils/services";
+import { listFacStatus, listMap, updateStatusFac, updateRoom, listRedSeat } from "../../../utils/services";
 import Map from "./Map";
 import "../../../styles/share.css";
 import "../style.css";
 
 const RoomDetail = (props) => {
+  console.log(props.data.note)
   const [fac, setFac] = useState();
   const [note, setNote] = useState();
+  const [red, setRed] = useState([]);
   const [value, setValue] = useState([]);
+  const [temp, setTemp] = useState([]);
   const [map, setMap] = useState();
   const [data, setData] = useState({
     idRoom: props.data.idRoom,
@@ -20,7 +23,7 @@ const RoomDetail = (props) => {
     capacity: props.data.capacity,
     row: props.data.row,
     img: props.data.img,
-    note: props.data.note?props.data.note:"",
+    note: props.data.note ? props.data.note : "",
     col: props.data.col,
     idBra: props.data.idBra,
   });
@@ -33,6 +36,15 @@ const RoomDetail = (props) => {
       setMap(rs.data);
     }
   };
+  const getListRedSeat = async () => {
+    const rs = await listRedSeat(props.data.idRoom);
+    if (!rs.status) {
+      return;
+    } else {
+      // console.log(rs.data)
+      setRed(rs.data);
+    }
+  };
   const changeRoomStatus = async () => {
     // console.log(data)
     const rs = await updateRoom(data);
@@ -42,43 +54,73 @@ const RoomDetail = (props) => {
       window.location.reload()
     }
   };
-  const checkNote = (array) => {
-    for (let index = 0; index < value.length; index++) {
+  const checkNote = (array,array2) => {
+    for (let index = 0; index < array.length; index++) {
       if (array[index].idStatus === 0) {
         // console.log(array[index].idStatus)
         return 1
       }
     }
+    for (let index = 0; index < array2.length; index++) {
+      if (array2[index].idStatus === 0) {
+        // console.log(array[index].idStatus)
+        return 1
+      }
+    }
+    if(red.length>0)
+    return 1
     return 0
   };
   const handleCheck = async () => {
-    if (checkNote(value) === 0) {
-      for (let index = 0; index < value.length; index++) {
-        const rs = await updateStatusFac(value[index].idFac[0], { idStatus: value[index].idStatus });
-        const rs2 = await updateRoom({
-          idRoom: props.data.idRoom,
-          nameRoom: props.data.nameRoom,
-          idStatus: 1,
-          capacity: props.data.capacity,
-          row: props.data.row,
-          img: props.data.img,
-          note: note,
-          col: props.data.col,
-          idBra: props.data.idBra,
-        });
-        setValue([])
-      }
+    // console.log(value)
+    // console.log(temp)
+    if (checkNote(value, temp) === 0) {
+      // for (let index = 0; index < value.length; index++) {
+        // const rs = await updateStatusFac(value[index].idFac[0], { idStatus: value[index].idStatus });
+        if(note){
+          toast.error("Bạn phải xóa ghi chú khi không có CSVC bị hỏng!")
+        return
+        }
+        else{
+          const rs2 = await updateRoom({
+            idRoom: props.data.idRoom,
+            nameRoom: props.data.nameRoom,
+            idStatus: 1,
+            capacity: props.data.capacity,
+            row: props.data.row,
+            img: props.data.img,
+            note: "",
+            col: props.data.col,
+            idBra: props.data.idBra,
+          });
+          setValue([])
+        }
+      // }
     } else {
       if (!note) {
         toast.error("Bạn phải nhập ghi chú trước khi cập nhật!")
         return
       }
-      for (let index = 0; index < value.length; index++) {
-        const rs = await updateStatusFac(value[index].idFac[0], { idStatus: value[index].idStatus });
+      if(value.length>0){
+        for (let index = 0; index < value.length; index++) {
+          const rs = await updateStatusFac(value[index].idFac[0], { idStatus: value[index].idStatus });
+          const rs2 = await updateRoom({
+            idRoom: props.data.idRoom,
+            nameRoom: props.data.nameRoom,
+            idStatus: 2,
+            capacity: props.data.capacity,
+            row: props.data.row,
+            img: props.data.img,
+            note: note,
+            col: props.data.col,
+            idBra: props.data.idBra,
+          });
+        }
+      }else{
         const rs2 = await updateRoom({
           idRoom: props.data.idRoom,
           nameRoom: props.data.nameRoom,
-          idStatus: 3,
+          idStatus: 2,
           capacity: props.data.capacity,
           row: props.data.row,
           img: props.data.img,
@@ -87,6 +129,7 @@ const RoomDetail = (props) => {
           idBra: props.data.idBra,
         });
       }
+      
       setValue([])
     }
   };
@@ -97,6 +140,10 @@ const RoomDetail = (props) => {
       return;
     } else {
       setFac(rs.data);
+      for (let index = 0; index < rs.data.length; index++) {
+        setTemp((pre) => [{ idFac: rs.data[index].idFac[0], idStatus: rs.data[index].idStatus }, ...pre])
+  
+      }
     }
   };
   const handleDataChange = (e) => {
@@ -108,11 +155,15 @@ const RoomDetail = (props) => {
     getListMap()
   }, [])
   useState(() => {
+    getListRedSeat()
+  }, [])
+  useState(() => {
     getFac()
   }, [])
   useEffect(() => {
 
   }, [value, data])
+
   return (
     <Modal
       isOpen={props.show}
@@ -144,6 +195,7 @@ const RoomDetail = (props) => {
                   <th>Hỏng</th>
                 </tr>
                 {fac?.map((item, index) => (
+
                   <tr key={item.idFac[0]}>
                     <td>{index + 1}</td>
                     <td>{item.idFac[0]}</td>
@@ -166,12 +218,10 @@ const RoomDetail = (props) => {
                       {
 
                         localStorage.role === 'PS00000004' ? (<input type="checkbox" disabled checked={item.idStatus === 1 ? false : true} />) : (<input type="checkbox"
-                          checked={!item.idStatus}
-                          // onClick={(e)=>{setFacStatus({ ...facStatus, idStatus: e.target.checked })}}
+                          defaultChecked={!item.idStatus}
+                          key={index}
                           onChange={(e) => {
                             setValue((pre) => [{ idFac: item.idFac, idStatus: !e.target.checked ? 1 : 0 }, ...pre])
-                            // setId(item.idFac);
-                            // setFacStatus({ ...facStatus, idStatus: !e.target.checked?1:0 })
                           }} />)
                       }
 
@@ -185,26 +235,26 @@ const RoomDetail = (props) => {
             <div style={{ display: 'flex', flexDirection: 'column' }}>
               <label htmlFor="">Ghi chú</label>
               {
-                localStorage.role==='PS00000004'?(<textarea name="note" id="" cols="60" rows="20" value={data.note} disabled onChange={handleDataChange}></textarea>):(<textarea name="note" id="" cols="60" rows="20" value={data.note} onChange={handleDataChange}></textarea>)
+                localStorage.role === 'PS00000004' ? (<textarea name="note" id="" cols="60" rows="20" value={data.note} disabled onChange={handleDataChange}></textarea>) : (<textarea name="note" id="" cols="60" rows="20" value={data.note} onChange={handleDataChange}></textarea>)
               }
             </div>
+            
             {
-              localStorage.role === 'PS00000004' ? (
+              localStorage.role === 'PS00000004' && props.data.note ? (
                 <div style={{ width: "100%", marginTop: "20px", marginLeft: "30px" }}>
                   <div>
-                    <input type="radio" name="status" id="" onChange={(e)=>setData((pre) => ({ ...pre, idStatus: e.target.value }))} value={1}/>
+                    <input type="radio" name="status" id="" onChange={(e) => setData((pre) => ({ ...pre, idStatus: e.target.value }))} value={1} checked />
                     <label htmlFor="">Tiếp tục sử dụng</label>
                   </div>
                   <div style={{ marginTop: "10px" }}>
-                    <input type="radio" name="status" id="" value={4} onChange={(e)=>setData((pre) => ({ ...pre, idStatus: e.target.value }))}/>
+                    <input type="radio" name="status" id="" value={3} onChange={(e) => setData((pre) => ({ ...pre, idStatus: e.target.value }))} />
                     <label htmlFor="">Hỏng</label>
                   </div>
 
                   <button style={{ padding: "10px 20px", border: "1px solid #000", borderRadius: "30px", background: "#fff", cursor: "pointer", marginTop: "15px", alignSelf: "center" }} onClick={changeRoomStatus}>Cập nhật</button>
                 </div>
-              ) : <button style={{ padding: "10px 20px", border: "1px solid #000", borderRadius: "30px", background: "#fff", cursor: "pointer", marginTop: "15px", alignSelf: "flex-end", marginRight: "150px" }} onClick={handleCheck}>Cập nhật</button>
+              ) : (localStorage.role === 'PS00000004' && props.data.note?(null):(<button style={{ padding: "10px 20px", border: "1px solid #000", borderRadius: "30px", background: "#fff", cursor: "pointer", marginTop: "15px", alignSelf: "flex-end", marginRight: "150px" }} onClick={handleCheck}>Cập nhật</button>))
             }
-
           </div>
         </div>
       </div>

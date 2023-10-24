@@ -10,7 +10,7 @@ const Map = (props) => {
     }
     return (
         <div>
-            <div style={{ marginLeft: "10px", width:"100%", height:'50vh', overflowY:'auto', overflowX:'auto' }}>
+            <div style={{ marginLeft: "10px", width:"100%", height:'20vh', overflowY:'auto', overflowX:'auto' }}>
                 {
                     props.item.row >= 1 ? (<div className="row">
                         <button className="btn-row">A</button>
