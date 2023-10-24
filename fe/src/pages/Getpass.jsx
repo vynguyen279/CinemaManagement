@@ -21,10 +21,6 @@ const Getpass = () => {
 
   const handleGetPass = async (e) => {
     e.preventDefault();
-    if (!email) {
-      toast.error("Vui lòng điền email!");
-      return;
-    }
     const data = {
       email: email,
     };

@@ -282,14 +282,16 @@ const Staff = () => {
       </div>
       <DetailStaff show={show} sendData={handlClose} item={item} />
       <HisPos show={showHis} sendData={handlCloseHis} value={his} />
-      <UpdateStaff
-        show={showUD}
-        sendData={handlCloseUpdate}
-        item={item}
-        update={update}
-        bra={listBra}
-        pos={pos}
-      />
+      {showUD ? (
+        <UpdateStaff
+          show={showUD}
+          sendData={handlCloseUpdate}
+          item={item}
+          update={update}
+          bra={listBra}
+          pos={pos}
+        />
+      ) : null}
     </Layout>
   );
 };

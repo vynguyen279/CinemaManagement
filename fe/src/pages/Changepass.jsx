@@ -21,18 +21,18 @@ const Changepass = (e) => {
 
   const update = async (e) => {
     e.preventDefault();
-    if (!data.pass || !data.newPass || !data.rePass) {
-      toast.error("Không được để trống!");
-      return;
-    }
-    if (data.newPass.length !== 8) {
-      toast.error("Mật khẩu phải đủ 8 ký tự!");
-      return false;
-    }
-    if (data.newPass !== data.rePass) {
-      toast.error("Nhập lại mật khẩu mới không trùng khớp!");
-      return;
-    }
+    // if (!data.pass || !data.newPass || !data.rePass) {
+    //   toast.error("Không được để trống!");
+    //   return;
+    // }
+    // if (data.newPass.length !== 8) {
+    //   toast.error("Mật khẩu phải đủ 8 ký tự!");
+    //   return false;
+    // }
+    // if (data.newPass !== data.rePass) {
+    //   toast.error("Nhập lại mật khẩu mới không trùng khớp!");
+    //   return;
+    // }
     const rs = await updatePass(data);
     if (rs.status) {
       setTimeout(() => window.location.reload(), 1500);

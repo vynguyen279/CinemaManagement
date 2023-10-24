@@ -26,21 +26,21 @@ const UpdateMovie = (props) => {
 
   const updateStatus = async (e) => {
     e.preventDefault();
-    if (
-      data.actor == "" ||
-      data.describe == "" ||
-      data.director == "" ||
-      data.duration == "" ||
-      data.genre == "" ||
-      data.idMovie == "" ||
-      data.idStatus == "" ||
-      data.img == "" ||
-      data.img == "" ||
-      (data.nameMovie == "") | (data.preDate == "") ||
-      data.proCountry == ""
-    ) {
-      toast.error("Không được để trống thông tin phim!");
-    }
+    // if (
+    //   data.actor == "" ||
+    //   data.describe == "" ||
+    //   data.director == "" ||
+    //   data.duration == "" ||
+    //   data.genre == "" ||
+    //   data.idMovie == "" ||
+    //   data.idStatus == "" ||
+    //   data.img == "" ||
+    //   data.img == "" ||
+    //   (data.nameMovie == "") | (data.preDate == "") ||
+    //   data.proCountry == ""
+    // ) {
+    //   toast.error("Không được để trống thông tin phim!");
+    // }
     const rs = await updateMov(data);
     if (!rs.status) {
       return;

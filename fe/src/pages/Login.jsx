@@ -20,15 +20,15 @@ import {
 function useAuth() {
   const handleLogin = async (e, data) => {
     e.preventDefault();
-    if (!data.email || !data.pass) {
-      toast.error("Tên đăng nhập và mật khẩu không được để trống");
-      console.log("Tên đăng nhập và mật khẩu không được để trống!");
-      return;
-    }
-    if (!/\S+@\S+\.\S+/.test(data.email)) {
-      toast.error("Email không hợp lệ!");
-      return;
-    }
+    // if (!data.email || !data.pass) {
+    //   toast.error("Tên đăng nhập và mật khẩu không được để trống");
+    //   console.log("Tên đăng nhập và mật khẩu không được để trống!");
+    //   return;
+    // }
+    // if (!/\S+@\S+\.\S+/.test(data.email)) {
+    //   toast.error("Email không hợp lệ!");
+    //   return;
+    // }
     const rs = await login(data);
     if (!rs.status) {
       return;
@@ -37,7 +37,7 @@ function useAuth() {
     localStorage.setItem("user", JSON.stringify(rs.data[0]));
     localStorage.setItem("role", rs.data[0].idPos);
     localStorage.setItem("id", rs.data[0].idStaff);
-    console.log(localStorage.role)
+    console.log(localStorage.role);
     if (localStorage.role === "PS00000001")
       setTimeout(() => (window.location.href = "/admin/staff"), 1500);
     else if (localStorage.role === "PS00000002")

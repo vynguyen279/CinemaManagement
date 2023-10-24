@@ -13,19 +13,19 @@ const UpdateBranch = (props) => {
     idBra: props.item.idBra,
     nameBra: props.item.nameBra,
   });
-  console.log(data)
-  console.log(props.item)
+  console.log(data);
+  console.log(props.item);
 
   const updateStatus = async (e) => {
     console.log(data);
-    if (data.nameBra == "") {
-      toast.error("Tên không được để trống!");
-      return;
-    }
-    if (data.nameBra.length > 50) {
-      toast.error("Không được quá 50 ký tự!");
-      return;
-    }
+    // if (data.nameBra == "") {
+    //   toast.error("Tên không được để trống!");
+    //   return;
+    // }
+    // if (data.nameBra.length > 50) {
+    //   toast.error("Không được quá 50 ký tự!");
+    //   return;
+    // }
     e.preventDefault();
     const rs = await updateBranch(data);
     if (rs.status) {
@@ -36,7 +36,7 @@ const UpdateBranch = (props) => {
   };
 
   const handleDataChange = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     setData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
     // setOldName((pre) => ({ ...pre, [e.target.name]: e.target.value }))
     // console.log(data)
