@@ -26,12 +26,8 @@ class TicketController {
     try {
       const { idTic, nameTic } = req.body;
       if (!nameTic) return res.send(json("", false, error.TICKET_NAME_EMPTY));
-      if (!price) return res.send(json("", false, error.TICKET_PRICE_EMPTY));
       if (nameTic.length > 20)
         return res.send(json("", false, error.TICKET_NAME_LONG));
-      if (!/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/.test(phone)) {
-        return res.send(json("", false, error.TICKET_PRICE_FORMAT));
-      }
       let rs = await Ticket.updateTic(idTic, nameTic);
       return res.send(json(rs, true, error.TICKET_UPDATE_SUCCESS));
     } catch (e) {
@@ -40,20 +36,20 @@ class TicketController {
   };
 
   insert = async (req, res) => {
-    try {
-      const { nameTic, price } = req.body;
-      if (!nameTic) return res.send(json("", false, error.TICKET_NAME_EMPTY));
-      if (!price) return res.send(json("", false, error.TICKET_PRICE_EMPTY));
-      if (nameTic.length > 20)
-        return res.send(json("", false, error.TICKET_NAME_LONG));
-      if (!/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/.test(phone)) {
-        return res.send(json("", false, error.TICKET_PRICE_FORMAT));
-      }
-      let rs = await Ticket.insert(nameTic, price);
-      return res.send(json(rs, true, error.TICKET_ADD_SUCCESS));
-    } catch (e) {
-      return res.send(json(e, false, error.TICKET_ADD_FAIL));
+    // try {
+    const { nameTic, price } = req.body;
+    if (!nameTic) return res.send(json("", false, error.TICKET_NAME_EMPTY));
+    if (!price) return res.send(json("", false, error.TICKET_PRICE_EMPTY));
+    if (nameTic.length > 20)
+      return res.send(json("", false, error.TICKET_NAME_LONG));
+    if (isNaN(price)) {
+      return res.send(json("", false, error.TICKET_PRICE_FORMAT));
     }
+    let rs = await Ticket.insert(nameTic, price);
+    return res.send(json(rs, true, error.TICKET_ADD_SUCCESS));
+    // } catch (e) {
+    //   return res.send(json(e, false, error.TICKET_ADD_FAIL));
+    // }
   };
 
   delete = async (req, res) => {
