@@ -122,7 +122,7 @@ class RoomController {
       if (capacity < 0) {
         return res.send(json("", false, error.ROOM_CAPACITY_NEGATIVE_ERROR));
       }
-      if (capacity <= 676) {
+      if (capacity > 676) {
         return res.send(json("", false, error.ROOM_CAPACITY_LIMIT_ERROR));
       }
       if (!row) {
