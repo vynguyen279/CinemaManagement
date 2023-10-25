@@ -225,6 +225,7 @@ const Dashboard = () => {
 
     const rs = await chartST(data);
     if (rs.status) {
+      console.log(rs)
       setCancel(rs.data);
       let count = 0;
       for (let i = 0; i < rs.data.length; i++) {
@@ -265,6 +266,7 @@ const Dashboard = () => {
 
     const rs = await chartRoom(data);
     if (rs.status) {
+      console.log(rs)
       setCancel(rs.data);
       let count = 0;
       for (let i = 0; i < rs.data.length; i++) {
