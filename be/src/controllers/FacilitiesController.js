@@ -36,6 +36,7 @@ class FacController {
     try {
       const idFac = req.params.id;
       const { nameFac, img } = req.body;
+      // let rs = await Fac.getList(idRoom);
       if (!img) return res.send(json([], false, error.ROOM_IMG_EMPTY_ERROR));
       if (!nameFac) return res.send(json("", false, error.FAC_NAME_EMPTY));
       if (nameFac.length > 30)

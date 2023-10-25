@@ -54,7 +54,7 @@ const RoomMap = () => {
                         value?.map((item, index) => (
                             item.idStatus === 1 ? (
                                 <RoomFrame key={index} data={item} color={'gray'}/>
-                            ) : (item.idStatus === 2 ? (<RoomFrame key={index} data={item} color={'green'}/>) : (item.idStatus === 3 ? (<RoomFrame key={index} data={item} color={'yellow'}/>) : <RoomFrame key={index} data={item} color={'red'}/>))
+                            ) : (item.idStatus === 2 ? (<RoomFrame key={index} data={item} color={'yellow'}/>) : (item.idStatus === 3 ? (<RoomFrame key={index} data={item} color={'red'}/>) : <RoomFrame key={index} data={item} color={'green'}/>))
                         ))
                     }
 
