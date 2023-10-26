@@ -3,15 +3,15 @@ import { Modal, ModalHeader } from "reactstrap";
 import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
-import { listFacStatus, listMap, updateStatusFac, updateRoom, listRedSeat } from "../../../utils/services";
+import { listFacStatus, listMap, updateStatusFac, updateRoom, listRedSeat, check } from "../../../utils/services";
 import Map from "./Map";
 import "../../../styles/share.css";
 import "../style.css";
 
 const RoomDetail = (props) => {
-  console.log(props.data.note)
+  // console.log(props.data.note)
   const [fac, setFac] = useState();
-  const [note, setNote] = useState();
+  const [note, setNote] = useState(props.data.note);
   const [red, setRed] = useState([]);
   const [value, setValue] = useState([]);
   const [temp, setTemp] = useState([]);
@@ -51,10 +51,10 @@ const RoomDetail = (props) => {
     if (!rs.status) {
       return;
     } else {
-      window.location.reload()
+      // window.location.reload()
     }
   };
-  const checkNote = (array,array2) => {
+  const checkNote = (array, array2) => {
     for (let index = 0; index < array.length; index++) {
       if (array[index].idStatus === 0) {
         // console.log(array[index].idStatus)
@@ -67,41 +67,44 @@ const RoomDetail = (props) => {
         return 1
       }
     }
-    if(red.length>0)
-    return 1
+    if (red.length > 0)
+      return 1
     return 0
   };
   const handleCheck = async () => {
-    // console.log(value)
     // console.log(temp)
+    // console.log(value)
+    // checkNote(temp, value)
     if (checkNote(value, temp) === 0) {
       // for (let index = 0; index < value.length; index++) {
-        // const rs = await updateStatusFac(value[index].idFac[0], { idStatus: value[index].idStatus });
-        if(note){
-          toast.error("Bạn phải xóa ghi chú khi không có CSVC bị hỏng!")
+      // const rs = await updateStatusFac(value[index].idFac[0], { idStatus: value[index].idStatus });
+      if (note) {
+        toast.error("Bạn phải xóa ghi chú khi không có CSVC bị hỏng!")
         return
-        }
-        else{
-          const rs2 = await updateRoom({
-            idRoom: props.data.idRoom,
-            nameRoom: props.data.nameRoom,
-            idStatus: 1,
-            capacity: props.data.capacity,
-            row: props.data.row,
-            img: props.data.img,
-            note: "",
-            col: props.data.col,
-            idBra: props.data.idBra,
-          });
-          setValue([])
-        }
+      }
+      else {
+        const rs2 = await updateRoom({
+          idRoom: props.data.idRoom,
+          nameRoom: props.data.nameRoom,
+          idStatus: 1,
+          capacity: props.data.capacity,
+          row: props.data.row,
+          img: props.data.img,
+          note: "",
+          col: props.data.col,
+          idBra: props.data.idBra,
+        });
+        setValue([])
+        // window.location.reload()
+        setTimeout(() => window.location.reload(), 3000);
+      }
       // }
     } else {
       if (!note) {
         toast.error("Bạn phải nhập ghi chú trước khi cập nhật!")
         return
       }
-      if(value.length>0){
+      if (value.length > 0) {
         for (let index = 0; index < value.length; index++) {
           const rs = await updateStatusFac(value[index].idFac[0], { idStatus: value[index].idStatus });
           const rs2 = await updateRoom({
@@ -116,7 +119,9 @@ const RoomDetail = (props) => {
             idBra: props.data.idBra,
           });
         }
-      }else{
+        // window.location.reload()
+        setTimeout(() => window.location.reload(), 3000);
+      } else {
         const rs2 = await updateRoom({
           idRoom: props.data.idRoom,
           nameRoom: props.data.nameRoom,
@@ -128,8 +133,10 @@ const RoomDetail = (props) => {
           col: props.data.col,
           idBra: props.data.idBra,
         });
+        // window.location.reload()
+        setTimeout(() => window.location.reload(), 3000);
       }
-      
+
       setValue([])
     }
   };
@@ -142,7 +149,7 @@ const RoomDetail = (props) => {
       setFac(rs.data);
       for (let index = 0; index < rs.data.length; index++) {
         setTemp((pre) => [{ idFac: rs.data[index].idFac[0], idStatus: rs.data[index].idStatus }, ...pre])
-  
+
       }
     }
   };
@@ -153,13 +160,13 @@ const RoomDetail = (props) => {
 
   useState(() => {
     getListMap()
-  }, [])
+  }, [map])
   useState(() => {
     getListRedSeat()
   }, [])
   useState(() => {
     getFac()
-  }, [])
+  }, [props.data])
   useEffect(() => {
 
   }, [value, data])
@@ -238,7 +245,7 @@ const RoomDetail = (props) => {
                 localStorage.role === 'PS00000004' ? (<textarea name="note" id="" cols="60" rows="20" value={data.note} disabled onChange={handleDataChange}></textarea>) : (<textarea name="note" id="" cols="60" rows="20" value={data.note} onChange={handleDataChange}></textarea>)
               }
             </div>
-            
+
             {
               localStorage.role === 'PS00000004' && props.data.note ? (
                 <div style={{ width: "100%", marginTop: "20px", marginLeft: "30px" }}>
@@ -253,7 +260,7 @@ const RoomDetail = (props) => {
 
                   <button style={{ padding: "10px 20px", border: "1px solid #000", borderRadius: "30px", background: "#fff", cursor: "pointer", marginTop: "15px", alignSelf: "center" }} onClick={changeRoomStatus}>Cập nhật</button>
                 </div>
-              ) : (localStorage.role === 'PS00000004' && props.data.note?(null):(<button style={{ padding: "10px 20px", border: "1px solid #000", borderRadius: "30px", background: "#fff", cursor: "pointer", marginTop: "15px", alignSelf: "flex-end", marginRight: "150px" }} onClick={handleCheck}>Cập nhật</button>))
+              ) : (localStorage.role === 'PS00000004' && props.data.note ? (null) : (<button style={{ padding: "10px 20px", border: "1px solid #000", borderRadius: "30px", background: "#fff", cursor: "pointer", marginTop: "15px", alignSelf: "flex-end", marginRight: "150px" }} onClick={handleCheck}>Cập nhật</button>))
             }
           </div>
         </div>

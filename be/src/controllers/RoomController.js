@@ -100,7 +100,15 @@ class RoomController {
         { name: "keyword", type: "Nvarchar(100)", value: nameRoom },
         { name: "idBranch", type: "Nchar(10)", value: idBra },
       ];
-
+      let Params = [
+        { name: "keyword", type: "Nvarchar(100)", value: idRoom },
+        { name: "idBranch", type: "Nchar(10)", value: idBra },
+      ];
+      let paramsSeat = [
+        { name: "idRoom", type: "Nchar(10)", value: idRoom },
+        { name: "row", type: "int", value: row },
+        { name: "col", type: "int", value: col },
+      ];
       if (!nameRoom) {
         return res.send(json("", false, error.ROOM_NAME_EMPTY_ERROR));
       }
@@ -122,7 +130,7 @@ class RoomController {
       if (capacity < 0) {
         return res.send(json("", false, error.ROOM_CAPACITY_NEGATIVE_ERROR));
       }
-      if (capacity >= 676) {
+      if (capacity > 676) {
         return res.send(json("", false, error.ROOM_CAPACITY_LIMIT_ERROR));
       }
       if (!row) {
@@ -144,7 +152,7 @@ class RoomController {
         return res.send(json("", false, error.ROOM_COL_NEGATIVE_ERROR));
       }
 
-      if (parseInt(col) >= 0 && parseInt(capacity) / parseInt(row) == 1)
+      if (parseInt(col) > 1 && parseInt(capacity) / parseInt(row) == 1)
         return res.send(
           json([], false, error.ROOM_COL_ROW_ERROR + capacity / row + " !")
         );
@@ -161,6 +169,12 @@ class RoomController {
         );
       if (!img) return res.send(json([], false, error.ROOM_IMG_EMPTY_ERROR));
 
+      let searchRoomById = await Room.getList(Params);
+      // console.log(searchRoomById.recordset[0].row)
+      if(row != searchRoomById.recordset[0].row||col != searchRoomById.recordset[0].col){
+        let deleteSeat = await Seat.delete(idRoom);
+        let insertSeat = await Seat.insert(paramsSeat);
+      }
       let rs = await Room.update(
         idRoom,
         nameRoom,
@@ -203,7 +217,7 @@ class RoomController {
       if (!capacity) {
         return res.send(json("", false, error.ROOM_CAPACITY_EMPTY_ERROR));
       }
-      if (capacity <= 676) {
+      if (capacity > 676) {
         return res.send(json("", false, error.ROOM_CAPACITY_LIMIT_ERROR));
       }
       if (capacity < 0) {
@@ -228,7 +242,7 @@ class RoomController {
         return res.send(json("", false, error.ROOM_COL_NEGATIVE_ERROR));
       }
 
-      if (parseInt(col) >= 0 && parseInt(capacity) / parseInt(row) == 1)
+      if (parseInt(col) > 1 && parseInt(capacity) / parseInt(row) == 1)
         return res.send(
           json([], false, error.ROOM_COL_ROW_ERROR + capacity / row + " !")
         );

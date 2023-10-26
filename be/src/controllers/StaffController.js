@@ -187,11 +187,11 @@ class StaffController {
       if (!dateBirth) {
         return res.send(json("", false, error.INF_BIRTHDAY_EMPTY_ERROR));
       }
-      // let date = new Date().toLocaleString()
-      // // let year = new Date().toLocaleString("default", { year: "numeric" });
-      // if (new Date(dateBirth).toLocaleString()>date) {
-      //   return res.send(json("", false, error.INF_BIRTHDAY_FUTURE_ERROR));;
-      // }
+      let date = new Date().toLocaleString()
+      // let year = new Date().toLocaleString("default", { year: "numeric" });
+      if (new Date(dateBirth).toLocaleString()>=date) {
+        return res.send(json("", false, error.INF_BIRTHDAY_FUTURE_ERROR));;
+      }
 
       if (pass !== null && repass !== null) {
         if (!pass) {
@@ -315,6 +315,11 @@ class StaffController {
       }
       if (!dateBirth) {
         return res.send(json("", false, error.INF_BIRTHDAY_EMPTY_ERROR));
+      }
+      let date = new Date().toLocaleString()
+      // let year = new Date().toLocaleString("default", { year: "numeric" });
+      if (new Date(dateBirth).toLocaleString()>=date) {
+        return res.send(json("", false, error.INF_BIRTHDAY_FUTURE_ERROR));;
       }
 
       let row = await Staff.updateInf(
