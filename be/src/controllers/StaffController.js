@@ -168,7 +168,7 @@ class StaffController {
       if (!phone) {
         return res.send(json("", false, error.INF_PHONE_EMPTY_ERROR));
       }
-      if (!/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/.test(phone)) {
+      if (!/([\+84]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/.test(phone)) {
         return res.send(json("", false, error.INF_PHONE_FORMAT_ERROR));
       }
       if (!citiIden) {
@@ -297,7 +297,7 @@ class StaffController {
       if (!phone) {
         return res.send(json("", false, error.INF_PHONE_EMPTY_ERROR));
       }
-      if (!/([\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/.test(phone)) {
+      if (!/([\+84]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\b/.test(phone)) {
         return res.send(json("", false, error.INF_PHONE_FORMAT_ERROR));
       }
       if (!citiIden) {
@@ -356,6 +356,9 @@ class StaffController {
       }
       if (!compare(pass.trim(), rs[0].pass.trim())) {
         return res.send(json("", false, error.PASS_OLD_WRONG));
+      }
+      if (newPass.length < 8 || newPass.length > 12) {
+        return res.send(json("", false, error.INF_PASSWORD_FORMAT_ERROR));
       }
       const encodePass = encode(newPass);
       let row = await Staff.reset(rs[0].email, encodePass);
