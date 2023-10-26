@@ -225,7 +225,7 @@ const Dashboard = () => {
 
     const rs = await chartST(data);
     if (rs.status) {
-      console.log(rs)
+      console.log(rs);
       setCancel(rs.data);
       let count = 0;
       for (let i = 0; i < rs.data.length; i++) {
@@ -266,7 +266,7 @@ const Dashboard = () => {
 
     const rs = await chartRoom(data);
     if (rs.status) {
-      console.log(rs)
+      console.log(rs);
       setCancel(rs.data);
       let count = 0;
       for (let i = 0; i < rs.data.length; i++) {
@@ -361,7 +361,10 @@ const Dashboard = () => {
     chart(new Date().getFullYear(), new Date().getMonth() + 1);
   }, []);
   return (
-    <Layout title="Biểu đồ" pos="Quản lý">
+    <Layout
+      title="Biểu đồ"
+      pos={localStorage.role === "PS00000002" ? "Quản lý" : "Giám sát"}
+    >
       <div className="frame">
         <div className="frame-inside" style={{ display: "block" }}>
           <div className="header-chart">

@@ -36,20 +36,20 @@ class TicketController {
   };
 
   insert = async (req, res) => {
-    // try {
-    const { nameTic, price } = req.body;
-    if (!nameTic) return res.send(json("", false, error.TICKET_NAME_EMPTY));
-    if (!price) return res.send(json("", false, error.TICKET_PRICE_EMPTY));
-    if (nameTic.length > 20)
-      return res.send(json("", false, error.TICKET_NAME_LONG));
-    if (isNaN(price)) {
-      return res.send(json("", false, error.TICKET_PRICE_FORMAT));
+    try {
+      const { nameTic, price } = req.body;
+      if (!nameTic) return res.send(json("", false, error.TICKET_NAME_EMPTY));
+      if (!price) return res.send(json("", false, error.TICKET_PRICE_EMPTY));
+      if (nameTic.length > 20)
+        return res.send(json("", false, error.TICKET_NAME_LONG));
+      if (isNaN(price)) {
+        return res.send(json("", false, error.TICKET_PRICE_FORMAT));
+      }
+      let rs = await Ticket.insert(nameTic, price);
+      return res.send(json(rs, true, error.TICKET_ADD_SUCCESS));
+    } catch (e) {
+      return res.send(json(e, false, error.TICKET_ADD_FAIL));
     }
-    let rs = await Ticket.insert(nameTic, price);
-    return res.send(json(rs, true, error.TICKET_ADD_SUCCESS));
-    // } catch (e) {
-    //   return res.send(json(e, false, error.TICKET_ADD_FAIL));
-    // }
   };
 
   delete = async (req, res) => {
