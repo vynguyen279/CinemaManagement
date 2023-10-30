@@ -181,7 +181,13 @@ const Room = () => {
   return (
     <Layout
       title="Danh sách phòng chiếu"
-      pos={localStorage.role === "PS00000002" ? "Quản lý" : "Nhân viên"}
+      pos={
+        localStorage.role === "PS00000002"
+          ? "Quản lý"
+          : localStorage.role === "PS00000003"
+          ? "Nhân viên"
+          : "Giám sát"
+      }
     >
       <div className="frame">
         <div className="frame-inside" style={{ display: "block" }}>

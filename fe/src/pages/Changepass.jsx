@@ -56,7 +56,9 @@ const Changepass = (e) => {
           ? "Admin"
           : localStorage.role === "PS00000002"
           ? "Quản lý"
-          : "Nhân viên"
+          : localStorage.role === "PS00000003"
+          ? "Nhân viên"
+          : "Giám sát"
       }
     >
       <div className="frame">
