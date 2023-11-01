@@ -15,6 +15,7 @@ class RoomController {
         { name: "keyword", type: "Nvarchar(100)", value: keyword },
         { name: "idBranch", type: "Nchar(10)", value: idBranch },
       ];
+      let check = await Room.checkActive()
       let rs = await Room.getList(params);
       // console.log(rs)
       if (rs.recordset.length == 0) {

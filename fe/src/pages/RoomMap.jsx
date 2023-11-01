@@ -30,7 +30,6 @@ const RoomMap = () => {
     const getList = async () => {
         checkRole();
         const data = { keyword: "", idBranch: JSON.parse(localStorage.getItem('user')).idBra };
-        // console.log(data)
         const rs = await listRoom(data);
         if (!rs.status) {
             return;

@@ -18,6 +18,7 @@ const RoomDetail = (props) => {
   // console.log(props.data.note)
   const [fac, setFac] = useState();
   const [note, setNote] = useState(props.data.note);
+  const [status, setStatus] = useState("1");
   const [red, setRed] = useState([]);
   const [value, setValue] = useState([]);
   const [temp, setTemp] = useState([]);
@@ -33,6 +34,17 @@ const RoomDetail = (props) => {
     col: props.data.col,
     idBra: props.data.idBra,
   });
+  let data2 = {
+    idRoom: props.data.idRoom,
+    nameRoom: props.data.nameRoom,
+    idStatus: parseInt(status),
+    capacity: props.data.capacity,
+    row: props.data.row,
+    img: props.data.img,
+    note: props.data.note ? props.data.note : "",
+    col: props.data.col,
+    idBra: props.data.idBra,
+  };
 
   const getListMap = async () => {
     const rs = await listMap(props.data.idRoom);
@@ -52,12 +64,12 @@ const RoomDetail = (props) => {
     }
   };
   const changeRoomStatus = async () => {
-    // console.log(data)
-    const rs = await updateRoom(data);
+    // console.log(data2)
+    const rs = await updateRoom(data2);
     if (!rs.status) {
       return;
     } else {
-      window.location.reload();
+      setTimeout(() => window.location.reload(), 3000);
     }
   };
   const checkNote = (array, array2) => {
@@ -163,6 +175,10 @@ const RoomDetail = (props) => {
   const handleDataChange = (e) => {
     setData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
     setNote(e.target.value);
+  };
+  const handleStatus = (e) => {
+    e.preventDefault()
+    setStatus(e.target.value)
   };
 
   useState(() => {
@@ -307,20 +323,6 @@ const RoomDetail = (props) => {
                 ></textarea>
               )}
             </div>
-
-            {/* {
-              localStorage.role === 'PS00000004' && props.data.note ? (
-                <div style={{ width: "100%", marginTop: "20px", marginLeft: "30px" }}>
-                  <div>
-                    <input type="radio" name="status" id="" onChange={(e) => setData((pre) => ({ ...pre, idStatus: e.target.value }))} value={1} checked />
-                    <label htmlFor="">Tiếp tục sử dụng</label>
-                  </div>
-                  <div style={{ marginTop: "10px" }}>
-                    <input type="radio" name="status" id="" value={3} onChange={(e) => setData((pre) => ({ ...pre, idStatus: e.target.value }))} />
-                    <label htmlFor="">Hỏng</label>
-                  </div>
-                  </div>
-            } */}
             {localStorage.role === "PS00000004" && props.data.note ? (
               <div
                 style={{ width: "100%", marginTop: "20px", marginLeft: "30px" }}
@@ -330,9 +332,7 @@ const RoomDetail = (props) => {
                     type="radio"
                     name="status"
                     id=""
-                    onChange={(e) =>
-                      setData((pre) => ({ ...pre, idStatus: e.target.value }))
-                    }
+                    onChange={handleStatus}
                     value={1}
                     checked
                   />
@@ -344,14 +344,17 @@ const RoomDetail = (props) => {
                     name="status"
                     id=""
                     value={3}
-                    onChange={(e) =>
-                      setData((pre) => ({ ...pre, idStatus: e.target.value }))
-                    }
+                    onChange={handleStatus}
                   />
                   <label htmlFor="">Hỏng</label>
                 </div>
-                </div>
-              ) : (localStorage.role === 'PS00000004' && props.data.note ? (null) : (<button style={{ padding: "10px 20px", border: "1px solid #000", borderRadius: "30px", background: "#fff", cursor: "pointer", marginTop: "15px", alignSelf: "flex-end", marginRight: "150px" }} onClick={handleCheck}>Cập nhật</button>))
+                <button style={{ padding: "10px 20px", border: "1px solid #000", borderRadius: "30px", background: "#fff", cursor: "pointer", marginTop: "15px", alignSelf: "flex-end", marginRight: "150px" }} onClick={changeRoomStatus}>Cập nhật</button>
+              </div>
+            ) : null
+            }
+            {localStorage.role === "PS00000003" && props.data.note ? (
+              <button style={{ padding: "10px 20px", border: "1px solid #000", borderRadius: "30px", background: "#fff", cursor: "pointer", marginTop: "15px", alignSelf: "flex-end", marginRight: "150px" }} onClick={handleCheck}>Cập nhật</button>
+            ) : null
             }
           </div>
         </div>

@@ -19,6 +19,15 @@ class Room {
   static getListEmpty(params) {
     return DB.excute(`SP_LAY_PHONG_TRONG`, params);
   }
+  static checkActive() {
+    return DB.query(`update ROOM set idStatus = 4 
+    where idRoom in (select idRoom from V_SHOWTIME_MOVIE, HISTORY H WHERE H.idST = V_SHOWTIME_MOVIE.idST 
+    AND GETDATE() BETWEEN showDateTime  AND (DATEADD(MINUTE, duration + 15, showDateTime)) AND V_SHOWTIME_MOVIE.idStatus!=0)
+    
+    update ROOM set idStatus = 1 
+    where idRoom in (select distinct ROOM.idRoom from V_SHOWTIME_MOVIE, HISTORY H, ROOM WHERE H.idST = V_SHOWTIME_MOVIE.idST 
+    AND GETDATE() >  (DATEADD(MINUTE, duration + 15, showDateTime)) and ROOM.idStatus=4)`);
+  }
 
   static listActive() {
     return DB.query(`SELECT * FROM ROOM WHERE idStatus = 1`);
