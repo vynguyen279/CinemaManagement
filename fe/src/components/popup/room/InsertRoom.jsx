@@ -12,16 +12,16 @@ import uploadImg from "../../../utils/mail";
 const InsertRoom = (props) => {
   const [data, setData] = useState({
     nameRoom: "",
-    idStatus: 0,
+    idStatus: 3,
     img: "",
     idBra: props.idBra,
     row: "",
     col: "",
-    capacity: ""
+    capacity: "",
   });
 
   const insert = async () => {
-    console.log(data)
+    console.log(data);
     const rs = await insertRoom(data);
     if (!rs.status) {
       return;
@@ -79,14 +79,23 @@ const InsertRoom = (props) => {
             className="icon"
           />
         </ModalHeader>
-        <div className="status" style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+        <div
+          className="status"
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
           <div style={{ alignSelf: "flex-start" }}>
             <div className="frame-status" style={{ marginTop: "0px" }}>
               <div className="font-text">Tên phòng</div>
               <input
                 name="nameRoom"
                 className="font-text frame-chevron"
-                onChange={(e) => setData({ ...data, nameRoom: String(e.target.value).trim() })}
+                onChange={(e) =>
+                  setData({ ...data, nameRoom: String(e.target.value).trim() })
+                }
               />
             </div>
             <div className="frame-status" style={{ marginTop: "5px" }}>
@@ -133,7 +142,7 @@ const InsertRoom = (props) => {
                 // value={data.idStatus == "" ? 1 : data.idStatus}
                 onChange={(e) => setData({ ...data, idStatus: e.target.value })}
               >
-                <option value={0}>Hỏng</option>
+                <option value={3}>Hỏng</option>
                 <option value={1}>Họat động</option>
               </select>
             </div>
@@ -169,7 +178,11 @@ const InsertRoom = (props) => {
           <button
             type="submit"
             className="btn-confirm"
-            style={{ backgroundColor: "#fff", color: "#000", cursor: "pointer" }}
+            style={{
+              backgroundColor: "#fff",
+              color: "#000",
+              cursor: "pointer",
+            }}
             onClick={(e) => insert(e)}
           >
             Thêm mới

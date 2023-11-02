@@ -84,7 +84,6 @@ const ChangeRM = (props) => {
               value={idNewRoom || props.item.idRoom}
               onChange={(e) => setNewRoom(e.target.value)}
             >
-              <option>Chọn phòng</option>
               {props.room?.map((item, index) => (
                 <option value={item.idRoom}>
                   {item.idRoom}

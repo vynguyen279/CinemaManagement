@@ -266,7 +266,6 @@ const Dashboard = () => {
 
     const rs = await chartRoom(data);
     if (rs.status) {
-      console.log(rs);
       setCancel(rs.data);
       let count = 0;
       for (let i = 0; i < rs.data.length; i++) {
@@ -317,6 +316,11 @@ const Dashboard = () => {
       const rs = await chartST(data);
       if (rs.status) {
         setCancel(rs.data);
+        let count = 0;
+        for (let i = 0; i < rs.data.length; i++) {
+          count += rs.data[i].CanceledSchedulesCount;
+        }
+        setTotalCancel(count);
       }
       const params = {
         Year: year,
@@ -328,6 +332,11 @@ const Dashboard = () => {
       const row = await chartST(params);
       if (row.status) {
         setShowed(row.data);
+        let count = 0;
+        for (let i = 0; i < row.data.length; i++) {
+          count += row.data[i].CanceledSchedulesCount;
+        }
+        setTotalShowed(count);
       }
     } else {
       const data = {

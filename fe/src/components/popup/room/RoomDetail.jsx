@@ -64,7 +64,7 @@ const RoomDetail = (props) => {
     }
   };
   const changeRoomStatus = async () => {
-    // console.log(data2)
+    console.log(data2);
     const rs = await updateRoom(data2);
     if (!rs.status) {
       return;
@@ -90,10 +90,8 @@ const RoomDetail = (props) => {
   };
   const handleCheck = async () => {
     // console.log(value)
-    console.log(data);
+    console.log(checkNote(value, temp));
     if (checkNote(value, temp) === 0) {
-      // for (let index = 0; index < value.length; index++) {
-      // const rs = await updateStatusFac(value[index].idFac[0], { idStatus: value[index].idStatus });
       if (note) {
         toast.error("Bạn phải xóa ghi chú khi không có CSVC bị hỏng!");
         return;
@@ -173,10 +171,14 @@ const RoomDetail = (props) => {
     }
   };
 
-  const checkValue = (idFac, e, item) => {
+  const checkValue = (e, item) => {
+    // setTemp([]);
+    // getFac();
+    // console.log(temp);
+    // console.log(value);
     let check = false;
     for (let i = 0; i < value.length; i++) {
-      if (idFac == value[i].idFac) {
+      if (item.idFac == value[i].idFac) {
         value[i].idStatus = !e.target.checked ? 1 : 0;
         if (item.idStatus == value[i].idStatus) {
           value.splice(i, 1);
@@ -189,7 +191,7 @@ const RoomDetail = (props) => {
       setValue((pre) => [
         ...pre,
         {
-          idFac: idFac,
+          idFac: item.idFac,
           idStatus: !e.target.checked ? 1 : 0,
         },
       ]);
@@ -299,7 +301,7 @@ const RoomDetail = (props) => {
                           defaultChecked={!item.idStatus}
                           key={index}
                           onChange={(e) => {
-                            checkValue(item.idFac, e, item);
+                            checkValue(e, item);
                           }}
                         />
                       )}
@@ -393,7 +395,7 @@ const RoomDetail = (props) => {
                   alignSelf: "flex-end",
                   marginRight: "150px",
                 }}
-                onClick={console.log(value)}
+                onClick={handleCheck}
               >
                 Cập nhật
               </button>
