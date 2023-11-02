@@ -109,7 +109,7 @@ const RoomDetail = (props) => {
           col: props.data.col,
           idBra: props.data.idBra,
         });
-        setValue([])
+        setValue([]);
         // window.location.reload()
         setTimeout(() => window.location.reload(), 3000);
       }
@@ -172,13 +172,37 @@ const RoomDetail = (props) => {
       }
     }
   };
+
+  const checkValue = (idFac, e, item) => {
+    let check = false;
+    for (let i = 0; i < value.length; i++) {
+      if (idFac == value[i].idFac) {
+        value[i].idStatus = !e.target.checked ? 1 : 0;
+        if (item.idStatus == value[i].idStatus) {
+          value.splice(i, 1);
+        }
+        check = true;
+        break;
+      }
+    }
+    if (!check) {
+      setValue((pre) => [
+        ...pre,
+        {
+          idFac: idFac,
+          idStatus: !e.target.checked ? 1 : 0,
+        },
+      ]);
+    }
+  };
+
   const handleDataChange = (e) => {
     setData((pre) => ({ ...pre, [e.target.name]: e.target.value }));
     setNote(e.target.value);
   };
   const handleStatus = (e) => {
-    e.preventDefault()
-    setStatus(e.target.value)
+    e.preventDefault();
+    setStatus(e.target.value);
   };
 
   useState(() => {
@@ -188,11 +212,9 @@ const RoomDetail = (props) => {
     getListRedSeat();
   }, []);
   useState(() => {
-    getFac()
-  }, [props.data])
-  useEffect(() => {
-
-  }, [value, data])
+    getFac();
+  }, [props.data]);
+  useEffect(() => {}, [value, data]);
 
   return (
     <Modal
@@ -209,7 +231,7 @@ const RoomDetail = (props) => {
           <div className="modal-title">Chi tiết phòng chiếu</div>
           <FontAwesomeIcon
             icon={faSquareXmark}
-            onClick={() => props.close(false)}
+            onClick={() => window.location.reload()}
             className="icon"
           />
         </ModalHeader>
@@ -277,13 +299,7 @@ const RoomDetail = (props) => {
                           defaultChecked={!item.idStatus}
                           key={index}
                           onChange={(e) => {
-                            setValue((pre) => [
-                              {
-                                idFac: item.idFac,
-                                idStatus: !e.target.checked ? 1 : 0,
-                              },
-                              ...pre,
-                            ]);
+                            checkValue(item.idFac, e, item);
                           }}
                         />
                       )}
@@ -348,14 +364,40 @@ const RoomDetail = (props) => {
                   />
                   <label htmlFor="">Hỏng</label>
                 </div>
-                <button style={{ padding: "10px 20px", border: "1px solid #000", borderRadius: "30px", background: "#fff", cursor: "pointer", marginTop: "15px", alignSelf: "flex-end", marginRight: "150px" }} onClick={changeRoomStatus}>Cập nhật</button>
+                <button
+                  style={{
+                    padding: "10px 20px",
+                    border: "1px solid #000",
+                    borderRadius: "30px",
+                    background: "#fff",
+                    cursor: "pointer",
+                    marginTop: "15px",
+                    alignSelf: "flex-end",
+                    marginRight: "150px",
+                  }}
+                  onClick={changeRoomStatus}
+                >
+                  Cập nhật
+                </button>
               </div>
-            ) : null
-            }
-            {localStorage.role === "PS00000003" && props.data.note ? (
-              <button style={{ padding: "10px 20px", border: "1px solid #000", borderRadius: "30px", background: "#fff", cursor: "pointer", marginTop: "15px", alignSelf: "flex-end", marginRight: "150px" }} onClick={handleCheck}>Cập nhật</button>
-            ) : null
-            }
+            ) : null}
+            {localStorage.role === "PS00000003" ? (
+              <button
+                style={{
+                  padding: "10px 20px",
+                  border: "1px solid #000",
+                  borderRadius: "30px",
+                  background: "#fff",
+                  cursor: "pointer",
+                  marginTop: "15px",
+                  alignSelf: "flex-end",
+                  marginRight: "150px",
+                }}
+                onClick={console.log(value)}
+              >
+                Cập nhật
+              </button>
+            ) : null}
           </div>
         </div>
       </div>

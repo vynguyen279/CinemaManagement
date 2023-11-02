@@ -71,7 +71,6 @@ const Room = () => {
     const params = { idRoom: item.idRoom };
     const rs = await deleteRoom(params);
     if (rs.status) {
-      // console.log(item.idTic);
       setTimeout(() => window.location.reload(), 1500);
     }
     return;
@@ -266,7 +265,15 @@ const Room = () => {
                     />
                   </td>
                   <td>{item.nameRoom}</td>
-                  <td>{item.idStatus == 1 ? "Hoạt động" : "Hỏng"}</td>
+                  <td>
+                    {item.idStatus == 1
+                      ? "Hoạt động"
+                      : item.idStatus == 2
+                      ? "Đang kiểm tra"
+                      : item.idStatus == 3
+                      ? "Hỏng"
+                      : "Đang chiếu"}
+                  </td>
                   <td>
                     <FontAwesomeIcon
                       icon={faSquarePen}

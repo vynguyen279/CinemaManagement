@@ -21,6 +21,10 @@ const ColorToggleButton = ({ defaultColor, alternateColor, item }) => {
     const rs = await updateMap(item.idRoom, data);
     if (!rs.status) {
       return;
+    } else {
+      //setTimeout(() => window.location.reload(), 1500);
+      //window.location.reload();
+      //close(true);
     }
   };
   return (
