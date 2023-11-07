@@ -18,7 +18,7 @@ const RoomDetail = (props) => {
   // console.log(props.data.note)
   const [fac, setFac] = useState();
   const [note, setNote] = useState(props.data.note);
-  const [status, setStatus] = useState("1");
+  const [status, setStatus] = useState(props.data.idStatus===2?1:props.data.idStatus);
   const [red, setRed] = useState([]);
   const [value, setValue] = useState([]);
   const [temp, setTemp] = useState([]);
@@ -64,7 +64,7 @@ const RoomDetail = (props) => {
     }
   };
   const changeRoomStatus = async () => {
-    // console.log(data2)
+    console.log(data2);
     const rs = await updateRoom(data2);
     if (!rs.status) {
       return;
@@ -88,16 +88,38 @@ const RoomDetail = (props) => {
     if (red.length > 0) return 1;
     return 0;
   };
+
+  const checkTemp = (temp) => {
+    // console.log(temp)
+    // console.log(value)
+    for (let index = 0; index < temp.length; index++) {
+      for (let i = 0; i < value.length; i++) {
+        if (value[i].idFac[0] == temp[index].idFac) {
+          if (value[i].idStatus !== temp[index].idStatus) {
+            temp[index].idStatus = value[i].idStatus
+          }
+        }
+        // else continue
+      }
+    }
+    return temp;
+  };
+
   const handleCheck = async () => {
     // console.log(value)
-    console.log(data);
-    if (checkNote(value, temp) === 0) {
-      // for (let index = 0; index < value.length; index++) {
-      // const rs = await updateStatusFac(value[index].idFac[0], { idStatus: value[index].idStatus });
+    // console.log(checkNote(value, temp));
+    if (checkNote(value, checkTemp(temp)) === 0) {
       if (note) {
         toast.error("Bạn phải xóa ghi chú khi không có CSVC bị hỏng!");
         return;
       } else {
+        if (value.length > 0) {
+          for (let index = 0; index < value.length; index++) {
+            const rs = await updateStatusFac(value[index].idFac[0], {
+              idStatus: value[index].idStatus,
+            });
+          }
+        }
         const rs2 = await updateRoom({
           idRoom: props.data.idRoom,
           nameRoom: props.data.nameRoom,
@@ -164,6 +186,7 @@ const RoomDetail = (props) => {
       return;
     } else {
       setFac(rs.data);
+      console.log(rs.data);
       for (let index = 0; index < rs.data.length; index++) {
         setTemp((pre) => [
           { idFac: rs.data[index].idFac[0], idStatus: rs.data[index].idStatus },
@@ -173,10 +196,14 @@ const RoomDetail = (props) => {
     }
   };
 
-  const checkValue = (idFac, e, item) => {
+
+  const checkValue = (e, item) => {
+    // setTemp([]);
+    // getFac();
+    // console.log(temp);
     let check = false;
     for (let i = 0; i < value.length; i++) {
-      if (idFac == value[i].idFac) {
+      if (item.idFac == value[i].idFac) {
         value[i].idStatus = !e.target.checked ? 1 : 0;
         if (item.idStatus == value[i].idStatus) {
           value.splice(i, 1);
@@ -189,7 +216,7 @@ const RoomDetail = (props) => {
       setValue((pre) => [
         ...pre,
         {
-          idFac: idFac,
+          idFac: item.idFac,
           idStatus: !e.target.checked ? 1 : 0,
         },
       ]);
@@ -201,8 +228,9 @@ const RoomDetail = (props) => {
     setNote(e.target.value);
   };
   const handleStatus = (e) => {
-    e.preventDefault();
+    // e.preventDefault();
     setStatus(e.target.value);
+    console.log(e.target.value);
   };
 
   useState(() => {
@@ -214,7 +242,7 @@ const RoomDetail = (props) => {
   useState(() => {
     getFac();
   }, [props.data]);
-  useEffect(() => {}, [value, data]);
+  useEffect(() => { }, [value, data]);
 
   return (
     <Modal
@@ -299,7 +327,7 @@ const RoomDetail = (props) => {
                           defaultChecked={!item.idStatus}
                           key={index}
                           onChange={(e) => {
-                            checkValue(item.idFac, e, item);
+                            checkValue(e, item);
                           }}
                         />
                       )}
@@ -317,7 +345,28 @@ const RoomDetail = (props) => {
             }}
           >
             <div style={{ display: "flex", flexDirection: "column" }}>
+              <div style={{display:"flex", justifyContent:'space-between'}}>
               <label htmlFor="">Ghi chú</label>
+              {localStorage.role === "PS00000003" ? (
+              <button
+                style={{
+                  padding: "10px 20px",
+                  border: "1px solid #000",
+                  borderRadius: "30px",
+                  background: "#fff",
+                  cursor: "pointer",
+                  marginBottom: "5px",
+                  alignSelf: "flex-start",
+                  marginRight: "150px",
+                }}
+                // onClick={()=>{console.log(value);console.log(checkTemp(temp))}}
+                onClick={handleCheck}
+              >
+                Cập nhật
+              </button>
+            ) : null}
+              </div>
+              
               {localStorage.role === "PS00000004" ? (
                 <textarea
                   name="note"
@@ -338,6 +387,7 @@ const RoomDetail = (props) => {
                   onChange={handleDataChange}
                 ></textarea>
               )}
+              
             </div>
             {localStorage.role === "PS00000004" && props.data.note ? (
               <div
@@ -350,7 +400,7 @@ const RoomDetail = (props) => {
                     id=""
                     onChange={handleStatus}
                     value={1}
-                    checked
+                    checked={parseInt(status) === 1 || props.data.idStatus != 3 ? true : false}
                   />
                   <label htmlFor="">Tiếp tục sử dụng</label>
                 </div>
@@ -360,6 +410,7 @@ const RoomDetail = (props) => {
                     name="status"
                     id=""
                     value={3}
+                    checked={parseInt(status) === 3 ? true : false}
                     onChange={handleStatus}
                   />
                   <label htmlFor="">Hỏng</label>
@@ -380,23 +431,6 @@ const RoomDetail = (props) => {
                   Cập nhật
                 </button>
               </div>
-            ) : null}
-            {localStorage.role === "PS00000003" ? (
-              <button
-                style={{
-                  padding: "10px 20px",
-                  border: "1px solid #000",
-                  borderRadius: "30px",
-                  background: "#fff",
-                  cursor: "pointer",
-                  marginTop: "15px",
-                  alignSelf: "flex-end",
-                  marginRight: "150px",
-                }}
-                onClick={console.log(value)}
-              >
-                Cập nhật
-              </button>
             ) : null}
           </div>
         </div>

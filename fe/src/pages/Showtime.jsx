@@ -357,9 +357,9 @@ const Showtime = () => {
                   key={item.idST}
                   style={{
                     color:
-                      item.statusRoom == 0 && item.idStatus == 1 ? "#fff" : "",
+                      item.statusRoom == 3 && item.idStatus == 1 ? "#fff" : "",
                     backgroundColor:
-                      item.statusRoom == 0 && item.idStatus == 1
+                      item.statusRoom == 3 && item.idStatus == 1
                         ? "#e71717"
                         : "",
                   }}
