@@ -196,7 +196,6 @@ const RoomDetail = (props) => {
     }
   };
 
-
   const checkValue = (e, item) => {
     // setTemp([]);
     // getFac();
