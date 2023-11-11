@@ -1503,7 +1503,7 @@ async function sendChangePassMail(mail, token) {
   `,
   };
   let rs = await transporter.sendMail(message);
-  console.log(rs);
+  // console.log(rs);
   return rs;
 }
 

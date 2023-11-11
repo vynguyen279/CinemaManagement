@@ -13,7 +13,7 @@ const UpdateRoom = (props) => {
   const [data, setData] = useState({
     idRoom: props.item.idRoom,
     nameRoom: props.item.nameRoom,
-    idStatus: props.item.idStatus,
+    idStatus: props.item.idStatus!=3?1:3,
     capacity: props.item.capacity,
     row: props.item.row,
     img: props.item.img,
@@ -126,10 +126,11 @@ const UpdateRoom = (props) => {
               name="idStatus"
               className="font-text frame-chevron"
               placeholder={data.idStatus}
+              defaultValue={data.idStatus}
               onChange={handleDataChange}
             >
-              <option value={0}>Hỏng</option>
-              <option value={1}>Họat động</option>
+              <option value={3} >Hỏng</option>
+              <option value={1} >Họat động</option>
             </select>
             <div className="frame-status" style={{ marginTop: "5px" }}>
               {/* <div className="font-text">Hình ảnh</div> */}

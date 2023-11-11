@@ -7,24 +7,9 @@ const {
   authenticateToken,
 } = require("../utils/authentication");
 
-router.post(
-  "/list",
-  authenticateToken,
-  supervisorManaCheck,
-  ticketController.getList
-);
+router.post("/list",authenticateToken,supervisorManaCheck,ticketController.getList);
 router.put("/update", authenticateToken, managerCheck, ticketController.update);
-router.post(
-  "/insert",
-  authenticateToken,
-  managerCheck,
-  ticketController.insert
-);
-router.post(
-  "/delete",
-  authenticateToken,
-  managerCheck,
-  ticketController.delete
-);
+router.post("/insert",authenticateToken,managerCheck,ticketController.insert);
+router.post("/delete",authenticateToken,managerCheck,ticketController.delete);
 
 module.exports = router;
