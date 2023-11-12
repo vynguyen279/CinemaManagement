@@ -68,6 +68,8 @@ class BranchController {
       return res.send(json(e, false, error.BRANCH_UPDATE_FAIL));
     }
   };
+
+  
   delete = async (req, res) => {
     try {
       const { idBra } = req.body;

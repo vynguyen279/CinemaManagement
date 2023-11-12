@@ -6,6 +6,7 @@ const Room = require("../models/Room");
 const Seat = require("../models/Seat");
 const Fac = require("../models/Facilities");
 const History = require("../models/History");
+const Showtime = require("../models/Showtime");
 
 class RoomController {
   getList = async (req, res) => {
@@ -15,6 +16,14 @@ class RoomController {
         { name: "keyword", type: "Nvarchar(100)", value: keyword },
         { name: "idBranch", type: "Nchar(10)", value: idBranch },
       ];
+      let params2 = [
+        { name: "key", type: "Bit", value: "" },
+        { name: "start", type: "Datetime", value: "" },
+        { name: "end", type: "Datetime", value: "" },
+        { name: "keyword", type: "Nvarchar(100)", value: "" },
+        { name: "idBra", type: "Nchar(10)", value: "" },
+      ];
+      // let rs1 = await Showtime.getList(params2);
       let check = await Room.checkActive();
       let rs = await Room.getList(params);
       // console.log(rs)

@@ -26,6 +26,9 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
+                
               />
             ))}
           </div>
@@ -38,6 +41,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -50,6 +55,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -62,6 +69,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -74,6 +83,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -86,6 +97,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -98,6 +111,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -110,6 +125,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -122,6 +139,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -134,6 +153,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -146,6 +167,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -158,6 +181,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -170,6 +195,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -182,6 +209,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -194,6 +223,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -206,6 +237,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -218,6 +251,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -230,6 +265,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -242,6 +279,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -254,6 +293,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -266,6 +307,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -278,6 +321,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -290,6 +335,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -302,6 +349,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>
@@ -314,6 +363,9 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
+                // setRed={props.setRed}
               />
             ))}
           </div>
@@ -326,6 +378,8 @@ const Map = (props) => {
                 defaultColor={item.idStatus == 0 ? "#e71717" : "#fff"}
                 alternateColor={item.idStatus == 1 ? "#e71717" : "#fff"}
                 item={item}
+                data={props.item.idRoom}
+                setRed={props.setRed}
               />
             ))}
           </div>

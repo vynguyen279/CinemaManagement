@@ -10,6 +10,7 @@ import ColorToggleButton from "./ColorToggleButton";
 
 const MapSeat = (props) => {
   // console.log(props.item)
+  
   const mapList = (row) => {
     return props.map.filter(item => {
       return item.idRow === row;

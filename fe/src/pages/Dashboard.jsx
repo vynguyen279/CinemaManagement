@@ -380,6 +380,9 @@ const Dashboard = () => {
             <span style={{ marginRight: "10px" }}>Lọc theo tháng:</span>
             <DatePicker
               dateFormat="MM/yyyy"
+              // disabled
+              disabledKeyboardNavigation={true}
+              onChangeRaw={(e)=>e.preventDefault()}
               showMonthYearPicker
               selected={selectedDate}
               onChange={handleChange}

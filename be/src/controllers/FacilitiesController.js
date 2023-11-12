@@ -21,7 +21,7 @@ class FacController {
     try {
       const idRoom = req.params.id;
       let rs = await Fac.getListStatus(idRoom);
-      console.log(rs);
+      // console.log(rs);
       if (rs.length > 0) {
         return res.send(json(rs, true, error.GET_LIST_SUCCESS));
       } else {

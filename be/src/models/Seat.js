@@ -22,7 +22,8 @@ class Seat {
 
   static update(idRoom, idSeat, idRow, idStatus) {
     return DB.query(`UPDATE SEAT SET idStatus = '${idStatus}' 
-    WHERE idRoom = '${idRoom}' AND idSeat = '${idSeat}' AND idRow = '${idRow}' `);
+    WHERE idRoom = '${idRoom}' AND idSeat = '${idSeat}' AND idRow = '${idRow}'
+   select @@ROWCOUNT`);
   }
   static delete(idRoom) {
     return DB.query(`DELETE FROM SEAT WHERE idRoom = '${idRoom}'`);

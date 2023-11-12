@@ -11,10 +11,6 @@ class Ticket {
     return DB.query(`SELECT * FROM SHOWTIME WHERE idTic = '${idTic}'`);
   }
 
-  // static list() {
-  //   return DB.query(`SELECT * FROM TICKET`);
-  // }
-
   static list(params) {
     return DB.excute(`SP_SEARCH_TICKET`, params);
   }
@@ -25,6 +21,7 @@ class Ticket {
     );
   }
 
+  
   static insert(nameTic, price) {
     return DB.query(
       `INSERT INTO TICKET(nameTic, price) VALUES (N'${nameTic}', '${price}')`

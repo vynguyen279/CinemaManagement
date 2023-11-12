@@ -4,12 +4,6 @@ const staffController = require("../controllers/StaffController");
 const { adminCheck, authenticateToken } = require("../utils/authentication");
 
 router.post("/list", authenticateToken, adminCheck, staffController.list);
-// router.post(
-//   "/updateStatus",
-//   authenticateToken,
-//   adminCheck,
-//   staffController.updateStatus
-// );
 router.post(
   "/updateStaPos",
   authenticateToken,

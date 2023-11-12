@@ -25,7 +25,7 @@ class SeatController {
       if (rs.length > 0) {
         return res.send(json(rs, true, "Lấy ghế hư thành công!"));
       } else {
-        return res.send(json(rs, false, "Có lỗi!"));
+        return res.send(json([], true, "Lấy ghế hư thành công!"));
       }
     } catch (error) {
       console.log(error)
@@ -38,8 +38,10 @@ class SeatController {
       const idRoom = req.params.id;
       const { idSeat, idRow, idStatus } = req.body;
       let rs = await Seat.update(idRoom, idSeat, idRow, idStatus);
-      return res.send(json(rs, true, "Cập nhật thành công!"));
+      if(rs[0]['']==1)
+      return res.send(json(rs[0][''], true, "Cập nhật thành công!"));
     } catch (error) {
+      console.log(error)
       return res.send(json(error, false, "Cập nhật thất bại do có lỗi!"));
     }
   };

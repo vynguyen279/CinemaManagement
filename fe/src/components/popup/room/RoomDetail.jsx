@@ -15,7 +15,6 @@ import "../../../styles/share.css";
 import "../style.css";
 
 const RoomDetail = (props) => {
-  // console.log(props.data.note)
   const [fac, setFac] = useState();
   const [note, setNote] = useState(props.data.note);
   const [status, setStatus] = useState(props.data.idStatus===2?1:props.data.idStatus);
@@ -60,7 +59,10 @@ const RoomDetail = (props) => {
       return;
     } else {
       // console.log(rs.data)
+      if(rs.data.length>0)
       setRed(rs.data);
+    else
+    setRed([])
     }
   };
   const changeRoomStatus = async () => {
@@ -71,6 +73,9 @@ const RoomDetail = (props) => {
     } else {
       setTimeout(() => window.location.reload(), 3000);
     }
+  };
+  const setRedSeat = async (value) => {
+    setRed(value)
   };
   const checkNote = (array, array2) => {
     for (let index = 0; index < array.length; index++) {
@@ -106,7 +111,7 @@ const RoomDetail = (props) => {
   };
 
   const handleCheck = async () => {
-    // console.log(value)
+    console.log(red)
     // console.log(checkNote(value, temp));
     if (checkNote(value, checkTemp(temp)) === 0) {
       if (note) {
@@ -186,7 +191,7 @@ const RoomDetail = (props) => {
       return;
     } else {
       setFac(rs.data);
-      console.log(rs.data);
+      // console.log(rs.data);
       for (let index = 0; index < rs.data.length; index++) {
         setTemp((pre) => [
           { idFac: rs.data[index].idFac[0], idStatus: rs.data[index].idStatus },
@@ -232,16 +237,14 @@ const RoomDetail = (props) => {
     console.log(e.target.value);
   };
 
-  useState(() => {
+  useEffect(() => {
     getListMap();
+    getFac()
+    // console.log(red)
   }, []);
-  useState(() => {
-    getListRedSeat();
-  }, []);
-  useState(() => {
-    getFac();
-  }, [props.data]);
-  useEffect(() => { }, [value, data]);
+  // useEffect(() => {
+  //   getListRedSeat()
+  // }, [red]);
 
   return (
     <Modal
@@ -283,7 +286,10 @@ const RoomDetail = (props) => {
               overflowY: "auto",
             }}
           >
-            <Map map={map} item={props.data} />
+            {
+              map?<Map map={map} item={props.data} setRed={setRedSeat}/>:null
+            }
+            
             <div className="frame-list" style={{ alignSelf: "flex-start" }}>
               <table>
                 <tr>
@@ -358,7 +364,7 @@ const RoomDetail = (props) => {
                   alignSelf: "flex-start",
                   marginRight: "150px",
                 }}
-                // onClick={()=>{console.log(value);console.log(checkTemp(temp))}}
+                // onClick={()=>{console.log(red);}}
                 onClick={handleCheck}
               >
                 Cập nhật
