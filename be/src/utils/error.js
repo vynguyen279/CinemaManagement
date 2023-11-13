@@ -154,4 +154,13 @@ module.exports = {
   TICKET_DELETE_ERROR: "Không được xóa giá vé đã áp dụng trong lịch chiếu!",
   TICKET_DELETE_SUCCESS: "Xóa giá vé thành công!",
   TICKET_DELETE_FAIL: "Xóa giá vé thất bại!",
+
+  // Chỗ ngồi
+  SEAT_UPDATE_SUCCESS: "Cập nhật chỗ ngồi thành công!",
+  BROKEN_SEAT_SUCCESS: "Lấy ghế hư thành công!",
+  EMPTY_SEATMAP: "Sơ đồ trống!",
+  GETLIST_SEATMAP_SUCCESS: "Lấy sơ đồ chỗ ngồi thành công!",
+  // Lịch sử nhân viên
+  GETLIST_STAFFPOS_SUCCESS: "Lấy lịch sử cấp quyền thành công!",
+  EMPTY_STAFFPOS: "Lịch sử trống!",
 };
